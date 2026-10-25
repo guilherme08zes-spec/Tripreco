@@ -260,4 +260,70 @@
     </form>
   </main>
 </body>
+<script>
+
+
+  
+  function mostrarResumoPedido() {
+    const resumo = document.getElementById("resumo-carrinho");
+    const carrinho = JSON.parse(
+      localStorage.getItem("tripreco_carrinho") || "[]"
+    );
+
+    resumo.replaceChildren();
+
+    const dinheiro = valor =>
+      Number(valor).toLocaleString("pt-BR", {
+        style: "currency",
+        currency: "BRL"
+      });
+
+    if (!carrinho.length) {
+      const aviso = document.createElement("p");
+      aviso.textContent = "Seu carrinho está vazio.";
+
+      const voltar = document.createElement("a");
+      voltar.href = "index.html";
+      voltar.textContent = "Voltar à loja";
+
+      resumo.append(aviso, voltar);
+      return;
+    }
+
+    let total = 0;
+
+    carrinho.forEach(item => {
+      const quantidade = Number(item.quantidade) || 0;
+      const preco = Number(item.preco) || 0;
+      const subtotal = preco * quantidade;
+
+      total += subtotal;
+
+      const linha = document.createElement("p");
+      linha.textContent =
+        `${item.nome} × ${quantidade} — ${dinheiro(subtotal)}`;
+
+      resumo.appendChild(linha);
+    });
+
+    const separador = document.createElement("hr");
+    const totalPedido = document.createElement("h3");
+
+    totalPedido.textContent = "Total: " + dinheiro(total);
+
+    resumo.append(separador, totalPedido);
+  }
+
+  mostrarResumoPedido();
+</script>
+
+
+
+
+
+
+
+
+
+  
 </html>
