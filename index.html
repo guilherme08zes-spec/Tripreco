@@ -1068,7 +1068,7 @@ function atualizarContadorCarrinho() {
    atualizarContadorCarrinho();
 
     
-    let categoriaSelecionada = "Todas";
+    
     let sessaoAtual = null;
     let adminConfirmado = false;
 
@@ -1160,20 +1160,7 @@ async function carregarProdutos() {
     .replace(/[\u0300-\u036f]/g, "")
     .toLowerCase();
 
-  const categoria = (p.categoria || "Utilidades")
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .toLowerCase();
-
-  const filtro = categoriaSelecionada
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .toLowerCase();
-
-  const correspondeCategoria =
-    categoriaSelecionada === "Todas" || categoria === filtro;
-
-  return correspondeCategoria && texto.includes(busca);
+  return texto.includes(busca);
 });
 
       if (encontrados.length === 0) {
