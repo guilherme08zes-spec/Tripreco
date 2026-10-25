@@ -1269,15 +1269,7 @@ function mostrarToast(mensagem) {
     }
       
 
-    function removerCarrinho(id) {
-      const item = carrinho.find(p => String(p.id) === String(id));
-      if (item) {
-        item.quantidade--;
-        if (item.quantidade <= 0) carrinho = carrinho.filter(p => String(p.id) !== String(id));
-      }
-      mostrarCarrinho();
-    }
-
+    
     
 function removerCarrinho(id) {
   const item = carrinho.find(p => String(p.id) === String(id));
@@ -1740,7 +1732,8 @@ produtosFiltrados.forEach(produto => {
   });
 }
 
-async function finalizarCompra() {
+
+function finalizarCompra() {
   const mensagem = document.getElementById("mensagem-compra");
 
   if (carrinho.length === 0) {
@@ -1748,70 +1741,11 @@ async function finalizarCompra() {
     return;
   }
 
-  if (!/^\d{12,13}$/.test(WHATSAPP_LOJA)) {
-    mensagem.textContent = "Configure o número de WhatsApp da loja no código.";
-    return;
-  }
+  salvarCarrinho();
 
-  mensagem.textContent = "Registrando pedido...";
-
-  try {
-    const itensPedido = carrinho.map(item => ({
-      id: item.id,
-      quantidade: item.quantidade
-    }));
-
-    const { data: pedidoId, error } = await supabaseClient.rpc(
-      "criar_pedido",
-      { p_itens: itensPedido }
-    );
-
-    if (error || !pedidoId) {
-  console.error("Erro ao criar pedido:", error);
-
-  mensagem.textContent = error
-    ? "Erro: " + error.message
-    : "O banco não retornou o número do pedido.";
-
-  return;
+  window.location.href = "finalizar.html";
 }
 
-    let total = 0;
-    const linhas = [
-      "Olá! Quero fazer um pedido pelo TripPreço:",
-      "",
-      "Número do pedido: " + pedidoId,
-      ""
-    ];
-
-    carrinho.forEach(item => {
-      const subtotal = item.preco * item.quantidade;
-      total += subtotal;
-      linhas.push(
-        `${item.nome} x ${item.quantidade} — ${dinheiro(subtotal)}`
-      );
-    });
-
-    linhas.push("");
-    linhas.push(`TOTAL: ${dinheiro(total)}`);
-    linhas.push("");
-    linhas.push("Gostaria de confirmar a disponibilidade e a forma de pagamento.");
-
-    const texto = encodeURIComponent(linhas.join("\n"));
-
-    mensagem.textContent = "Pedido registrado! Abrindo o WhatsApp...";
-
-    window.location.href =
-      "https://api.whatsapp.com/send?phone=" +
-      WHATSAPP_LOJA +
-      "&text=" +
-      texto;
-
-  } catch (erro) {
-    console.error(erro);
-    mensagem.textContent = "Erro de conexão ao registrar o pedido.";
-  }
-}
     
 async function atualizarStatusPedido(id, novoStatus) {
   const mensagem = document.getElementById("mensagem-pedidos");
