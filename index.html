@@ -1065,6 +1065,9 @@ function atualizarContadorCarrinho() {
     );
   }
 }
+   atualizarContadorCarrinho();
+
+    
     let categoriaSelecionada = "Todas";
     let sessaoAtual = null;
     let adminConfirmado = false;
@@ -1301,7 +1304,7 @@ function salvarCarrinho() {
     
     function mostrarCarrinho() {
       const area = document.getElementById("itens-carrinho");
-      area.replaceChildren();
+      area.replaceChildren() 
       if (carrinho.length === 0) area.textContent = "Seu carrinho está vazio.";
       let total = 0, quantidadeTotal = 0;
       carrinho.forEach(item => {
@@ -1318,7 +1321,7 @@ function salvarCarrinho() {
         area.appendChild(linha);
       });
       document.getElementById("total").textContent = dinheiro(total);
-      document.getElementById("quantidade-carrinho").textContent = quantidadeTotal;
+      atualizarContadorCarrinho();
     }
 
     async function entrarAdmin() {
