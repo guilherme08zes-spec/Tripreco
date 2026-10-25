@@ -6,194 +6,311 @@
   <title>Pesquisar | TriPreço</title>
 
   <style>
-    :root {
-      --vinho: #641D32;
-      --vinho-escuro: #481324;
-      --vinho-claro: #F5EDF0;
-      --preto: #191719;
-      --branco: #FFFFFF;
-      --fundo: #F8F7F7;
-      --borda: #EAE5E7;
-    }
 
-    * {
-      box-sizing: border-box;
-    }
+:root {
+  --vinho: #641D32;
+  --vinho-escuro: #481324;
+  --vinho-claro: #F5EDF0;
+  --preto: #191719;
+  --branco: #FFFFFF;
+  --fundo: #F8F6F7;
+  --borda: #EBE4E7;
+  --texto-suave: #777078;
+  --sombra: 0 8px 24px rgba(48, 20, 32, 0.06);
+}
 
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: var(--fundo);
-      color: var(--preto);
-    }
+* {
+  box-sizing: border-box;
+}
 
-    header {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      padding: 16px;
-      background: var(--branco);
-      border-bottom: 1px solid var(--borda);
-      position: sticky;
-      top: 0;
-      z-index: 10;
-    }
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  background: var(--fundo);
+  color: var(--preto);
+  -webkit-font-smoothing: antialiased;
+}
 
-    .voltar {
-      color: var(--vinho);
-      text-decoration: none;
-      font-size: 25px;
-      font-weight: bold;
-    }
+header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 17px 20px;
+  background: rgba(255, 255, 255, 0.97);
+  border-bottom: 1px solid var(--borda);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
 
-    .logo {
-      color: var(--vinho);
-      font-weight: 900;
-      font-size: 21px;
-      letter-spacing: 1px;
-    }
+.voltar {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 13px;
+  background: var(--vinho-claro);
+  color: var(--vinho);
+  text-decoration: none;
+  font-size: 27px;
+  font-weight: bold;
+  transition: background 0.2s, transform 0.2s;
+}
 
-    main {
-      max-width: 1000px;
-      margin: auto;
-      padding: 20px 16px;
-    }
+.voltar:active {
+  transform: scale(0.96);
+}
 
-    h1 {
-      font-size: 24px;
-      margin: 8px 0 16px;
-    }
+.logo {
+  color: var(--vinho);
+  font-weight: 900;
+  font-size: 21px;
+  letter-spacing: 1.4px;
+}
 
-    .campo-pesquisa {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      background: white;
-      border: 1px solid var(--borda);
-      border-radius: 12px;
-      padding: 0 14px;
-    }
+main {
+  width: 100%;
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 30px 20px 48px;
+}
 
-    .campo-pesquisa span {
-      font-size: 20px;
-    }
+h1 {
+  font-size: clamp(25px, 5vw, 34px);
+  line-height: 1.2;
+  letter-spacing: -0.8px;
+  margin: 4px 0 24px;
+}
 
-    #pesquisa {
-      width: 100%;
-      border: none;
-      outline: none;
-      padding: 16px 0;
-      font-size: 16px;
-      background: transparent;
-    }
+.campo-pesquisa {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  background: var(--branco);
+  border: 1px solid var(--borda);
+  border-radius: 17px;
+  padding: 0 17px;
+  box-shadow: var(--sombra);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
 
-    h2 {
-      font-size: 17px;
-      margin: 24px 0 12px;
-    }
+.campo-pesquisa:focus-within {
+  border-color: var(--vinho);
+  box-shadow: 0 0 0 3px rgba(100, 29, 50, 0.08);
+}
 
-    #categorias {
-      display: flex;
-      gap: 9px;
-      overflow-x: auto;
-      padding: 2px 0 12px;
-    }
+.campo-pesquisa span {
+  color: var(--vinho);
+  font-size: 25px;
+}
 
-    .categoria {
-      flex-shrink: 0;
-      border: 1px solid var(--borda);
-      border-radius: 22px;
-      padding: 10px 15px;
-      background: white;
-      color: var(--preto);
-      cursor: pointer;
-      font-size: 14px;
-    }
+#pesquisa {
+  width: 100%;
+  min-width: 0;
+  border: none;
+  outline: none;
+  padding: 18px 0;
+  font-size: 15px;
+  color: var(--preto);
+  background: transparent;
+}
 
-    .categoria.ativa {
-      background: var(--vinho);
-      color: white;
-      border-color: var(--vinho);
-    }
+#pesquisa::placeholder {
+  color: #9A9297;
+}
 
-    #estado {
-      color: #686168;
-      font-size: 14px;
-      margin: 12px 0;
-    }
+h2 {
+  font-size: 18px;
+  letter-spacing: -0.3px;
+  margin: 30px 0 15px;
+}
 
-    #produtos {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 12px;
-      margin-top: 14px;
-    }
+#categorias {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  padding: 3px 2px 13px;
+  scrollbar-width: thin;
+  scrollbar-color: #D8C6CD transparent;
+  -webkit-overflow-scrolling: touch;
+}
 
-    .produto {
-      background: white;
-      border: 1px solid var(--borda);
-      border-radius: 12px;
-      overflow: hidden;
-      min-width: 0;
-    }
+.categoria {
+  flex-shrink: 0;
+  border: 1px solid var(--borda);
+  border-radius: 12px;
+  padding: 12px 16px;
+  background: var(--branco);
+  color: #51484D;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+  transition: color 0.2s, background 0.2s, border-color 0.2s;
+}
 
-    .produto img {
-      display: block;
-      width: 100%;
-      height: 160px;
-      object-fit: contain;
-      background: white;
-    }
+.categoria.ativa {
+  background: var(--vinho);
+  color: var(--branco);
+  border-color: var(--vinho);
+  box-shadow: 0 4px 12px rgba(100, 29, 50, 0.16);
+}
 
-    .produto-info {
-      padding: 12px;
-    }
+#estado {
+  color: var(--texto-suave);
+  font-size: 13px;
+  margin: 15px 0 17px;
+}
 
-    .produto h3 {
-      font-size: 15px;
-      margin: 0 0 8px;
-      overflow-wrap: anywhere;
-    }
+#produtos {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  align-items: stretch;
+}
 
-    .descricao {
-      font-size: 13px;
-      color: #6c656a;
-      margin: 0 0 10px;
-      overflow-wrap: anywhere;
-    }
+.produto {
+  min-width: 0;
+  overflow: hidden;
+  background: var(--branco);
+  border: 1px solid var(--borda);
+  border-radius: 17px;
+  box-shadow: 0 3px 12px rgba(48, 20, 32, 0.035);
+  transition: box-shadow 0.2s, transform 0.2s;
+}
 
-    .preco {
-      color: var(--vinho);
-      font-size: 18px;
-      font-weight: bold;
-      margin: 0;
-    }
+.produto img {
+  display: block;
+  width: 100%;
+  height: 155px;
+  object-fit: contain;
+  padding: 12px;
+  background: #FFFFFF;
+  border-bottom: 1px solid #F2EDF0;
+}
 
-    .vazio {
-      grid-column: 1 / -1;
-      background: white;
-      padding: 24px 16px;
-      text-align: center;
-      border: 1px solid var(--borda);
-      border-radius: 12px;
-    }
+.produto-info {
+  padding: 13px 12px 15px;
+}
 
-    @media (min-width: 650px) {
-      #produtos {
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-        gap: 18px;
-      }
+.produto h3 {
+  font-size: 14px;
+  line-height: 1.45;
+  font-weight: 700;
+  margin: 0 0 8px;
+  overflow-wrap: anywhere;
+}
 
-      .produto img {
-        height: 210px;
-      }
-    }
+.descricao {
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--texto-suave);
+  margin: 0 0 13px;
+  overflow-wrap: anywhere;
+}
 
-    @media (min-width: 900px) {
-      #produtos {
-        grid-template-columns: repeat(4, minmax(0, 1fr));
-      }
-    }
+.preco {
+  color: var(--vinho);
+  font-size: 17px;
+  font-weight: 800;
+  letter-spacing: -0.3px;
+  margin: 0;
+}
+
+.vazio {
+  grid-column: 1 / -1;
+  background: var(--branco);
+  padding: 30px 20px;
+  text-align: center;
+  line-height: 1.6;
+  color: var(--texto-suave);
+  border: 1px solid var(--borda);
+  border-radius: 17px;
+}
+
+@media (min-width: 600px) {
+  main {
+    padding: 38px 28px 56px;
+  }
+
+  #produtos {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px;
+  }
+
+  .produto img {
+    height: 200px;
+  }
+
+  .produto-info {
+    padding: 16px;
+  }
+
+  .produto h3 {
+    font-size: 15px;
+  }
+
+  .preco {
+    font-size: 19px;
+  }
+}
+
+@media (min-width: 900px) {
+  #produtos {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 20px;
+  }
+
+  .produto img {
+    height: 220px;
+  }
+
+  .produto:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 28px rgba(48, 20, 32, 0.09);
+  }
+
+  .categoria:hover {
+    border-color: var(--vinho);
+    color: var(--vinho);
+  }
+
+  .categoria.ativa:hover {
+    color: var(--branco);
+  }
+}
+
+@media (max-width: 360px) {
+  header {
+    padding: 13px;
+  }
+
+  main {
+    padding: 23px 12px 35px;
+  }
+
+  #produtos {
+    gap: 9px;
+  }
+
+  .produto img {
+    height: 130px;
+    padding: 8px;
+  }
+
+  .produto-info {
+    padding: 10px;
+  }
+
+  .produto h3 {
+    font-size: 13px;
+  }
+
+  .preco {
+    font-size: 15px;
+  }
+}
+
   </style>
 </head>
 
