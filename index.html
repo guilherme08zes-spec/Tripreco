@@ -1560,7 +1560,6 @@ async function cadastrarProduto() {
     document.getElementById("pesquisa-admin").addEventListener("input", () => {
   carregarProdutosAdmin();
 });
- 
 
     
 async function carregarProdutosAdmin() {
@@ -1568,8 +1567,13 @@ async function carregarProdutosAdmin() {
   const mensagem = document.getElementById("mensagem-gerenciar");
 
   const campoPesquisa = document.getElementById("pesquisa-admin");
-const termo = campoPesquisa.value.trim().toLowerCase();
+const termo = campoPesquisa.value
+  .normalize("NFD")
+  .replace(/[\u0300-\u036f]/g, "")
+  .trim()
+  .toLowerCase();
 
+  
   if (!supabaseClient || !adminConfirmado) {
     mensagem.textContent = "Entre como administrador.";
     return;
@@ -1597,8 +1601,16 @@ const termo = campoPesquisa.value.trim().toLowerCase();
   mensagem.textContent = "";
 
 
+const normalizarTexto = texto =>
+  texto.normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .trim();
+
+const termoNormalizado = normalizarTexto(termo);
+
 const produtosFiltrados = data.filter(produto =>
-  produto.nome.toLowerCase().includes(termo)
+  normalizarTexto(produto.nome).includes(termoNormalizado)
 );
 
 if (produtosFiltrados.length === 0) {
