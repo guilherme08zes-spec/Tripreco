@@ -1275,7 +1275,11 @@ function mostrarToast(mensagem) {
       });
       mostrarCarrinho();
     }
-
+    
+function salvarCarrinho() {
+  localStorage.setItem("tripreco_carrinho", JSON.stringify(carrinho));
+}
+    
     function mostrarCarrinho() {
       const area = document.getElementById("itens-carrinho");
       area.replaceChildren();
