@@ -990,6 +990,15 @@ padding: 7px;
         ou exclua cadastros.
       </p>
 
+      
+<label for="pesquisa-admin">Pesquisar produto</label>
+<input
+  type="search"
+  id="pesquisa-admin"
+  placeholder="Digite o nome do produto..."
+>
+
+
       <button
         type="button"
         class="btn-escuro"
@@ -1548,12 +1557,18 @@ async function cadastrarProduto() {
     botao.disabled = false;
   }
 }
+    document.getElementById("pesquisa-admin").addEventListener("input", () => {
+  carregarProdutosAdmin();
+});
  
 
     
 async function carregarProdutosAdmin() {
   const lista = document.getElementById("lista-produtos-admin");
   const mensagem = document.getElementById("mensagem-gerenciar");
+
+  const campoPesquisa = document.getElementById("pesquisa-admin");
+const termo = campoPesquisa.value.trim().toLowerCase();
 
   if (!supabaseClient || !adminConfirmado) {
     mensagem.textContent = "Entre como administrador.";
@@ -1581,7 +1596,21 @@ async function carregarProdutosAdmin() {
 
   mensagem.textContent = "";
 
-  data.forEach(produto => {
+
+const produtosFiltrados = data.filter(produto =>
+  produto.nome.toLowerCase().includes(termo)
+);
+
+if (produtosFiltrados.length === 0) {
+  mensagem.textContent = termo
+    ? "Nenhum produto encontrado com esse nome."
+    : "Nenhum produto cadastrado.";
+  return;
+}
+
+mensagem.textContent = "";
+
+produtosFiltrados.forEach(produto => {
     const card = document.createElement("div");
     card.style.cssText =
       "border:1px solid var(--borda);border-radius:10px;padding:12px;margin-top:12px";
