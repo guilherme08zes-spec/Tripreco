@@ -1443,8 +1443,8 @@ if (adminConfirmado) {
 }
 
 async function cadastrarProduto() {
-  const resultado = document.getElementById("resultado-painel");
-resultado.textContent = "Botão funcionando!";
+  const resultado = document.getElementById("resultado-painel")
+  ;
   if (!supabaseClient || !adminConfirmado) {
     resultado.textContent =
       "Entre com a conta de administrador antes de cadastrar.";
@@ -1528,13 +1528,12 @@ resultado.textContent = "Botão funcionando!";
     resultado.textContent = "Produto cadastrado com sucesso!";
 
     [
-      "novo-nome",
-      "novo-descricao",
-      "novo-preco",
-      "novo-estoque"
-    ].forEach(id => {
-      document.getElementById(id).value = "";
-    });
+  "novo-nome",
+  "novo-descricao",
+  "novo-preco"
+].forEach(id => {
+  document.getElementById(id).value = "";
+});
 
     document.getElementById("novo-categoria").value = "Utilidades";
     document.getElementById("nova-imagem-arquivo").value = "";
