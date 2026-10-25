@@ -1444,7 +1444,7 @@ if (adminConfirmado) {
 
 async function cadastrarProduto() {
   const resultado = document.getElementById("resultado-painel");
-
+resultado.textContent = "Botão funcionando!";
   if (!supabaseClient || !adminConfirmado) {
     resultado.textContent =
       "Entre com a conta de administrador antes de cadastrar.";
