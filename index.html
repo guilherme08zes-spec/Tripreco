@@ -1454,22 +1454,19 @@ async function cadastrarProduto() {
   const nome = document.getElementById("novo-nome").value.trim();
   const descricao = document.getElementById("novo-descricao").value.trim();
   const precoTexto = document.getElementById("novo-preco").value;
-  const estoqueTexto = document.getElementById("novo-estoque").value;
+  
   const arquivo = document.getElementById("nova-imagem-arquivo").files[0];
 
   const preco = Number(precoTexto);
-  const estoque = Number(estoqueTexto);
+  
 
   if (
     !nome ||
     precoTexto === "" ||
     !Number.isFinite(preco) ||
-    preco <= 0 ||
-    estoqueTexto === "" ||
-    !Number.isInteger(estoque) ||
-    estoque < 0
+    preco <= 0 
   ) {
-    resultado.textContent = "Confira o nome, o preço e o estoque.";
+    resultado.textContent = "Confira o nome, o preço.";
     return;
   }
 
@@ -1522,7 +1519,6 @@ async function cadastrarProduto() {
         descricao,
         categoria: document.getElementById("novo-categoria").value,
         preco,
-        estoque,
         imagem_url: imagemUrl,
         ativo: true
       });
