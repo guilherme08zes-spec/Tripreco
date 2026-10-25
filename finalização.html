@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#f5f6f8">
+
+  <title>Finalizar pedido | TripPreço</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 20px;
+      font-family: Arial, sans-serif;
+      background: #f5f6f8;
+      color: #202124;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 650px;
+      margin: 0 auto;
+    }
+
+    .topo {
+      margin-bottom: 24px;
+    }
+
+    .topo a {
+      color: #333;
+      text-decoration: none;
+      font-size: 14px;
+    }
+
+    h1 {
+      margin: 18px 0 8px;
+      font-size: 27px;
+    }
+
+    .subtitulo {
+      color: #666;
+      line-height: 1.5;
+    }
+
+    .cartao {
+      background: #fff;
+      border: 1px solid #e1e4e8;
+      border-radius: 14px;
+      padding: 18px;
+      margin-bottom: 18px;
+    }
+
+    .cartao h2 {
+      font-size: 19px;
+      margin-top: 0;
+    }
+
+    .aviso {
+      background: #fff8e6;
+      border: 1px solid #ead9a8;
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 18px;
+      line-height: 1.6;
+    }
+
+    .aviso h2 {
+      font-size: 17px;
+      margin-top: 0;
+    }
+
+    .aviso p {
+      font-size: 14px;
+      margin-bottom: 0;
+    }
+
+    .campo {
+      display: block;
+      margin-bottom: 16px;
+    }
+
+    .campo span {
+      display: block;
+      margin-bottom: 7px;
+      font-weight: bold;
+      font-size: 14px;
+    }
+
+    .campo input,
+    .campo textarea {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #cfd3d8;
+      border-radius: 9px;
+      font: inherit;
+      background: #fff;
+    }
+
+    .opcao {
+      display: block;
+      border: 1px solid #d9dde2;
+      border-radius: 10px;
+      padding: 13px;
+      margin: 10px 0;
+      line-height: 1.5;
+    }
+
+    .opcao input {
+      margin-right: 8px;
+    }
+
+    .botao {
+      display: block;
+      width: 100%;
+      padding: 14px;
+      border: 0;
+      border-radius: 10px;
+      background: #202124;
+      color: white;
+      font-size: 16px;
+      font-weight: bold;
+      text-align: center;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .rodape {
+      text-align: center;
+      color: #777;
+      font-size: 12px;
+      margin: 24px 0 10px;
+    }
+  </style>
+</head>
+
+<body>
+  <main class="container">
+
+    <header class="topo">
+      <a href="index.html">← Voltar à loja</a>
+
+      <h1>Finalizar pedido</h1>
+
+      <p class="subtitulo">
+        Confira seu pedido e informe seus dados para combinar
+        a retirada dos produtos na loja física.
+      </p>
+    </header>
+
+    <section class="cartao">
+      <h2>Seu pedido</h2>
+
+      <div id="resumo-carrinho">
+        O resumo dos produtos será conectado na próxima etapa.
+      </div>
+    </section>
+
+    <section class="aviso">
+      <h2>Leia antes de finalizar sua compra</h2>
+
+      <p>
+        <strong>Reserva por 7 dias:</strong>
+        o produto ficará reservado por até 7 dias após a confirmação.
+        Se não for retirado nesse prazo, a reserva poderá ser cancelada
+        e o produto ficará disponível novamente.
+      </p>
+
+      <p>
+        <strong>Retirada no mesmo dia:</strong>
+        escolha esta opção se combinar a retirada para o dia do pedido.
+        Se você não comparecer até o fim do dia, a reserva poderá ser
+        cancelada e o produto liberado para outros clientes.
+      </p>
+
+      <p>
+        Se tiver algum imprevisto, entre em contato com a loja para
+        verificar a possibilidade de combinar outra data.
+      </p>
+    </section>
+
+    <form id="formulario-pedido">
+
+      <section class="cartao">
+        <h2>Seus dados</h2>
+
+        <label class="campo">
+          <span>Nome completo</span>
+          <input
+            type="text"
+            id="nome-cliente"
+            maxlength="100"
+            autocomplete="name"
+            placeholder="Digite seu nome completo"
+            required
+          >
+        </label>
+
+        <label class="campo">
+          <span>WhatsApp com DDD</span>
+          <input
+            type="tel"
+            id="telefone-cliente"
+            maxlength="20"
+            autocomplete="tel"
+            placeholder="(42) 99999-9999"
+            required
+          >
+        </label>
+
+        <label class="campo">
+          <span>Observações (opcional)</span>
+          <textarea
+            id="observacoes-pedido"
+            rows="3"
+            maxlength="500"
+            placeholder="Alguma informação para a loja?"
+          ></textarea>
+        </label>
+      </section>
+
+      <section class="cartao">
+        <h2>Como deseja retirar?</h2>
+
+        <label class="opcao">
+          <input
+            type="radio"
+            name="tipo-retirada"
+            value="reserva"
+            required
+          >
+          <strong>Reservar por até 7 dias</strong><br>
+          Tenho até uma semana para retirar o produto.
+        </label>
+
+        <label class="opcao">
+          <input
+            type="radio"
+            name="tipo-retirada"
+            value="hoje"
+            required
+          >
+          <strong>Retirar hoje</strong><br>
+          Vou combinar a retirada para o dia do pedido.
+        </label>
+      </section>
+
+      <button class="botao" type="submit">
+        Confirmar pedido
+      </button>
+
+      <p class="rodape">
+        TripPreço — sua compra, de um jeito simples.
+      </p>
+
+    </form>
+  </main>
+</body>
+</html>
