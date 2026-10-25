@@ -831,7 +831,18 @@ padding: 7px;
 
   <main class="container">
     <h2 id="produtos">Nossos produtos</h2>
-    <input class="pesquisa" id="pesquisa" type="search" placeholder="Pesquisar produto..." aria-label="Pesquisar produtos">
+
+    
+    <a href="pesquisa.html" class="pesquisa-link">
+  <input
+    class="pesquisa"
+    id="pesquisa"
+    type="search"
+    placeholder="Pesquisar produto..."
+    aria-label="Pesquisar produtos"
+    readonly
+  >
+    </a>
 
     
 <div id="filtros-categoria" style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px">
@@ -1916,10 +1927,7 @@ lista.appendChild(card);
     mensagem.textContent =
       "Não foi possível carregar os pedidos. Confira se você está conectado como administrador.";
   }
-}
-
-
-    document.getElementById("pesquisa").addEventListener("input", mostrarProdutos);
+} 
     document.querySelectorAll(".btn-categoria").forEach(botao => {
   botao.addEventListener("click", () => {
     categoriaSelecionada = botao.dataset.categoria || "Todas";
