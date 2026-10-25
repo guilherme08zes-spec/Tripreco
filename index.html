@@ -1268,14 +1268,22 @@ function mostrarToast(mensagem) {
       mostrarCarrinho();
     }
 
-    function atualizarCarrinhoComCatalogo() {
-      carrinho = carrinho.filter(item => produtos.some(p => String(p.id) === String(item.id)));
-      carrinho.forEach(item => {
-        const atual = produtos.find(p => String(p.id) === String(item.id));
-        if (atual) { item.nome = atual.nome; item.preco = atual.preco; }
-      });
-      mostrarCarrinho();
+    
+function removerCarrinho(id) {
+  const item = carrinho.find(p => String(p.id) === String(id));
+
+  if (item) {
+    item.quantidade--;
+
+    if (item.quantidade <= 0) {
+      carrinho = carrinho.filter(p => String(p.id) !== String(id));
     }
+  }
+
+  salvarCarrinho();
+  mostrarCarrinho();
+}
+
     
 function salvarCarrinho() {
   localStorage.setItem("tripreco_carrinho", JSON.stringify(carrinho));
