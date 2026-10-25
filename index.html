@@ -1054,6 +1054,17 @@ padding: 7px;
     let supabaseClient = null;
     let produtos = [];
     let carrinho = JSON.parse(localStorage.getItem("tripreco_carrinho") || "[]");
+
+if (!Array.isArray(carrinho)) carrinho = [];
+
+function atualizarContadorCarrinho() {
+  const contador = document.getElementById("quantidade-carrinho");
+  if (contador) {
+    contador.textContent = carrinho.reduce(
+      (soma, item) => soma + (Number(item.quantidade) || 0), 0
+    );
+  }
+}
     let categoriaSelecionada = "Todas";
     let sessaoAtual = null;
     let adminConfirmado = false;
