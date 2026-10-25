@@ -1916,27 +1916,7 @@ lista.appendChild(card);
     mensagem.textContent =
       "Não foi possível carregar os pedidos. Confira se você está conectado como administrador.";
   }
-} 
-    document.querySelectorAll(".btn-categoria").forEach(botao => {
-  botao.addEventListener("click", () => {
-    categoriaSelecionada = botao.dataset.categoria || "Todas";
-
-    document.querySelectorAll(".btn-categoria").forEach(item => {
-      const ativo = item === botao;
-      item.style.background = ativo ? "var(--vermelho)" : "var(--branco)";
-      item.style.color = ativo ? "var(--branco)" : "var(--preto)";
-      item.style.border = "1px solid var(--borda)";
-    });
-
-    mostrarProdutos();
-  });
-});
-
-const botaoTodas = document.querySelector(
-  '.btn-categoria[data-categoria="Todas"]'
-);
-
-if (botaoTodas) botaoTodas.click();
+}
 
     (async function iniciar() {
       try {
