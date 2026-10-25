@@ -428,6 +428,7 @@ h2 {
               <h3>${nome}</h3>
               <p class="descricao">${descricao}</p>
               <p class="preco">${
+                              <p class="preco">${
                 Number.isFinite(preco)
                   ? preco.toLocaleString("pt-BR", {
                       style: "currency",
@@ -435,6 +436,9 @@ h2 {
                     })
                   : "Consulte o preço"
               }</p>
+              <button type="button" class="btn-adicionar" data-id="${escaparHTML(produto.id)}">
+                ADICIONAR AO CARRINHO
+              </button>
             </div>
           </article>
         `;
