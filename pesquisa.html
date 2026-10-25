@@ -441,27 +441,30 @@ h2 {
           : "";
 
         return `
-          <article class="produto">
-            ${imagemHTML}
-            <div class="produto-info">
-              <h3>${nome}</h3>
-              <p class="descricao">${descricao}</p>
-              <p class="preco">${
-                              <p class="preco">${
-                Number.isFinite(preco)
-                  ? preco.toLocaleString("pt-BR", {
-                      style: "currency",
-                      currency: "BRL"
-                    })
-                  : "Consulte o preço"
-              }</p>
-              <button type="button" class="btn-adicionar" data-id="${escaparHTML(produto.id)}">
-                ADICIONAR AO CARRINHO
-              </button>
-            </div>
-          </article>
-        `;
-      }).join("");
+  <article class="produto">
+    ${imagemHTML}
+    <div class="produto-info">
+      <h3>${nome}</h3>
+      <p class="descricao">${descricao}</p>
+      <p class="preco">${
+        Number.isFinite(preco)
+          ? preco.toLocaleString("pt-BR", {
+              style: "currency",
+              currency: "BRL"
+            })
+          : "Consulte o preço"
+      }</p>
+      <button
+        type="button"
+        class="btn-adicionar"
+        data-id="${escaparHTML(produto.id)}"
+      >
+        ADICIONAR AO CARRINHO
+      </button>
+    </div>
+  </article>
+`;
+}).join("");
     }
 
     botoesCategoria.forEach(botao => {
