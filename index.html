@@ -1452,6 +1452,40 @@ if (adminConfirmado) {
 }
 }
 
+    
+async function sairAdmin() {
+  if (!supabaseClient) {
+    alert("Não foi possível conectar ao sistema.");
+    return;
+  }
+
+  const { error } = await supabaseClient.auth.signOut();
+
+  if (error) {
+    console.error("Erro ao sair:", error);
+    alert("Não foi possível sair da conta. Tente novamente.");
+    return;
+  }
+
+  sessaoAtual = null;
+  adminConfirmado = false;
+
+  const areaLogin = document.getElementById("area-login");
+  const areaAdmin = document.getElementById("area-admin");
+
+  areaLogin.classList.remove("escondido");
+  areaLogin.hidden = false;
+
+  areaAdmin.classList.add("escondido");
+  areaAdmin.hidden = true;
+
+  const mensagem = document.getElementById("mensagem-gerenciar");
+  if (mensagem) mensagem.textContent = "";
+
+  alert("Você saiu da conta administrativa.");
+}
+
+
 async function cadastrarProduto() {
   const resultado = document.getElementById("resultado-painel")
   ;
