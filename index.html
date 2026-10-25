@@ -1053,7 +1053,7 @@ padding: 7px;
 
     let supabaseClient = null;
     let produtos = [];
-    let carrinho = [];
+    let carrinho = JSON.parse(localStorage.getItem("tripreco_carrinho") || "[]");
     let categoriaSelecionada = "Todas";
     let sessaoAtual = null;
     let adminConfirmado = false;
