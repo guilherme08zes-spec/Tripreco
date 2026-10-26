@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Produtos | TriPreço</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+:root{--vinho:#641d32;--escuro:#481324;--fundo:#f5f5f7;--texto:#242126;--cinza:#77717a;--borda:#e9e5e8;--branco:#fff}
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--fundo);color:var(--texto)}
+button,input,textarea,select{font:inherit}
+button,a{cursor:pointer}
+.layout{min-height:100vh;display:flex}
+.sidebar{width:230px;background:var(--escuro);color:white;padding:25px 16px;display:flex;flex-direction:column;flex-shrink:0}
+.logo{font-size:25px;font-weight:800;margin-bottom:7px}.logo span{color:#f0b9c9}
+.sublogo{font-size:12px;color:#d7c4ca;margin-bottom:32px}
+.menu-titulo{font-size:11px;letter-spacing:1px;color:#cbb4bd;margin:0 0 12px 10px}
+.menu{display:grid;gap:7px}
+.menu a{padding:13px 10px;color:#f5eaf0;text-decoration:none;border-radius:8px;font-size:14px}
+.menu a:hover,.menu a.ativo{background:#7a3048;color:white}
+.sidebar-rodape{margin-top:auto;padding-top:25px}.sidebar-rodape a{color:#f5eaf0;font-size:13px;text-decoration:none}
+.conteudo{flex:1;min-width:0}
+.topo{height:72px;background:white;border-bottom:1px solid var(--borda);display:flex;align-items:center;justify-content:space-between;padding:0 28px;gap:12px}
+.topo strong{font-size:16px}.estado{font-size:12px;color:var(--cinza)}
+.principal{max-width:1250px;margin:auto;padding:30px}
+h1{font-size:27px;margin:0 0 8px}h2{font-size:17px;margin:0 0 18px}
+.descricao{font-size:14px;line-height:1.6;color:var(--cinza);margin:0 0 25px}
+.card{background:white;border:1px solid var(--borda);border-radius:13px;padding:22px;margin-bottom:20px}
+.form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.campo label{display:block;font-size:13px;font-weight:bold;margin-bottom:8px}
+.campo input,.campo textarea,.campo select{width:100%;border:1px solid #ddd6dc;border-radius:8px;padding:12px;background:white;color:var(--texto)}
+.campo textarea{min-height:90px;resize:vertical}
+.largura-total{grid-column:1/-1}
+.botao{border:0;border-radius:8px;background:var(--vinho);color:white;padding:12px 16px;font-size:13px;font-weight:bold}
+.botao:hover{background:var(--escuro)}
+.botao:disabled{opacity:.6;cursor:wait}
+.secundario{background:white;color:var(--vinho);border:1px solid var(--borda)}
+.perigo{background:#a72b3c}
+.barra{display:flex;gap:10px;margin-bottom:18px}
+.barra input{flex:1;min-width:0;border:1px solid var(--borda);border-radius:8px;padding:12px;background:white}
+.lista{display:grid;gap:12px}
+.produto{display:flex;align-items:center;gap:14px;background:white;border:1px solid var(--borda);border-radius:11px;padding:15px}
+.foto{width:66px;height:66px;object-fit:contain;background:#f7f5f6;border-radius:8px;flex-shrink:0}
+.info{flex:1;min-width:0}.info h3{font-size:15px;margin:0 0 7px;overflow-wrap:anywhere}.info p{font-size:13px;color:var(--cinza);margin:0 0 6px}
+.situacao{font-size:11px;font-weight:bold;padding:5px 8px;border-radius:20px;background:#e8f6ed;color:#207345;display:inline-block}
+.inativo{background:#fcebed;color:#a72b3c}
+.acoes{display:flex;gap:8px;flex-wrap:wrap}
+.mensagem{font-size:13px;line-height:1.6;margin-top:13px;overflow-wrap:anywhere}
+.erro{color:#b42335}.sucesso{color:#187648}
+.escondido{display:none!important}
+.login-tela{min-height:100vh;display:grid;place-items:center;padding:20px}
+.login-card{width:100%;max-width:400px;background:white;border:1px solid var(--borda);border-radius:15px;padding:28px}
+.login-card h1{font-size:24px}.login-card p{font-size:13px;color:var(--cinza);line-height:1.6}
+.login-card label{display:block;font-size:13px;font-weight:bold;margin:18px 0 8px}
+.login-card input{width:100%;padding:12px;border:1px solid var(--borda);border-radius:8px}
+.login-card button{width:100%;margin-top:20px}
+@media(max-width:750px){
+.layout{display:block}.sidebar{width:100%;padding:18px}
+.sublogo{margin-bottom:18px}
+.menu{grid-template-columns:repeat(3,minmax(0,1fr));gap:5px}
+.menu a{text-align:center;padding:11px 4px;font-size:12px}
+.sidebar-rodape{padding-top:18px}
+.principal{padding:22px 14px}.topo{padding:0 16px}
+.form-grid{grid-template-columns:1fr}
+.largura-total{grid-column:auto}
+.produto{align-items:flex-start;flex-wrap:wrap}
+.info{min-width:calc(100% - 90px)}
+.acoes{width:100%}.acoes button{flex:1}
+}
+</style>
+</head>
+<body>
+
+<section id="tela-login" class="login-tela">
+  <div class="login-card">
+    <div class="logo" style="color:#641d32">Tri<span style="color:#242126">Preço</span></div>
+    <p>PAINEL ADMINISTRATIVO</p>
+    <h1>Entrar na administração</h1>
+    <p>Use sua conta administrativa já cadastrada.</p>
+    <form id="form-login">
+      <label for="email">E-mail</label>
+      <input id="email" type="email" autocomplete="username" required>
+      <label for="senha">Senha</label>
+      <input id="senha" type="password" autocomplete="current-password" required>
+      <button class="botao" id="botao-login">Entrar</button>
+      <div id="mensagem-login" class="mensagem" role="status"></div>
+    </form>
+    <p><a href="admin.html">← Voltar ao painel principal</a></p>
+  </div>
+</section>
+
+<div id="painel" class="layout escondido">
+  <aside class="sidebar">
+    <div class="logo">Tri<span>Preço</span></div>
+    <div class="sublogo">GESTÃO DA LOJA</div>
+    <div class="menu-titulo">MENU PRINCIPAL</div>
+    <nav class="menu">
+      <a href="admin.html">⌂ Visão geral</a>
+      <a class="ativo" href="produtos-admin.html">▦ Produtos</a>
+      <a href="pedidos.html">▤ Pedidos</a>
+    </nav>
+    <div class="sidebar-rodape"><a href="index.html">↗ Ver loja pública</a></div>
+  </aside>
+
+  <div class="conteudo">
+    <header class="topo">
+      <strong>Gerenciamento de produtos</strong>
+      <span class="estado" id="estado">Verificando acesso</span>
+    </header>
+
+    <main class="principal">
+      <h1>Produtos</h1>
+      <p class="descricao">Cadastre novos produtos e gerencie os itens disponíveis na loja.</p>
+
+      <section class="card">
+        <h2>Cadastrar produto</h2>
+        <form id="form-produto">
+          <div class="form-grid">
+            <div class="campo">
+              <label for="nome">Nome do produto *</label>
+              <input id="nome" maxlength="150" required>
+            </div>
+            <div class="campo">
+              <label for="categoria">Categoria</label>
+              <input id="categoria" maxlength="80" placeholder="Ex.: Acessórios">
+            </div>
+            <div class="campo">
+              <label for="preco">Preço em reais (R$) *</label>
+              <input id="preco" type="number" min="0.01" step="0.01" required>
+            </div>
+            <div class="campo">
+              <label for="estoque">Quantidade em estoque *</label>
+              <input id="estoque" type="number" min="0" step="1" value="1" required>
+            </div>
+            <div class="campo largura-total">
+              <label for="descricao-produto">Descrição</label>
+              <textarea id="descricao-produto" maxlength="2000"></textarea>
+            </div>
+            <div class="campo largura-total">
+              <label for="imagem">Foto do produto *</label>
+              <input id="imagem" type="file" accept="image/jpeg,image/png,image/webp">
+              <small style="display:block;color:#77717a;margin-top:7px">Escolha uma imagem de até 5 MB.</small>
+            </div>
+            <div class="largura-total">
+              <button class="botao" id="botao-cadastrar" type="submit">Cadastrar produto</button>
+              <div id="mensagem-cadastro" class="mensagem" role="status"></div>
+            </div>
+          </div>
+        </form>
+      </section>
+
+      <section class="card">
+        <h2>Produtos cadastrados</h2>
+        <div class="barra">
+          <input id="busca" placeholder="Pesquisar por nome..." aria-label="Pesquisar produtos">
+          <button id="botao-atualizar" class="botao secundario">Atualizar</button>
+        </div>
+        <div id="mensagem-lista" class="mensagem" role="status"></div>
+        <div id="lista" class="lista"></div>
+      </section>
+
+      <button id="botao-sair" class="botao secundario">Sair da administração</button>
+    </main>
+  </div>
+</div>
+
+<script>
+const SUPABASE_URL = "https://dowcydjnopmksxiixefm.supabase.co";
+
+// Use a mesma chave pública completa que funciona no admin.html.
+const SUPABASE_ANON_KEY = "COLE_AQUI_A_MESMA_CHAVE_PUBLICA_DO_ADMIN";
+
+const cliente = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+const $ = id => document.getElementById(id);
+let adminAutorizado = false;
+let produtosCache = [];
+
+function mensagem(id, texto, tipo="") {
+  $(id).textContent = texto;
+  $(id).className = "mensagem " + tipo;
+}
+
+function mostrarLogin(texto="") {
+  adminAutorizado = false;
+  $("painel").classList.add("escondido");
+  $("tela-login").classList.remove("escondido");
+  mensagem("mensagem-login", texto, "erro");
+}
+
+function mostrarPainel() {
+  $("tela-login").classList.add("escondido");
+  $("painel").classList.remove("escondido");
+  $("estado").textContent = "Acesso autorizado";
+  $("estado").style.color = "#187648";
+}
+
+async function verificarAcesso() {
+  try {
+    const {data, error} = await cliente.auth.getSession();
+    if (error) throw error;
+
+    if (!data.session) {
+      mostrarLogin();
+      return;
+    }
+
+    const {data: admin, error: erroAdmin} = await cliente.rpc("is_admin");
+    if (erroAdmin) throw erroAdmin;
+
+    if (admin !== true) {
+      await cliente.auth.signOut();
+      mostrarLogin("Esta conta não tem permissão de administrador.");
+      return;
+    }
+
+    adminAutorizado = true;
+    mostrarPainel();
+    await carregarProdutos();
+  } catch (erro) {
+    mostrarLogin("Erro de acesso: " + (erro.message || "verifique a conexão."));
+  }
+}
+
+$("form-login").addEventListener("submit", async evento => {
+  evento.preventDefault();
+  $("botao-login").disabled = true;
+  mensagem("mensagem-login", "Verificando acesso...");
+
+  try {
+    const {error} = await cliente.auth.signInWithPassword({
+      email: $("email").value.trim(),
+      password: $("senha").value
+    });
+    if (error) throw error;
+    await verificarAcesso();
+  } catch (erro) {
+    mensagem("mensagem-login", "Não foi possível entrar: " + erro.message, "erro");
+  } finally {
+    $("botao-login").disabled = false;
+  }
+});
+
+async function carregarProdutos() {
+  if (!adminAutorizado) return;
+  mensagem("mensagem-lista", "Carregando produtos...");
+
+  const {data, error} = await cliente
+    .from("produtos")
+    .select("id,nome,descricao,categoria,preco,estoque,imagem_url,ativo,criado_em")
+    .order("criado_em", {ascending:false});
+
+  if (error) {
+    mensagem("mensagem-lista", "Erro ao carregar produtos: " + error.message, "erro");
+    return;
+  }
+
+  produtosCache = data || [];
+  renderizarProdutos();
+}
+
+function renderizarProdutos() {
+  const busca = $("busca").value.trim().toLowerCase();
+  const filtrados = produtosCache.filter(p =>
+    (p.nome || "").toLowerCase().includes(busca)
+  );
+
+  $("lista").replaceChildren();
+
+  if (!filtrados.length) {
+    mensagem("mensagem-lista", busca ? "Nenhum produto encontrado." : "Ainda não há produtos cadastrados.");
+    return;
+  }
+
+  mensagem("mensagem-lista", `${filtrados.length} produto(s) encontrado(s).`);
+
+  filtrados.forEach(p => {
+    const card = document.createElement("article");
+    card.className = "produto";
+
+    if (p.imagem_url) {
+      const img = document.createElement("img");
+      img.className = "foto";
+      img.src = p.imagem_url;
+      img.alt = p.nome || "Produto";
+      img.onerror = () => { img.style.visibility = "hidden"; };
+      card.appendChild(img);
+    }
+
+    const info = document.createElement("div");
+    info.className = "info";
+
+    const nome = document.createElement("h3");
+    nome.textContent = p.nome || "Produto sem nome";
+
+    const detalhes = document.createElement("p");
+    detalhes.textContent =
+      `R$ ${Number(p.preco || 0).toFixed(2).replace(".", ",")} · Estoque: ${p.estoque ?? 0}`;
+
+    const status = document.createElement("span");
+    status.className = "situacao" + (p.ativo ? "" : " inativo");
+    status.textContent = p.ativo ? "Ativo na loja" : "Inativo";
+
+    info.append(nome, detalhes, status);
+    card.appendChild(info);
+
+    const acoes = document.createElement("div");
+    acoes.className = "acoes";
+
+    const alternar = document.createElement("button");
+    alternar.className = "botao secundario";
+    alternar.textContent = p.ativo ? "Desativar" : "Ativar";
+    alternar.addEventListener("click", () => alterarAtivo(p.id, !p.ativo));
+
+    const excluir = document.createElement("button");
+    excluir.className = "botao perigo";
+    excluir.textContent = "Excluir";
+    excluir.addEventListener("click", () => excluirProduto(p.id, p.nome));
+
+    acoes.append(alternar, excluir);
+    card.appendChild(acoes);
+    $("lista").appendChild(card);
+  });
+}
+
+$("busca").addEventListener("input", renderizarProdutos);
+$("botao-atualizar").addEventListener("click", carregarProdutos);
+
+$("form-produto").addEventListener("submit", async evento => {
+  evento.preventDefault();
+  if (!adminAutorizado) return mostrarLogin();
+
+  const botao = $("botao-cadastrar");
+  botao.disabled = true;
+  mensagem("mensagem-cadastro", "Cadastrando produto...");
+
+  let caminhoImagem = null;
+
+  try {
+    const arquivo = $("imagem").files[0];
+    const nome = $("nome").value.trim();
+    const preco = Number($("preco").value);
+    const estoque = Number($("estoque").value);
+
+    if (!nome) throw new Error("Informe o nome do produto.");
+    if (!Number.isFinite(preco) || preco <= 0) throw new Error("Informe um preço válido.");
+    if (!Number.isInteger(estoque) || estoque < 0) throw new Error("Informe uma quantidade válida.");
+    if (!arquivo) throw new Error("Selecione uma foto do produto.");
+    if (arquivo.size > 5 * 1024 * 1024) throw new Error("A imagem deve ter no máximo 5 MB.");
+    if (!["image/jpeg","image/png","image/webp"].includes(arquivo.type)) {
+      throw new Error("Use uma imagem JPG, PNG ou WEBP.");
+    }
+
+    const extensao = arquivo.name.split(".").pop().toLowerCase();
+    caminhoImagem = `${crypto.randomUUID()}.${extensao}`;
+
+    const {error: erroUpload} = await cliente.storage
+      .from("fotos-produtos")
+      .upload(caminhoImagem, arquivo, {
+        upsert: false,
+        contentType: arquivo.type
+      });
+
+    if (erroUpload) throw new Error("Falha ao enviar a foto: " + erroUpload.message);
+
+    const {data: urlData} = cliente.storage
+      .from("fotos-produtos")
+      .getPublicUrl(caminhoImagem);
+
+    const {error: erroCadastro} = await cliente.from("produtos").insert({
+      nome,
+      descricao: $("descricao-produto").value.trim(),
+      categoria: $("categoria").value.trim() || null,
+      preco,
+      estoque,
+      imagem_url: urlData.publicUrl,
+      ativo: true
+    });
+
+    if (erroCadastro) throw new Error("Falha ao salvar produto: " + erroCadastro.message);
+
+    $("form-produto").reset();
+    $("estoque").value = 1;
+    mensagem("mensagem-cadastro", "Produto cadastrado com sucesso!", "sucesso");
+    await carregarProdutos();
+
+  } catch (erro) {
+    mensagem("mensagem-cadastro", erro.message || "Não foi possível cadastrar.", "erro");
+  } finally {
+    botao.disabled = false;
+  }
+});
+
+async function alterarAtivo(id, ativo) {
+  if (!adminAutorizado) return;
+  const {error} = await cliente.from("produtos").update({ativo}).eq("id", id);
+
+  if (error) {
+    mensagem("mensagem-lista", "Erro ao atualizar: " + error.message, "erro");
+    return;
+  }
+
+  await carregarProdutos();
+}
+
+async function excluirProduto(id, nome) {
+  if (!adminAutorizado) return;
+  if (!confirm(`Deseja realmente excluir "${nome}"? Esta ação não pode ser desfeita.`)) return;
+
+  const {error} = await cliente.from("produtos").delete().eq("id", id);
+
+  if (error) {
+    mensagem("mensagem-lista", "Não foi possível excluir: " + error.message, "erro");
+    return;
+  }
+
+  mensagem("mensagem-lista", "Produto excluído.", "sucesso");
+  await carregarProdutos();
+}
+
+$("botao-sair").addEventListener("click", async () => {
+  await cliente.auth.signOut();
+  mostrarLogin("Você saiu da administração.");
+});
+
+verificarAcesso();
+</script>
+</body>
+</html>
