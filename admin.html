@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Administração | TriPreço</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
+:root {
+  --vinho: #641d32;
+  --vinho-escuro: #481324;
+  --fundo: #f5f5f7;
+  --texto: #242126;
+  --cinza: #77717a;
+  --borda: #e9e5e8;
+  --branco: #fff;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  background: var(--fundo);
+  color: var(--texto);
+}
+
+button, input {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+.layout {
+  min-height: 100vh;
+  display: flex;
+}
+
+.sidebar {
+  width: 245px;
+  background: var(--vinho-escuro);
+  color: white;
+  padding: 28px 18px;
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+}
+
+.logo {
+  font-size: 25px;
+  font-weight: 800;
+  margin: 0 0 7px;
+}
+
+.logo span {
+  color: #f0b9c9;
+}
+
+.sublogo {
+  color: #d7c4ca;
+  font-size: 12px;
+  margin-bottom: 36px;
+}
+
+.menu-titulo {
+  color: #cbb4bd;
+  font-size: 11px;
+  font-weight: bold;
+  letter-spacing: 1px;
+  margin: 0 0 12px 10px;
+}
+
+.menu {
+  display: grid;
+  gap: 8px;
+}
+
+.menu a {
+  color: #f5eaf0;
+  text-decoration: none;
+  padding: 13px 12px;
+  border-radius: 9px;
+  font-size: 14px;
+}
+
+.menu a.ativo,
+.menu a:hover {
+  background: #7a3048;
+  color: white;
+}
+
+.sidebar-rodape {
+  margin-top: auto;
+  padding-top: 35px;
+}
+
+.sidebar-rodape a {
+  color: #f5eaf0;
+  font-size: 13px;
+  text-decoration: none;
+}
+
+.conteudo {
+  flex: 1;
+  min-width: 0;
+}
+
+.topo {
+  height: 76px;
+  padding: 0 32px;
+  background: white;
+  border-bottom: 1px solid var(--borda);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+}
+
+.topo-titulo {
+  font-size: 17px;
+  font-weight: bold;
+}
+
+.estado {
+  font-size: 12px;
+  color: var(--cinza);
+}
+
+.estado::before {
+  content: "";
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  background: #d5a23f;
+  border-radius: 50%;
+  margin-right: 7px;
+}
+
+.estado.online::before {
+  background: #24a56a;
+}
+
+.principal {
+  max-width: 1250px;
+  padding: 32px;
+  margin: auto;
+}
+
+.boas-vindas {
+  margin-bottom: 28px;
+}
+
+.boas-vindas h1 {
+  font-size: 27px;
+  margin: 0 0 9px;
+}
+
+.boas-vindas p {
+  color: var(--cinza);
+  font-size: 14px;
+  margin: 0;
+  line-height: 1.6;
+}
+
+.secao-titulo {
+  font-size: 16px;
+  margin: 30px 0 15px;
+}
+
+.resumo {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.card {
+  background: white;
+  border: 1px solid var(--borda);
+  border-radius: 13px;
+  padding: 21px;
+  min-width: 0;
+}
+
+.card-legenda {
+  color: var(--cinza);
+  font-size: 13px;
+  margin-bottom: 15px;
+}
+
+.card-numero {
+  font-size: 29px;
+  font-weight: 800;
+  overflow-wrap: anywhere;
+}
+
+.card-nota {
+  color: var(--cinza);
+  font-size: 12px;
+  margin-top: 9px;
+  line-height: 1.5;
+}
+
+.acoes {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.acao {
+  display: flex;
+  align-items: flex-start;
+  gap: 15px;
+}
+
+.icone {
+  width: 44px;
+  height: 44px;
+  border-radius: 11px;
+  background: #f5e8ed;
+  color: var(--vinho);
+  display: grid;
+  place-items: center;
+  font-size: 22px;
+  flex-shrink: 0;
+}
+
+.acao h3 {
+  font-size: 15px;
+  margin: 2px 0 8px;
+}
+
+.acao p {
+  color: var(--cinza);
+  font-size: 13px;
+  line-height: 1.5;
+  margin: 0 0 14px;
+}
+
+.botao {
+  display: inline-block;
+  border: 0;
+  border-radius: 8px;
+  background: var(--vinho);
+  color: white;
+  padding: 11px 15px;
+  font-size: 13px;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.botao:hover {
+  background: var(--vinho-escuro);
+}
+
+.botao-secundario {
+  background: white;
+  color: var(--vinho);
+  border: 1px solid var(--borda);
+}
+
+.aviso {
+  margin-top: 22px;
+  padding: 15px 17px;
+  border: 1px solid var(--borda);
+  background: white;
+  border-radius: 10px;
+  color: var(--cinza);
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.tela-login {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  background: var(--fundo);
+}
+
+.login-card {
+  width: 100%;
+  max-width: 410px;
+  background: white;
+  border: 1px solid var(--borda);
+  border-radius: 16px;
+  padding: 30px;
+}
+
+.login-card h1 {
+  font-size: 25px;
+  margin: 0 0 8px;
+}
+
+.login-card p {
+  color: var(--cinza);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.login-card label {
+  display: block;
+  font-size: 13px;
+  font-weight: bold;
+  margin: 19px 0 8px;
+}
+
+.login-card input {
+  width: 100%;
+  padding: 13px;
+  border: 1px solid var(--borda);
+  border-radius: 8px;
+}
+
+.login-card .botao {
+  width: 100%;
+  margin-top: 22px;
+}
+
+.mensagem {
+  font-size: 13px;
+  line-height: 1.5;
+  margin-top: 14px;
+  overflow-wrap: anywhere;
+}
+
+.erro {
+  color: #b42335;
+}
+
+.escondido {
+  display: none !important;
+}
+
+@media (max-width: 800px) {
+  .sidebar {
+    width: 190px;
+    padding: 23px 12px;
+  }
+
+  .principal {
+    padding: 24px 18px;
+  }
+
+  .topo {
+    padding: 0 18px;
+  }
+
+  .resumo {
+    grid-template-columns: 1fr;
+  }
+
+  .acoes {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 520px) {
+  .layout {
+    display: block;
+  }
+
+  .sidebar {
+    width: 100%;
+    padding: 18px;
+  }
+
+  .sublogo {
+    margin-bottom: 18px;
+  }
+
+  .menu {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 5px;
+  }
+
+  .menu a {
+    text-align: center;
+    padding: 11px 5px;
+    font-size: 12px;
+  }
+
+  .menu-titulo {
+    margin-top: 8px;
+  }
+
+  .sidebar-rodape {
+    padding-top: 20px;
+  }
+
+  .topo {
+    height: 62px;
+  }
+
+  .principal {
+    padding: 24px 15px;
+  }
+
+  .boas-vindas h1 {
+    font-size: 23px;
+  }
+
+  .card {
+    padding: 18px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<section id="tela-login" class="tela-login">
+  <div class="login-card">
+    <div class="logo" style="color:#641d32">Tri<span style="color:#242126">Preço</span></div>
+    <p>PAINEL ADMINISTRATIVO</p>
+    <h1>Entrar na administração</h1>
+    <p>Entre com a conta administrativa já cadastrada no sistema.</p>
+
+    <form id="form-login">
+      <label for="email">E-mail</label>
+      <input id="email" type="email" autocomplete="username" required>
+
+      <label for="senha">Senha</label>
+      <input id="senha" type="password" autocomplete="current-password" required>
+
+      <button class="botao" id="botao-login" type="submit">Entrar no painel</button>
+      <div id="mensagem-login" class="mensagem" role="status"></div>
+    </form>
+
+    <p><a href="index.html">← Voltar para a loja</a></p>
+  </div>
+</section>
+
+<div id="painel" class="layout escondido">
+  <aside class="sidebar">
+    <div class="logo">Tri<span>Preço</span></div>
+    <div class="sublogo">GESTÃO DA LOJA</div>
+
+    <div class="menu-titulo">MENU PRINCIPAL</div>
+
+    <nav class="menu">
+      <a class="ativo" href="admin.html">⌂ Visão geral</a>
+      <a href="produtos-admin.html">▦ Produtos</a>
+      <a href="pedidos.html">▤ Pedidos</a>
+    </nav>
+
+    <div class="sidebar-rodape">
+      <a href="index.html">↗ Ver loja pública</a>
+    </div>
+  </aside>
+
+  <div class="conteudo">
+    <header class="topo">
+      <div class="topo-titulo">Visão geral</div>
+      <div id="estado-conexao" class="estado">Verificando acesso</div>
+    </header>
+
+    <main class="principal">
+      <section class="boas-vindas">
+        <h1>Painel de controle</h1>
+        <p>Bem-vindo à administração do TriPreço. Gerencie sua loja em um só lugar.</p>
+      </section>
+
+      <h2 class="secao-titulo">Resumo da loja</h2>
+
+      <section class="resumo">
+        <div class="card">
+          <div class="card-legenda">Produtos cadastrados</div>
+          <div id="total-produtos" class="card-numero">—</div>
+          <div class="card-nota">Produtos ativos na loja</div>
+        </div>
+
+        <div class="card">
+          <div class="card-legenda">Pedidos recebidos</div>
+          <div id="total-pedidos" class="card-numero">—</div>
+          <div class="card-nota">Pedidos registrados no sistema</div>
+        </div>
+
+        <div class="card">
+          <div class="card-legenda">Aguardando confirmação</div>
+          <div id="pedidos-pendentes" class="card-numero">—</div>
+          <div class="card-nota">Pedidos que precisam de atenção</div>
+        </div>
+      </section>
+
+      <h2 class="secao-titulo">Acesso rápido</h2>
+
+      <section class="acoes">
+        <div class="card acao">
+          <div class="icone">▦</div>
+          <div>
+            <h3>Gerenciar produtos</h3>
+            <p>Consulte os produtos cadastrados e acesse a área de gerenciamento.</p>
+            <a class="botao" href="produtos-admin.html">Abrir produtos</a>
+          </div>
+        </div>
+
+        <div class="card acao">
+          <div class="icone">▤</div>
+          <div>
+            <h3>Gerenciar pedidos</h3>
+            <p>Acesse a página de pedidos para acompanhar as compras dos clientes.</p>
+            <a class="botao" href="pedidos.html">Abrir pedidos</a>
+          </div>
+        </div>
+      </section>
+
+      <div class="aviso">
+        <strong>Importante:</strong> os atalhos de produtos e pedidos só funcionarão
+        depois que criarmos essas páginas. Esta tela não altera produtos nem pedidos.
+      </div>
+
+      <button id="botao-sair" class="botao botao-secundario" style="margin-top:22px">
+        Sair da administração
+      </button>
+    </main>
+  </div>
+</div>
+
+<script>
+const SUPABASE_URL = "https://dowcydjnopmksxiixefm.supabase.co";
+
+// Cole aqui a mesma chave pública anon que já está no seu index.html.
+const SUPABASE_ANON_KEY = "COLE_AQUI_SUA_CHAVE_PUBLICA_ANON";
+
+const cliente = window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_ANON_KEY
+);
+
+const telaLogin = document.getElementById("tela-login");
+const painel = document.getElementById("painel");
+const mensagemLogin = document.getElementById("mensagem-login");
+const botaoLogin = document.getElementById("botao-login");
+let verificando = false;
+
+function mostrarLogin(mensagem = "") {
+  painel.classList.add("escondido");
+  telaLogin.classList.remove("escondido");
+  mensagemLogin.textContent = mensagem;
+}
+
+function mostrarPainel() {
+  telaLogin.classList.add("escondido");
+  painel.classList.remove("escondido");
+  document.getElementById("estado-conexao").textContent = "Acesso autorizado";
+  document.getElementById("estado-conexao").classList.add("online");
+}
+
+async function verificarAcesso() {
+  if (verificando) return;
+  verificando = true;
+
+  try {
+    const { data: sessaoData, error: erroSessao } =
+      await cliente.auth.getSession();
+
+    if (erroSessao) throw erroSessao;
+
+    const sessao = sessaoData.session;
+
+    if (!sessao) {
+      mostrarLogin();
+      return;
+    }
+
+    const { data: admin, error: erroAdmin } =
+      await cliente.rpc("is_admin");
+
+    if (erroAdmin) {
+      mostrarLogin("Não foi possível verificar a permissão administrativa. Confira a função is_admin no Supabase.");
+      return;
+    }
+
+    if (admin !== true) {
+      await cliente.auth.signOut();
+      mostrarLogin("Esta conta não tem permissão de administrador.");
+      return;
+    }
+
+    mostrarPainel();
+    await carregarResumo();
+  } catch (erro) {
+    mostrarLogin("Erro ao verificar acesso: " + (erro.message || "tente novamente."));
+  } finally {
+    verificando = false;
+  }
+}
+
+document.getElementById("form-login").addEventListener("submit", async (evento) => {
+  evento.preventDefault();
+
+  botaoLogin.disabled = true;
+  botaoLogin.textContent = "Verificando...";
+  mensagemLogin.textContent = "";
+  mensagemLogin.className = "mensagem";
+
+  try {
+    const email = document.getElementById("email").value.trim();
+    const senha = document.getElementById("senha").value;
+
+    const { error } = await cliente.auth.signInWithPassword({
+      email,
+      password: senha
+    });
+
+    if (error) throw error;
+
+    await verificarAcesso();
+  } catch (erro) {
+    mensagemLogin.textContent = "Não foi possível entrar: " + (erro.message || "verifique os dados.");
+    mensagemLogin.className = "mensagem erro";
+  } finally {
+    botaoLogin.disabled = false;
+    botaoLogin.textContent = "Entrar no painel";
+  }
+});
+
+async function carregarResumo() {
+  const consultas = await Promise.all([
+    cliente.from("produtos")
+      .select("id", { count: "exact", head: true })
+      .eq("ativo", true),
+
+    cliente.from("pedidos")
+      .select("id", { count: "exact", head: true }),
+
+    cliente.from("pedidos")
+      .select("id", { count: "exact", head: true })
+      .eq("status", "aguardando_confirmacao")
+  ]);
+
+  const [produtos, pedidos, pendentes] = consultas;
+
+  if (produtos.error || pedidos.error || pendentes.error) {
+    document.getElementById("estado-conexao").textContent =
+      "Painel aberto; resumo indisponível";
+    return;
+  }
+
+  document.getElementById("total-produtos").textContent =
+    produtos.count ?? 0;
+
+  document.getElementById("total-pedidos").textContent =
+    pedidos.count ?? 0;
+
+  document.getElementById("pedidos-pendentes").textContent =
+    pendentes.count ?? 0;
+}
+
+document.getElementById("botao-sair").addEventListener("click", async () => {
+  await cliente.auth.signOut();
+  mostrarLogin("Você saiu da administração.");
+});
+
+cliente.auth.onAuthStateChange(() => {
+  setTimeout(() => verificarAcesso(), 0);
+});
+
+verificarAcesso();
+</script>
+
+</body>
+</html>
