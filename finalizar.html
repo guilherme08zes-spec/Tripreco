@@ -1,16 +1,14 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#f5f6f8">
-
-  <title>Finalizar pedido | TripPreço</title>
+  <title>Finalizar pedido | TriPreço</title>
 
   <style>
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
     body {
       margin: 0;
@@ -26,9 +24,7 @@
       margin: 0 auto;
     }
 
-    .topo {
-      margin-bottom: 24px;
-    }
+    .topo { margin-bottom: 24px; }
 
     .topo a {
       color: #333;
@@ -73,10 +69,7 @@
       margin-top: 0;
     }
 
-    .aviso p {
-      font-size: 14px;
-      margin-bottom: 0;
-    }
+    .aviso p { font-size: 14px; }
 
     .campo {
       display: block;
@@ -109,9 +102,7 @@
       line-height: 1.5;
     }
 
-    .opcao input {
-      margin-right: 8px;
-    }
+    .opcao input { margin-right: 8px; }
 
     .botao {
       display: block;
@@ -128,6 +119,16 @@
       cursor: pointer;
     }
 
+    .botao:disabled {
+      opacity: .6;
+      cursor: wait;
+    }
+
+    #mensagem {
+      line-height: 1.5;
+      overflow-wrap: anywhere;
+    }
+
     .rodape {
       text-align: center;
       color: #777;
@@ -138,192 +139,256 @@
 </head>
 
 <body>
-  <main class="container">
+<main class="container">
+  <header class="topo">
+    <a href="index.html">← Voltar à loja</a>
+    <h1>Finalizar pedido</h1>
+    <p class="subtitulo">
+      Confira seu pedido e informe seus dados para combinar
+      a retirada dos produtos na loja física.
+    </p>
+  </header>
 
-    <header class="topo">
-      <a href="index.html">← Voltar à loja</a>
+  <section class="cartao">
+    <h2>Seu pedido</h2>
+    <div id="resumo-carrinho">Carregando seu pedido...</div>
+  </section>
 
-      <h1>Finalizar pedido</h1>
+  <section class="aviso">
+    <h2>Leia antes de finalizar sua compra</h2>
+    <p><strong>Reserva por 7 dias:</strong>
+      o produto ficará reservado por até 7 dias após a confirmação.
+      Se não for retirado nesse prazo, a reserva poderá ser cancelada.</p>
+    <p><strong>Retirada hoje:</strong>
+      combine a retirada para o dia do pedido. Se houver imprevisto,
+      entre em contato com a loja.</p>
+  </section>
 
-      <p class="subtitulo">
-        Confira seu pedido e informe seus dados para combinar
-        a retirada dos produtos na loja física.
-      </p>
-    </header>
+  <form id="formulario-pedido">
+    <section class="cartao">
+      <h2>Seus dados</h2>
+
+      <label class="campo">
+        <span>Nome completo</span>
+        <input type="text" id="nome-cliente" maxlength="100"
+          autocomplete="name" placeholder="Digite seu nome completo" required>
+      </label>
+
+      <label class="campo">
+        <span>WhatsApp com DDD</span>
+        <input type="tel" id="telefone-cliente" maxlength="20"
+          autocomplete="tel" placeholder="(42) 99999-9999" required>
+      </label>
+
+      <label class="campo">
+        <span>Observações (opcional)</span>
+        <textarea id="observacoes-pedido" rows="3" maxlength="500"
+          placeholder="Alguma informação para a loja?"></textarea>
+      </label>
+    </section>
 
     <section class="cartao">
-      <h2>Seu pedido</h2>
+      <h2>Como deseja retirar?</h2>
 
-      <div id="resumo-carrinho">
-  Carregando seu pedido...
-      </div>
-      
+      <label class="opcao">
+        <input type="radio" name="tipo-retirada" value="reserva" required>
+        <strong>Reservar por até 7 dias</strong><br>
+        Tenho até uma semana para retirar o produto.
+      </label>
+
+      <label class="opcao">
+        <input type="radio" name="tipo-retirada" value="hoje" required>
+        <strong>Retirar hoje</strong><br>
+        Vou combinar a retirada para o dia do pedido.
+      </label>
     </section>
 
-    <section class="aviso">
-      <h2>Leia antes de finalizar sua compra</h2>
+    <button class="botao" id="botao-confirmar" type="submit">
+      Confirmar pedido
+    </button>
+    <p id="mensagem" role="status" aria-live="polite"></p>
 
-      <p>
-        <strong>Reserva por 7 dias:</strong>
-        o produto ficará reservado por até 7 dias após a confirmação.
-        Se não for retirado nesse prazo, a reserva poderá ser cancelada
-        e o produto ficará disponível novamente.
-      </p>
+    <p class="rodape">TriPreço — sua compra, de um jeito simples.</p>
+  </form>
+</main>
 
-      <p>
-        <strong>Retirada no mesmo dia:</strong>
-        escolha esta opção se combinar a retirada para o dia do pedido.
-        Se você não comparecer até o fim do dia, a reserva poderá ser
-        cancelada e o produto liberado para outros clientes.
-      </p>
-
-      <p>
-        Se tiver algum imprevisto, entre em contato com a loja para
-        verificar a possibilidade de combinar outra data.
-      </p>
-    </section>
-
-    <form id="formulario-pedido">
-
-      <section class="cartao">
-        <h2>Seus dados</h2>
-
-        <label class="campo">
-          <span>Nome completo</span>
-          <input
-            type="text"
-            id="nome-cliente"
-            maxlength="100"
-            autocomplete="name"
-            placeholder="Digite seu nome completo"
-            required
-          >
-        </label>
-
-        <label class="campo">
-          <span>WhatsApp com DDD</span>
-          <input
-            type="tel"
-            id="telefone-cliente"
-            maxlength="20"
-            autocomplete="tel"
-            placeholder="(42) 99999-9999"
-            required
-          >
-        </label>
-
-        <label class="campo">
-          <span>Observações (opcional)</span>
-          <textarea
-            id="observacoes-pedido"
-            rows="3"
-            maxlength="500"
-            placeholder="Alguma informação para a loja?"
-          ></textarea>
-        </label>
-      </section>
-
-      <section class="cartao">
-        <h2>Como deseja retirar?</h2>
-
-        <label class="opcao">
-          <input
-            type="radio"
-            name="tipo-retirada"
-            value="reserva"
-            required
-          >
-          <strong>Reservar por até 7 dias</strong><br>
-          Tenho até uma semana para retirar o produto.
-        </label>
-
-        <label class="opcao">
-          <input
-            type="radio"
-            name="tipo-retirada"
-            value="hoje"
-            required
-          >
-          <strong>Retirar hoje</strong><br>
-          Vou combinar a retirada para o dia do pedido.
-        </label>
-      </section>
-
-      <button class="botao" type="submit">
-        Confirmar pedido
-      </button>
-
-      <p class="rodape">
-        TripPreço — sua compra, de um jeito simples.
-      </p>
-
-    </form>
-  </main>
-</body>
 <script>
+  // Configuração pública do projeto Supabase.
+  const SUPABASE_URL = "https://dowcydjnopmksxiixefm.supabase.co";
+  const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRvd2N5ZGpub3Bta3N4aWl4ZWZtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTI3ODUwMzQsImV4cCI6MjEwODM2MTAzNH0.03Xo3uww6rIThR5POiyV0G0JHUEK_gRdORQr5Ao_VsE";
 
+  const WHATSAPP_LOJA = "5542920004897";
+  const ENDPOINT = SUPABASE_URL + "/functions/v1/smart-endpoint";
 
-  
+  const resumo = document.getElementById("resumo-carrinho");
+  const formulario = document.getElementById("formulario-pedido");
+  const botao = document.getElementById("botao-confirmar");
+  const mensagem = document.getElementById("mensagem");
+
+  const dinheiro = valor => Number(valor).toLocaleString("pt-BR", {
+    style: "currency",
+    currency: "BRL"
+  });
+
+  function lerCarrinho() {
+    try {
+      const dados = JSON.parse(
+        localStorage.getItem("tripreco_carrinho") || "[]"
+      );
+      return Array.isArray(dados) ? dados : [];
+    } catch {
+      return [];
+    }
+  }
+
   function mostrarResumoPedido() {
-    const resumo = document.getElementById("resumo-carrinho");
-    const carrinho = JSON.parse(
-      localStorage.getItem("tripreco_carrinho") || "[]"
-    );
-
+    const carrinho = lerCarrinho();
     resumo.replaceChildren();
 
-    const dinheiro = valor =>
-      Number(valor).toLocaleString("pt-BR", {
-        style: "currency",
-        currency: "BRL"
-      });
-
     if (!carrinho.length) {
-      const aviso = document.createElement("p");
-      aviso.textContent = "Seu carrinho está vazio.";
+      resumo.textContent = "Seu carrinho está vazio.";
+      botao.disabled = true;
 
       const voltar = document.createElement("a");
       voltar.href = "index.html";
-      voltar.textContent = "Voltar à loja";
-
-      resumo.append(aviso, voltar);
+      voltar.textContent = " Voltar à loja";
+      resumo.appendChild(voltar);
       return;
     }
 
     let total = 0;
 
     carrinho.forEach(item => {
-      const quantidade = Number(item.quantidade) || 0;
-      const preco = Number(item.preco) || 0;
-      const subtotal = preco * quantidade;
+      const quantidade = Number(item.quantidade);
+      const preco = Number(item.preco);
 
+      if (!Number.isFinite(quantidade) || quantidade < 1 ||
+          !Number.isFinite(preco) || preco < 0) return;
+
+      const subtotal = preco * quantidade;
       total += subtotal;
 
       const linha = document.createElement("p");
       linha.textContent =
         `${item.nome} × ${quantidade} — ${dinheiro(subtotal)}`;
-
       resumo.appendChild(linha);
     });
 
     const separador = document.createElement("hr");
     const totalPedido = document.createElement("h3");
-
-    totalPedido.textContent = "Total: " + dinheiro(total);
-
+    totalPedido.textContent = "Total estimado: " + dinheiro(total);
     resumo.append(separador, totalPedido);
   }
 
+  formulario.addEventListener("submit", async evento => {
+    evento.preventDefault();
+
+    const carrinho = lerCarrinho();
+    if (!carrinho.length) {
+      mensagem.textContent = "Seu carrinho está vazio.";
+      return;
+    }
+
+    const nome = document.getElementById("nome-cliente").value.trim();
+    const telefone = document.getElementById("telefone-cliente").value.trim();
+    const observacoes =
+      document.getElementById("observacoes-pedido").value.trim();
+    const tipo = formulario.querySelector(
+      'input[name="tipo-retirada"]:checked'
+    )?.value;
+
+    if (nome.length < 2 || telefone.replace(/\D/g, "").length < 8 || !tipo) {
+      mensagem.textContent = "Confira seu nome, telefone e retirada.";
+      return;
+    }
+
+    // O servidor consulta os preços atuais e calcula o total oficial.
+    const itens = carrinho.map(item => ({
+      id: Number(item.id),
+      quantidade: Number(item.quantidade)
+    }));
+
+    if (itens.some(item =>
+      !Number.isSafeInteger(item.id) || item.id <= 0 ||
+      !Number.isSafeInteger(item.quantidade) ||
+      item.quantidade < 1 || item.quantidade > 100
+    )) {
+      mensagem.textContent =
+        "Não foi possível validar os produtos do carrinho. Volte à loja e tente novamente.";
+      return;
+    }
+
+    botao.disabled = true;
+    botao.textContent = "Registrando pedido...";
+    mensagem.textContent = "Aguarde enquanto registramos seu pedido.";
+
+    try {
+      const resposta = await fetch(ENDPOINT, {
+        method: "POST",
+        headers: {
+          "apikey": SUPABASE_ANON_KEY,
+             "Authorization": "Bearer " + SUPABASE_ANON_KEY
+        },
+        body: JSON.stringify({
+          nome_cliente: nome,
+          telefone_cliente: telefone,
+          observacoes,
+          tipo_retirada: tipo,
+          itens
+        })
+      });
+
+      const resultado = await resposta.json();
+
+      if (!resposta.ok || resultado.sucesso !== true || !resultado.pedido) {
+        throw new Error(
+          resultado.erro || "Não foi possível registrar o pedido."
+        );
+      }
+
+      const pedido = resultado.pedido;
+      const linhas = pedido.itens || carrinho.map(item => ({
+        nome: item.nome,
+        quantidade: item.quantidade,
+        preco: item.preco,
+        subtotal: Number(item.preco) * Number(item.quantidade)
+      }));
+
+      const textoItens = linhas.map(item =>
+        `• ${item.nome} × ${item.quantidade} — ${dinheiro(item.subtotal)}`
+      ).join("\n");
+
+      const texto =
+        `Olá! Quero confirmar meu pedido na TriPreço.\n\n` +
+        `Código: ${pedido.codigo}\n` +
+        `Nome: ${nome}\n` +
+        `Retirada: ${tipo === "reserva" ? "Reserva por até 7 dias" : "Hoje"}\n\n` +
+        `Produtos:\n${textoItens}\n\n` +
+        `Total: ${dinheiro(pedido.total)}\n` +
+        (observacoes ? `Observações: ${observacoes}\n` : "") +
+        `\nAguardo a confirmação da loja.`;
+
+      mensagem.textContent =
+        "Pedido registrado! Abrindo o WhatsApp para você combinar a retirada...";
+
+      // Guarda o código para evitar reenviar por engano ao voltar à página.
+      localStorage.setItem("tripreco_ultimo_pedido", pedido.codigo);
+
+      const urlWhatsApp =
+        "https://wa.me/" + WHATSAPP_LOJA + "?text=" +
+        encodeURIComponent(texto);
+
+      window.location.href = urlWhatsApp;
+    } catch (erro) {
+      mensagem.textContent =
+        (erro.message || "Ocorreu um erro.") +
+        " Confira a conexão e tente novamente. Se o pedido já tiver sido registrado, verifique com a loja antes de reenviar.";
+      botao.disabled = false;
+      botao.textContent = "Tentar novamente";
+    }
+  });
+
   mostrarResumoPedido();
 </script>
-
-
-
-
-
-
-
-
-
-  
+</body>
 </html>
