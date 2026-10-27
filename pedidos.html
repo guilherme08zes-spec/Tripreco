@@ -680,8 +680,10 @@ const dadosClienteHTML = `
               </span>
             </div>
 
-            <div class="detalhes">
-              <h3>Produtos (${itens.length})</h3>
+         <div class="detalhes">
+  ${dadosClienteHTML}
+
+  <h3>Produtos (${itens.length})</h3>
               <ul class="itens">${itensHTML}</ul>
 
               <p class="total">${dinheiro(pedido.total)}</p>
