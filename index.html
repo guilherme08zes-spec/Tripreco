@@ -808,6 +808,113 @@ padding: 7px;
 }
 }
 
+  
+/* Cartões da lista de produtos do administrador */
+.admin-produto-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px;
+  margin: 12px 0;
+  background: #fff;
+  border: 1px solid #e7e7e7;
+  border-radius: 14px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.04);
+  min-width: 0;
+}
+
+.admin-produto-foto {
+  width: 86px;
+  height: 86px;
+  flex-shrink: 0;
+  object-fit: cover;
+  border-radius: 10px;
+  background: #f2f2f2;
+}
+
+.admin-produto-sem-foto {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 30px;
+}
+
+.admin-produto-info {
+  flex: 1;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.admin-produto-info h4 {
+  margin: 0 0 6px;
+  font-size: 16px;
+  color: #171717;
+}
+
+.admin-produto-info p {
+  margin: 4px 0;
+  font-size: 13px;
+  color: #666;
+}
+
+.admin-produto-preco {
+  font-size: 17px !important;
+  font-weight: bold;
+  color: #e5232e !important;
+}
+
+.admin-status {
+  display: inline-block;
+  margin-top: 6px;
+  padding: 5px 9px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.admin-status--ativo {
+  color: #187342;
+  background: #e5f7ec;
+}
+
+.admin-status--inativo {
+  color: #777;
+  background: #eeeeee;
+}
+
+.admin-produto-acoes {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  flex-shrink: 0;
+}
+
+.admin-produto-acoes button {
+  margin: 0;
+  padding: 9px 11px;
+  font-size: 12px;
+  border-radius: 8px;
+}
+
+@media (max-width: 480px) {
+  .admin-produto-card {
+    align-items: flex-start;
+    gap: 10px;
+    padding: 10px;
+  }
+
+  .admin-produto-foto {
+    width: 65px;
+    height: 65px;
+  }
+
+  .admin-produto-acoes button {
+    padding: 8px;
+    font-size: 11px;
+  }
+}
+
+
 
 </style>
 </head>
