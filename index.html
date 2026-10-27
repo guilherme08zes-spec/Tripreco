@@ -1699,15 +1699,19 @@ async function cadastrarProduto() {
 async function carregarProdutosAdmin() {
   const lista = document.getElementById("lista-produtos-admin");
   const mensagem = document.getElementById("mensagem-gerenciar");
-
   const campoPesquisa = document.getElementById("pesquisa-admin");
-const termo = campoPesquisa.value
-  .normalize("NFD")
-  .replace(/[\u0300-\u036f]/g, "")
-  .trim()
-  .toLowerCase();
 
-  
+  if (!lista || !mensagem) {
+    console.error("Elementos da área administrativa não encontrados.");
+    return;
+  }
+
+  const termo = (campoPesquisa?.value || "")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .trim()
+    .toLowerCase();
+
   if (!supabaseClient || !adminConfirmado) {
     mensagem.textContent = "Entre como administrador.";
     return;
@@ -1718,12 +1722,13 @@ const termo = campoPesquisa.value
 
   const { data, error } = await supabaseClient
     .from("produtos")
-    .select("id,nome,preco,estoque,ativo")
+    .select("id,nome,descricao,categoria,preco,imagem_url,ativo")
     .order("criado_em", { ascending: false });
 
   if (error) {
     console.error("Erro ao carregar produtos:", error);
-    mensagem.textContent = "Erro ao carregar produtos: " + error.message;
+    mensagem.textContent =
+      "Erro ao carregar produtos: " + error.message;
     return;
   }
 
@@ -1732,54 +1737,101 @@ const termo = campoPesquisa.value
     return;
   }
 
+  const normalizarTexto = texto =>
+    String(texto || "")
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .trim()
+      .toLowerCase();
+
+  const produtosFiltrados = data.filter(produto =>
+    normalizarTexto(produto.nome).includes(termo)
+  );
+
+  if (produtosFiltrados.length === 0) {
+    mensagem.textContent = termo
+      ? "Nenhum produto encontrado com esse nome."
+      : "Nenhum produto cadastrado.";
+    return;
+  }
+
   mensagem.textContent = "";
 
-
-const normalizarTexto = texto =>
-  texto.normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .toLowerCase()
-    .trim();
-
-const termoNormalizado = normalizarTexto(termo);
-
-const produtosFiltrados = data.filter(produto =>
-  normalizarTexto(produto.nome).includes(termoNormalizado)
-);
-
-if (produtosFiltrados.length === 0) {
-  mensagem.textContent = termo
-    ? "Nenhum produto encontrado com esse nome."
-    : "Nenhum produto cadastrado.";
-  return;
-}
-
-mensagem.textContent = "";
-
-produtosFiltrados.forEach(produto => {
+  produtosFiltrados.forEach(produto => {
     const card = document.createElement("div");
-    card.style.cssText =
-      "border:1px solid var(--borda);border-radius:10px;padding:12px;margin-top:12px";
+    card.className = "admin-produto-card";
 
-    const nome = document.createElement("p");
-    nome.textContent = produto.nome + " — " + dinheiro(produto.preco);
+    // Foto do produto
+    let foto;
 
-    const estado = document.createElement("p");
-    estado.textContent = produto.ativo ? "Ativo na loja" : "Desativado";
+    if (produto.imagem_url) {
+      foto = document.createElement("img");
+      foto.className = "admin-produto-foto";
+      foto.src = produto.imagem_url;
+      foto.alt = produto.nome || "Foto do produto";
+      foto.loading = "lazy";
+
+      foto.addEventListener("error", () => {
+        const semFoto = document.createElement("div");
+        semFoto.className = "admin-produto-sem-foto";
+        semFoto.textContent = "Sem foto";
+        foto.replaceWith(semFoto);
+      }, { once: true });
+    } else {
+      foto = document.createElement("div");
+      foto.className = "admin-produto-sem-foto";
+      foto.textContent = "Sem foto";
+    }
+
+    // Informações do produto
+    const info = document.createElement("div");
+    info.className = "admin-produto-info";
+
+    const nome = document.createElement("h3");
+    nome.textContent = produto.nome || "Produto sem nome";
+
+    const categoria = document.createElement("p");
+    categoria.textContent =
+      produto.categoria || "Sem categoria";
+
+    const descricao = document.createElement("p");
+    descricao.textContent =
+      produto.descricao || "Sem descrição";
+
+    const preco = document.createElement("p");
+    preco.className = "admin-produto-preco";
+    preco.textContent = dinheiro(produto.preco);
+
+    const estado = document.createElement("span");
+    estado.className = produto.ativo
+      ? "admin-status admin-status--ativo"
+      : "admin-status admin-status--inativo";
+
+    estado.textContent = produto.ativo
+      ? "Ativo na loja"
+      : "Desativado";
+
+    info.append(nome, categoria, descricao, preco, estado);
+
+    // Botões de ação
+    const acoes = document.createElement("div");
+    acoes.className = "admin-produto-acoes";
 
     const botaoAtivar = document.createElement("button");
     botaoAtivar.className = "btn-escuro";
     botaoAtivar.type = "button";
     botaoAtivar.textContent = produto.ativo
-      ? "DESATIVAR PRODUTO"
-      : "REATIVAR PRODUTO";
+      ? "DESATIVAR"
+      : "REATIVAR";
 
     botaoAtivar.addEventListener("click", async () => {
       if (!adminConfirmado) return;
 
       const acao = produto.ativo ? "desativar" : "reativar";
 
-      if (!confirm("Deseja " + acao + " o produto " + produto.nome + "?")) {
+      if (!confirm(
+        "Deseja " + acao + " o produto " + produto.nome + "?"
+      )) {
         return;
       }
 
@@ -1804,7 +1856,7 @@ produtosFiltrados.forEach(produto => {
     const botaoExcluir = document.createElement("button");
     botaoExcluir.className = "btn-vermelho";
     botaoExcluir.type = "button";
-    botaoExcluir.textContent = "EXCLUIR PRODUTO";
+    botaoExcluir.textContent = "EXCLUIR";
 
     botaoExcluir.addEventListener("click", async () => {
       if (!adminConfirmado) return;
@@ -1834,10 +1886,13 @@ produtosFiltrados.forEach(produto => {
       alert("Produto excluído.");
     });
 
-    card.append(nome, estado, botaoAtivar, botaoExcluir);
+    acoes.append(botaoAtivar, botaoExcluir);
+    card.append(foto, info, acoes);
     lista.appendChild(card);
   });
 }
+
+
 
 
 function finalizarCompra() {
