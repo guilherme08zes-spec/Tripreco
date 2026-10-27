@@ -8,133 +8,353 @@
   <title>Finalizar pedido | TriPreço</title>
 
   <style>
-    * { box-sizing: border-box; }
 
-    body {
-      margin: 0;
-      padding: 20px;
-      font-family: Arial, sans-serif;
-      background: #f5f6f8;
-      color: #202124;
-    }
+* {
+  box-sizing: border-box;
+}
 
-    .container {
-      width: 100%;
-      max-width: 650px;
-      margin: 0 auto;
-    }
+:root {
+  --vinho: #641D32;
+  --vinho-escuro: #481324;
+  --vinho-claro: #F5EDF0;
+  --preto: #191719;
+  --branco: #FFFFFF;
+  --fundo: #F8F7F7;
+  --borda: #E9E3E5;
+  --texto-secundario: #777177;
+}
 
-    .topo { margin-bottom: 24px; }
+html {
+  scroll-behavior: smooth;
+}
 
-    .topo a {
-      color: #333;
-      text-decoration: none;
-      font-size: 14px;
-    }
+body {
+  margin: 0;
+  padding: 20px 16px 30px;
+  font-family: Arial, Helvetica, sans-serif;
+  background: var(--fundo);
+  color: var(--preto);
+  line-height: 1.5;
+}
 
-    h1 {
-      margin: 18px 0 8px;
-      font-size: 27px;
-    }
+.container {
+  width: 100%;
+  max-width: 680px;
+  margin: 0 auto;
+}
 
-    .subtitulo {
-      color: #666;
-      line-height: 1.5;
-    }
+/* Cabeçalho */
+.topo {
+  margin-bottom: 25px;
+}
 
-    .cartao {
-      background: #fff;
-      border: 1px solid #e1e4e8;
-      border-radius: 14px;
-      padding: 18px;
-      margin-bottom: 18px;
-    }
+.topo a {
+  display: inline-flex;
+  align-items: center;
+  color: var(--vinho);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: bold;
+  padding: 8px 0;
+}
 
-    .cartao h2 {
-      font-size: 19px;
-      margin-top: 0;
-    }
+.topo a:hover {
+  color: var(--vinho-escuro);
+  text-decoration: underline;
+}
 
-    .aviso {
-      background: #fff8e6;
-      border: 1px solid #ead9a8;
-      border-radius: 12px;
-      padding: 16px;
-      margin-bottom: 18px;
-      line-height: 1.6;
-    }
+.topo h1 {
+  margin: 24px 0 8px;
+  color: var(--preto);
+  font-size: clamp(27px, 6vw, 34px);
+  line-height: 1.2;
+  letter-spacing: -0.7px;
+}
 
-    .aviso h2 {
-      font-size: 17px;
-      margin-top: 0;
-    }
+.subtitulo {
+  margin: 0;
+  color: var(--texto-secundario);
+  font-size: 15px;
+  line-height: 1.7;
+}
 
-    .aviso p { font-size: 14px; }
+/* Cartões principais */
+.cartao {
+  background: var(--branco);
+  border: 1px solid var(--borda);
+  border-radius: 16px;
+  padding: 22px;
+  margin-bottom: 18px;
+  box-shadow: 0 4px 18px rgba(25, 23, 25, 0.035);
+}
 
-    .campo {
-      display: block;
-      margin-bottom: 16px;
-    }
+.cartao h2 {
+  margin: 0 0 20px;
+  padding-bottom: 13px;
+  border-bottom: 1px solid var(--borda);
+  color: var(--preto);
+  font-size: 19px;
+  font-weight: 700;
+}
 
-    .campo span {
-      display: block;
-      margin-bottom: 7px;
-      font-weight: bold;
-      font-size: 14px;
-    }
+/* Resumo do pedido */
+#resumo-carrinho {
+  overflow-wrap: anywhere;
+}
 
-    .campo input,
-    .campo textarea {
-      width: 100%;
-      padding: 12px;
-      border: 1px solid #cfd3d8;
-      border-radius: 9px;
-      font: inherit;
-      background: #fff;
-    }
+#resumo-carrinho p {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 0;
+  padding: 12px 0;
+  border-bottom: 1px solid #F0ECEE;
+  font-size: 14px;
+  line-height: 1.6;
+}
 
-    .opcao {
-      display: block;
-      border: 1px solid #d9dde2;
-      border-radius: 10px;
-      padding: 13px;
-      margin: 10px 0;
-      line-height: 1.5;
-    }
+#resumo-carrinho hr {
+  border: 0;
+  border-top: 1px solid var(--borda);
+  margin: 16px 0;
+}
 
-    .opcao input { margin-right: 8px; }
+#resumo-carrinho h3 {
+  margin: 0;
+  padding: 15px;
+  background: var(--vinho-claro);
+  border-radius: 10px;
+  color: var(--vinho);
+  font-size: 19px;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
 
-    .botao {
-      display: block;
-      width: 100%;
-      padding: 14px;
-      border: 0;
-      border-radius: 10px;
-      background: #202124;
-      color: white;
-      font-size: 16px;
-      font-weight: bold;
-      text-align: center;
-      text-decoration: none;
-      cursor: pointer;
-    }
+#resumo-carrinho a {
+  display: inline-block;
+  margin-top: 12px;
+  color: var(--vinho);
+  font-weight: bold;
+}
 
-    .botao:disabled {
-      opacity: .6;
-      cursor: wait;
-    }
+/* Aviso de retirada */
+.aviso {
+  padding: 20px;
+  margin-bottom: 20px;
+  background: var(--vinho-claro);
+  border: 1px solid #E6D3DA;
+  border-left: 5px solid var(--vinho);
+  border-radius: 13px;
+  line-height: 1.7;
+}
 
-    #mensagem {
-      line-height: 1.5;
-      overflow-wrap: anywhere;
-    }
+.aviso h2 {
+  margin: 0 0 12px;
+  color: var(--vinho);
+  font-size: 17px;
+}
 
-    .rodape {
-      text-align: center;
-      color: #777;
-      font-size: 12px;
-      margin: 24px 0 10px;
-    }
+.aviso p {
+  margin: 10px 0 0;
+  color: #51454A;
+  font-size: 14px;
+}
+
+.aviso strong {
+  color: var(--vinho-escuro);
+}
+
+/* Campos do formulário */
+.campo {
+  display: block;
+  margin-bottom: 19px;
+}
+
+.campo:last-child {
+  margin-bottom: 0;
+}
+
+.campo span {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--preto);
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.campo input,
+.campo textarea {
+  display: block;
+  width: 100%;
+  padding: 14px;
+  border: 1px solid #DCD5D8;
+  border-radius: 10px;
+  background: #FFFFFF;
+  color: var(--preto);
+  font-family: inherit;
+  font-size: 15px;
+  line-height: 1.5;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.campo input::placeholder,
+.campo textarea::placeholder {
+  color: #A39BA0;
+}
+
+.campo input:focus,
+.campo textarea:focus {
+  border-color: var(--vinho);
+  box-shadow: 0 0 0 3px rgba(100, 29, 50, 0.10);
+}
+
+.campo textarea {
+  resize: vertical;
+  min-height: 95px;
+}
+
+/* Opções de retirada */
+.opcao {
+  display: block;
+  position: relative;
+  padding: 16px;
+  margin: 12px 0;
+  border: 1px solid var(--borda);
+  border-radius: 12px;
+  background: #FFFFFF;
+  color: var(--texto-secundario);
+  font-size: 14px;
+  line-height: 1.7;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.opcao:hover {
+  border-color: #C9A8B4;
+  background: #FCF9FA;
+}
+
+.opcao:has(input:checked) {
+  border-color: var(--vinho);
+  background: var(--vinho-claro);
+}
+
+.opcao input {
+  width: 17px;
+  height: 17px;
+  margin: 0 8px 0 0;
+  accent-color: var(--vinho);
+  vertical-align: middle;
+}
+
+.opcao strong {
+  color: var(--preto);
+  font-size: 15px;
+}
+
+/* Botão de confirmação */
+.botao {
+  display: block;
+  width: 100%;
+  min-height: 54px;
+  padding: 16px 20px;
+  border: 0;
+  border-radius: 12px;
+  background: var(--vinho);
+  color: #FFFFFF;
+  font-family: inherit;
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  box-shadow: 0 5px 12px rgba(100, 29, 50, 0.16);
+  transition: background 0.2s, transform 0.2s;
+}
+
+.botao:hover:not(:disabled) {
+  background: var(--vinho-escuro);
+  transform: translateY(-1px);
+}
+
+.botao:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.botao:focus-visible {
+  outline: 3px solid #C9A8B4;
+  outline-offset: 3px;
+}
+
+.botao:disabled {
+  opacity: 0.65;
+  cursor: wait;
+  box-shadow: none;
+}
+
+/* Mensagens de status */
+#mensagem {
+  margin: 14px 0;
+  color: var(--vinho);
+  font-size: 14px;
+  line-height: 1.7;
+  overflow-wrap: anywhere;
+}
+
+/* Rodapé */
+.rodape {
+  margin: 28px 0 8px;
+  padding-top: 18px;
+  border-top: 1px solid var(--borda);
+  color: var(--texto-secundario);
+  font-size: 12px;
+  text-align: center;
+}
+
+/* Celulares pequenos */
+@media (max-width: 400px) {
+  body {
+    padding: 15px 12px 24px;
+  }
+
+  .cartao {
+    padding: 17px;
+    border-radius: 13px;
+  }
+
+  .topo h1 {
+    font-size: 27px;
+  }
+
+  .aviso {
+    padding: 16px;
+  }
+
+  .opcao {
+    padding: 13px;
+  }
+
+  #resumo-carrinho h3 {
+    font-size: 17px;
+  }
+}
+
+/* Telas maiores */
+@media (min-width: 768px) {
+  body {
+    padding-top: 35px;
+  }
+
+  .topo {
+    margin-bottom: 30px;
+  }
+
+  .cartao {
+    padding: 25px;
+  }
+}
+
   </style>
 </head>
 
