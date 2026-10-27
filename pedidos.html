@@ -724,9 +724,9 @@ const dadosClienteHTML = `
         if (!(await verificarAcesso())) return;
 
         const { data: pedidos, error } = await cliente
-          .select("id, criado_em, itens, total, status, nome_cliente, telefone_cliente, observacoes, tipo_retirada, prazo_retirada, codigo")
-          .order("criado_em", { ascending: false });
-
+  .from("pedidos")
+  .select("id, criado_em, itens, total, status, nome_cliente, telefone_cliente, observacoes, tipo_retirada, prazo_retirada, codigo")
+  .order("criado_em", { ascending: false });
         if (error) throw error;
 
         pedidosGuardados = pedidos || [];
