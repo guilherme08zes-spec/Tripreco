@@ -74,7 +74,7 @@ body.verificando #painel {
 }
 </style>
 </head>
-<body>
+<body class="verificando">
 
 <section id="tela-login" class="login-tela">
   <div class="login-card">
@@ -186,6 +186,7 @@ function mensagem(id, texto, tipo="") {
 }
 
 function mostrarLogin(texto="") {
+  document.body.classList.remove("verificando");
   adminAutorizado = false;
   $("painel").classList.add("escondido");
   $("tela-login").classList.remove("escondido");
@@ -193,6 +194,7 @@ function mostrarLogin(texto="") {
 }
 
 function mostrarPainel() {
+  document.body.classList.remove("verificando");
   $("tela-login").classList.add("escondido");
   $("painel").classList.remove("escondido");
   $("estado").textContent = "Acesso autorizado";
