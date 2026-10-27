@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TriPreço | Pedidos</title>
+
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f5f5f5;
+      color: #171717;
+    }
+
+    header {
+      background: #171717;
+      color: white;
+      padding: 20px 16px;
+      border-bottom: 4px solid #e5232e;
+    }
+
+    .topo {
+      max-width: 900px;
+      margin: auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    h1 { margin: 0; font-size: 24px; }
+    h1 span { color: #e5232e; }
+    header p { margin: 7px 0 0; color: #ddd; }
+
+    main {
+      width: min(900px, 100%);
+      margin: 24px auto;
+      padding: 0 14px;
+    }
+
+    .painel, .pedido {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      margin-bottom: 16px;
+      box-shadow: 0 2px 8px #0000000d;
+    }
+
+    .painel h2, .pedido h2 { margin-top: 0; }
+
+    input, button, select {
+      font: inherit;
+      padding: 12px;
+      border-radius: 8px;
+    }
+
+    input {
+      display: block;
+      width: 100%;
+      border: 1px solid #ccc;
+      margin: 10px 0;
+      background: white;
+      color: #171717;
+    }
+
+    button {
+      border: none;
+      background: #e5232e;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button:disabled { opacity: .6; }
+
+    .botao-secundario {
+      background: #333;
+      white-space: nowrap;
+    }
+
+    .mensagem {
+      margin-top: 12px;
+      overflow-wrap: anywhere;
+    }
+
+    .erro { color: #c51e28; }
+    .sucesso { color: #187443; }
+
+    .linha {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .muted { color: #666; font-size: 14px; }
+    .itens { padding-left: 20px; line-height: 1.7; }
+
+    .total {
+      font-size: 20px;
+      font-weight: bold;
+      margin: 16px 0;
+    }
+
+    .status-select {
+      width: 100%;
+      margin-top: 8px;
+      border: 1px solid #ccc;
+      background: white;
+      color: #171717;
+    }
+
+    .status-area {
+      margin-top: 16px;
+      padding-top: 14px;
+      border-top: 1px solid #eee;
+    }
+
+    #listaPedidos { margin-top: 18px; }
+
+    @media (max-width: 480px) {
+      .painel, .pedido { padding: 15px; }
+      h1 { font-size: 21px; }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="topo">
+      <div>
+        <h1>Tri<span>Preço</span></h1>
+        <p>Gerenciamento de pedidos</p>
+      </div>
+      <button id="sairBtn" class="botao-secundario" hidden>
+        Sair
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <section id="loginPainel" class="painel">
+      <h2>Entrar como administrador</h2>
+      <p>Use o mesmo e-mail e a mesma senha do administrador da loja.</p>
+
+      <form id="loginForm">
+        <input
+          id="email"
+          type="email"
+          placeholder="Seu e-mail"
+          autocomplete="username"
+          required
+        >
+
+        <input
+          id="senha"
+          type="password"
+          placeholder="Sua senha"
+          autocomplete="current-password"
+          required
+        >
+
+        <button id="entrarBtn" type="submit" style="width:100%">
+          Entrar
+        </button>
+      </form>
+
+      <p id="loginMensagem" class="mensagem" role="status"></p>
+    </section>
+
+    <section id="adminPainel" hidden>
+      <div class="painel">
+        <div class="linha">
+          <div>
+            <h2 style="margin-bottom:6px">Pedidos da loja</h2>
+            <p class="muted" style="margin:0">
+              Confira as compras e atualize o andamento de cada pedido.
+            </p>
+          </div>
+          <button id="atualizarBtn" class="botao-secundario">
+            Atualizar lista
+          </button>
+        </div>
+
+        <p id="listaMensagem" class="mensagem" role="status"></p>
+      </div>
+
+      <div id="listaPedidos"></div>
+    </section>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <script>
+    const SUPABASE_URL = "https://dowcydjnopmksxiixefm.supabase.co";
+
+    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRvd2N5ZGpub3Bta3N4aWl4ZWZtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTI3ODUwMzQsImV4cCI6MjEwODM2MTAzNH0.03Xo3uww6rIThR5POiyV0G0JHUEK_gRdORQr5Ao_VsE";
+
+    const cliente = window.supabase.createClient(
+      SUPABASE_URL,
+      SUPABASE_ANON_KEY
+    );
+
+    const loginPainel = document.getElementById("loginPainel");
+    const adminPainel = document.getElementById("adminPainel");
+    const loginForm = document.getElementById("loginForm");
+    const loginMensagem = document.getElementById("loginMensagem");
+    const listaMensagem = document.getElementById("listaMensagem");
+    const listaPedidos = document.getElementById("listaPedidos");
+    const entrarBtn = document.getElementById("entrarBtn");
+    const sairBtn = document.getElementById("sairBtn");
+    const atualizarBtn = document.getElementById("atualizarBtn");
+
+    let adminConfirmado = false;
+    let carregando = false;
+
+    const statusPedidos = {
+      aguardando_confirmacao: "Aguardando confirmação",
+      confirmado: "Confirmado",
+      em_preparacao: "Em preparação",
+      enviado: "Enviado",
+      concluido: "Concluído",
+      cancelado: "Cancelado"
+    };
+
+    function escapar(valor) {
+      return String(valor ?? "").replace(/[&<>"']/g, caractere => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#39;"
+      })[caractere]);
+    }
+
+    function dinheiro(valor) {
+      return (Number(valor) || 0).toLocaleString("pt-BR", {
+        style: "currency",
+        currency: "BRL"
+      });
+    }
+
+    function mostrarMensagem(elemento, mensagem, tipo = "") {
+      elemento.textContent = mensagem;
+      elemento.className = "mensagem " + tipo;
+    }
+
+    function mostrarLogin() {
+      adminConfirmado = false;
+      loginPainel.hidden = false;
+      adminPainel.hidden = true;
+      sairBtn.hidden = true;
+      listaPedidos.innerHTML = "";
+    }
+
+    function mostrarPainel() {
+      loginPainel.hidden = true;
+      adminPainel.hidden = false;
+      sairBtn.hidden = false;
+    }
+
+    async function verificarAcesso() {
+      const { data: sessaoData } = await cliente.auth.getSession();
+      const sessao = sessaoData.session;
+
+      if (!sessao) {
+        mostrarLogin();
+        return false;
+      }
+
+      const { data, error } = await cliente.rpc("is_admin");
+
+      if (error || data !== true) {
+        await cliente.auth.signOut();
+        mostrarLogin();
+        mostrarMensagem(
+          loginMensagem,
+          "Acesso não autorizado. Entre com a conta de administrador.",
+          "erro"
+        );
+        return false;
+      }
+
+      adminConfirmado = true;
+      mostrarPainel();
+      return true;
+    }
+
+    loginForm.addEventListener("submit", async (evento) => {
+      evento.preventDefault();
+
+      entrarBtn.disabled = true;
+      mostrarMensagem(loginMensagem, "Verificando acesso...");
+
+      try {
+        const email = document.getElementById("email").value.trim();
+        const senha = document.getElementById("senha").value;
+
+        const { error } = await cliente.auth.signInWithPassword({
+          email,
+          password: senha
+        });
+
+        if (error) {
+          mostrarMensagem(
+            loginMensagem,
+            "Não foi possível entrar. Confira o e-mail e a senha.",
+            "erro"
+          );
+          return;
+        }
+
+        const autorizado = await verificarAcesso();
+
+        if (autorizado) {
+          mostrarMensagem(loginMensagem, "");
+          await carregarPedidos();
+        }
+      } catch (erro) {
+        mostrarMensagem(
+          loginMensagem,
+          "Erro ao verificar acesso: " + erro.message,
+          "erro"
+        );
+      } finally {
+        entrarBtn.disabled = false;
+      }
+    });
+
+    sairBtn.addEventListener("click", async () => {
+      adminConfirmado = false;
+      await cliente.auth.signOut();
+      mostrarLogin();
+      mostrarMensagem(loginMensagem, "Você saiu da administração.");
+    });
+
+    atualizarBtn.addEventListener("click", carregarPedidos);
+
+    async function carregarPedidos() {
+      if (!adminConfirmado || carregando) return;
+
+      carregando = true;
+      atualizarBtn.disabled = true;
+      mostrarMensagem(listaMensagem, "Carregando pedidos...");
+      listaPedidos.innerHTML = "";
+
+      try {
+        const autorizado = await verificarAcesso();
+        if (!autorizado) return;
+
+        const { data: pedidos, error } = await cliente
+          .from("pedidos")
+          .select("id, criado_em, itens, total, status")
+          .order("criado_em", { ascending: false });
+
+        if (error) throw error;
+
+        if (!pedidos || pedidos.length === 0) {
+          mostrarMensagem(listaMensagem, "Nenhum pedido encontrado.");
+          return;
+        }
+
+        mostrarMensagem(
+          listaMensagem,
+          pedidos.length + (pedidos.length === 1
+            ? " pedido encontrado."
+            : " pedidos encontrados."),
+          "sucesso"
+        );
+
+        listaPedidos.innerHTML = pedidos.map(pedido => {
+          const itens = Array.isArray(pedido.itens) ? pedido.itens : [];
+          const data = pedido.criado_em
+            ? new Date(pedido.criado_em).toLocaleString("pt-BR")
+            : "Data não informada";
+
+          const statusAtual = statusPedidos[pedido.status]
+            ? pedido.status
+            : "aguardando_confirmacao";
+
+          const itensHTML = itens.length
+            ? itens.map(item => `
+                <li>
+                  ${escapar(item.nome || "Produto")}
+                  — quantidade: ${escapar(item.quantidade ?? 1)}
+                  — ${dinheiro(item.subtotal)}
+                </li>
+              `).join("")
+            : "<li>Detalhes dos itens não disponíveis.</li>";
+
+          const opcoes = Object.entries(statusPedidos).map(([valor, nome]) => `
+            <option value="${valor}" ${valor === statusAtual ? "selected" : ""}>
+              ${nome}
+            </option>
+          `).join("");
+
+          return `
+            <article class="pedido">
+              <div class="linha">
+                <h2>Pedido #${escapar(pedido.id)}</h2>
+                <span class="muted">${escapar(data)}</span>
+              </div>
+
+              <p><strong>Status:</strong> ${escapar(
+                statusPedidos[statusAtual]
+              )}</p>
+
+              <h3>Produtos</h3>
+              <ul class="itens">${itensHTML}</ul>
+
+              <p class="total">Total: ${dinheiro(pedido.total)}</p>
+
+              <div class="status-area">
+                <label for="status-${escapar(pedido.id)}">
+                  <strong>Alterar status do pedido</strong>
+                </label>
+
+                <select
+                  class="status-select"
+                  id="status-${escapar(pedido.id)}"
+                  data-pedido-id="${escapar(pedido.id)}"
+                >
+                  ${opcoes}
+                </select>
+
+                <p class="muted">A mudança será salva no banco de dados.</p>
+              </div>
+            </article>
+          `;
+        }).join("");
+
+        listaPedidos.querySelectorAll(".status-select").forEach(select => {
+          select.addEventListener("change", async () => {
+            await atualizarStatusPedido(
+              select.dataset.pedidoId,
+              select.value,
+              select
+            );
+          });
+        });
+
+      } catch (erro) {
+        mostrarMensagem(
+          listaMensagem,
+          "Não foi possível carregar os pedidos. " + erro.message,
+          "erro"
+        );
+      } finally {
+        carregando = false;
+        atualizarBtn.disabled = false;
+      }
+    }
+
+    async function atualizarStatusPedido(id, novoStatus, select) {
+      if (!adminConfirmado) {
+        mostrarMensagem(listaMensagem, "Entre como administrador novamente.", "erro");
+        return;
+      }
+
+      if (!Object.prototype.hasOwnProperty.call(statusPedidos, novoStatus)) {
+        mostrarMensagem(listaMensagem, "Status inválido.", "erro");
+        return;
+      }
+
+      select.disabled = true;
+      mostrarMensagem(listaMensagem, "Salvando alteração...");
+
+      try {
+        const autorizado = await verificarAcesso();
+        if (!autorizado) return;
+
+        const { error } = await cliente
+          .from("pedidos")
+          .update({ status: novoStatus })
+          .eq("id", id);
+
+        if (error) throw error;
+
+        mostrarMensagem(listaMensagem, "Status atualizado!", "sucesso");
+        await carregarPedidos();
+      } catch (erro) {
+        mostrarMensagem(
+          listaMensagem,
+          "Não foi possível atualizar o pedido: " + erro.message,
+          "erro"
+        );
+        select.disabled = false;
+      }
+    }
+
+    cliente.auth.onAuthStateChange((evento, sessao) => {
+      if (evento === "SIGNED_OUT" || !sessao) {
+        adminConfirmado = false;
+        mostrarLogin();
+      }
+    });
+
+    (async () => {
+      const autorizado = await verificarAcesso();
+      if (autorizado) await carregarPedidos();
+    })();
+  </script>
+</body>
+</html>
