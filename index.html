@@ -1349,15 +1349,20 @@ function mostrarToast(mensagem) {
   }, 2500);
 }
 
-    function adicionarCarrinho(id) {
-  const produto = produtos.find(p => String(p.id) === String(id));
-  const noCarrinho = carrinho.find(p => String(p.id) === String(id));
-  const quantidade = noCarrinho ? noCarrinho.quantidade : 0;
+    
+function adicionarCarrinho(id) {
+  const produto = produtos.find(
+    p => String(p.id) === String(id)
+  );
 
-  if (!produto || quantidade >= produto.estoque) {
-    alert("Não há estoque suficiente.");
+  if (!produto) {
+    alert("Produto não encontrado.");
     return;
   }
+
+  const noCarrinho = carrinho.find(
+    p => String(p.id) === String(id)
+  );
 
   if (noCarrinho) {
     noCarrinho.quantidade++;
@@ -1373,8 +1378,8 @@ function mostrarToast(mensagem) {
   salvarCarrinho();
   mostrarCarrinho();
   mostrarToast(`${produto.nome} foi adicionado ao carrinho!`);
-    }
-      
+}
+
 
     
     
