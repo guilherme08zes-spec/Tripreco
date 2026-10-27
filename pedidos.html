@@ -625,6 +625,28 @@
         const statusAtual = Object.hasOwn(statusPedidos, pedido.status)
           ? pedido.status
           : "aguardando_confirmacao";
+        const nomeCliente = escapar(pedido.nome_cliente || "Nome não informado");
+const telefoneCliente = escapar(pedido.telefone_cliente || "Telefone não informado");
+
+const tipoRetirada = pedido.tipo_retirada === "reserva"
+  ? "Reserva por até 7 dias"
+  : pedido.tipo_retirada === "hoje"
+    ? "Retirar hoje"
+    : "Não informado";
+
+const observacoes = pedido.observacoes
+  ? escapar(pedido.observacoes)
+  : "Nenhuma";
+
+const dadosClienteHTML = `
+  <div class="cliente-info">
+    <h3>Dados do cliente</h3>
+    <p><strong>Nome:</strong> ${nomeCliente}</p>
+    <p><strong>WhatsApp:</strong> ${telefoneCliente}</p>
+    <p><strong>Retirada:</strong> ${tipoRetirada}</p>
+    <p><strong>Observações:</strong> ${observacoes}</p>
+  </div>
+`;
 
         const itensHTML = itens.length
           ? itens.map(item => `
