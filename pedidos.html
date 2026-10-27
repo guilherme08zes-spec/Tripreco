@@ -1,273 +1,353 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#e50920">
   <title>TriPreço | Pedidos</title>
 
-  
-<style>
-  * {
-    box-sizing: border-box;
-  }
+  <style>
+    * { box-sizing: border-box; }
 
-  :root {
-    --vermelho: #e5232e;
-    --vermelho-escuro: #bd1822;
-    --preto: #171717;
-    --fundo: #f4f5f7;
-    --cinza: #6b7280;
-    --borda: #e8e8ec;
-  }
+    :root {
+      --red: #f0142f;
+      --bg: #080a0c;
+      --card: #0d1013;
+      --border: #242a30;
+      --text: #f5f5f6;
+      --muted: #8c98a5;
+      --green: #00c781;
+      --blue: #12aaff;
+    }
 
-  body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: var(--fundo);
-    color: var(--preto);
-    line-height: 1.5;
-  }
+    [hidden] { display: none !important; }
 
-  header {
-    background: linear-gradient(135deg, #e5232e, #bd1822);
-    color: white;
-    padding: 25px 18px;
-    box-shadow: 0 4px 15px #e5232e26;
-  }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font: 14px/1.5 Arial, sans-serif;
+    }
 
-  .topo {
-    max-width: 1000px;
-    margin: auto;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 14px;
-    flex-wrap: wrap;
-  }
+    button, input, select { font: inherit; }
+    button, select { cursor: pointer; }
 
-  h1 {
-    margin: 0;
-    font-size: 27px;
-    letter-spacing: -0.6px;
-  }
-
-  h1 span {
-    color: white;
-  }
-
-  header p {
-    margin: 6px 0 0;
-    color: #ffe9e9;
-    font-size: 14px;
-  }
-
-  main {
-    width: min(1000px, 100%);
-    margin: 25px auto;
-    padding: 0 16px 35px;
-  }
-
-  .painel,
-  .pedido {
-    background: white;
-    padding: 21px;
-    border: 1px solid var(--borda);
-    border-radius: 16px;
-    margin-bottom: 17px;
-    box-shadow: 0 4px 14px #17171708;
-  }
-
-  .painel h2,
-  .pedido h2 {
-    margin-top: 0;
-    margin-bottom: 12px;
-    font-size: 19px;
-  }
-
-  input,
-  button,
-  select {
-    font: inherit;
-    padding: 12px 14px;
-    border-radius: 9px;
-  }
-
-  input {
-    display: block;
-    width: 100%;
-    border: 1px solid #d5d5dc;
-    margin: 10px 0;
-    background: white;
-    color: var(--preto);
-    outline: none;
-  }
-
-  input:focus,
-  select:focus {
-    border-color: var(--vermelho);
-    box-shadow: 0 0 0 3px #e5232e18;
-    outline: none;
-  }
-
-  button {
-    border: none;
-    background: var(--vermelho);
-    color: white;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background .2s, transform .2s;
-  }
-
-  button:hover {
-    background: var(--vermelho-escuro);
-  }
-
-  button:active {
-    transform: scale(.98);
-  }
-
-  button:disabled {
-    opacity: .6;
-    cursor: not-allowed;
-  }
-
-  .botao-secundario {
-    background: var(--preto);
-    white-space: nowrap;
-  }
-
-  .botao-secundario:hover {
-    background: #333;
-  }
-
-  .mensagem {
-    margin-top: 12px;
-    overflow-wrap: anywhere;
-  }
-
-  .erro {
-    color: #c51e28;
-  }
-
-  .sucesso {
-    color: #187443;
-  }
-
-  .linha {
-    display: flex;
-    justify-content: space-between;
-    gap: 12px;
-    flex-wrap: wrap;
-    align-items: center;
-  }
-
-  .muted {
-    color: var(--cinza);
-    font-size: 14px;
-  }
-
-  .itens {
-    padding: 12px 12px 12px 32px;
-    line-height: 1.8;
-    background: #f8f8fa;
-    border-radius: 10px;
-    overflow-wrap: anywhere;
-  }
-
-  .total {
-    font-size: 23px;
-    font-weight: 800;
-    color: var(--vermelho);
-    margin: 16px 0;
-  }
-
-  .status-select {
-    width: 100%;
-    margin-top: 8px;
-    border: 1px solid #d5d5dc;
-    background: white;
-    color: var(--preto);
-    cursor: pointer;
-  }
-
-  .status-area {
-    margin-top: 16px;
-    padding-top: 16px;
-    border-top: 1px solid var(--borda);
-  }
-
-  #listaPedidos {
-    margin-top: 20px;
-  }
-
-  /* Destaque do título da lista, se existir */
-  #listaPedidos:empty {
-    margin-top: 0;
-  }
-
-  .pedido {
-    position: relative;
-    overflow: hidden;
-  }
-
-  .pedido::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 5px;
-    height: 100%;
-    background: var(--vermelho);
-  }
-
-  .pedido h2 {
-    overflow-wrap: anywhere;
-  }
-
-  @media (max-width: 600px) {
     header {
-      padding: 22px 16px;
+      background: var(--red);
+      color: #080808;
+      padding: 15px 18px;
     }
 
     .topo {
-      align-items: flex-start;
+      max-width: 1050px;
+      margin: auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
     }
 
     h1 {
-      font-size: 23px;
+      font-size: 25px;
+      line-height: 1.2;
+      margin: 0;
+      font-weight: 900;
+      letter-spacing: -1px;
+    }
+
+    h1 span { color: #fff; }
+
+    header p {
+      margin: 4px 0 0;
+      font-size: 12px;
+      opacity: .85;
+    }
+
+    button {
+      border: 1px solid var(--red);
+      border-radius: 8px;
+      padding: 9px 13px;
+      background: var(--red);
+      color: white;
+      font-weight: 700;
+    }
+
+    button:disabled { opacity: .5; }
+
+    .sair {
+      background: #090a0c;
+      border-color: #090a0c;
+      white-space: nowrap;
     }
 
     main {
-      margin-top: 17px;
-      padding: 0 11px 25px;
+      width: min(1050px, 100%);
+      margin: 22px auto;
+      padding: 0 16px 35px;
     }
 
-    .painel,
-    .pedido {
-      padding: 17px 15px;
-      border-radius: 13px;
+    .painel, .pedido, .resumo {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+    }
+
+    .painel {
+      padding: 17px;
+      margin-bottom: 18px;
+    }
+
+    h2, h3, p { overflow-wrap: anywhere; }
+
+    h2 {
+      margin: 0 0 7px;
+      font-size: 19px;
+      letter-spacing: -.3px;
+    }
+
+    h3 {
+      font-size: 13px;
+      margin: 14px 0 7px;
+    }
+
+    .muted {
+      color: var(--muted);
+      font-size: 12px;
     }
 
     .linha {
-      align-items: stretch;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
     }
 
-    .linha button {
-      width: 100%;
+    .mensagem {
+      margin: 12px 0 0;
+      font-size: 13px;
+      overflow-wrap: anywhere;
     }
+
+    .erro { color: #ff6875; }
+    .sucesso { color: var(--green); }
+
+    input, select {
+      min-width: 0;
+      background: #090c0f;
+      color: var(--text);
+      border: 1px solid #303740;
+      border-radius: 8px;
+      padding: 10px 11px;
+      outline: none;
+    }
+
+    input:focus, select:focus {
+      border-color: var(--red);
+    }
+
+    input::placeholder { color: #72808d; }
+
+    .campo {
+      width: 100%;
+      margin: 8px 0;
+    }
+
+    .resumos {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+      margin: 17px 0;
+    }
+
+    .resumo {
+      padding: 13px;
+      min-width: 0;
+    }
+
+    .resumo strong {
+      display: block;
+      color: var(--red);
+      font-size: 25px;
+      line-height: 1.2;
+      margin-bottom: 5px;
+    }
+
+    .resumo span {
+      display: block;
+      color: #b9c2ca;
+      font-size: 12px;
+    }
+
+    .filtros {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 170px;
+      gap: 9px;
+      margin: 15px 0 18px;
+    }
+
+    #listaPedidos {
+      display: grid;
+      gap: 10px;
+    }
+
+    .pedido {
+      position: relative;
+      padding: 14px 14px 14px 17px;
+      overflow: hidden;
+    }
+
+    .pedido::before {
+      content: "";
+      position: absolute;
+      inset: 0 auto 0 0;
+      width: 4px;
+      background: var(--red);
+    }
+
+    .pedido-topo {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 9px;
+      flex-wrap: wrap;
+    }
+
+    .codigo {
+      color: var(--red);
+      font-size: 15px;
+      font-weight: 800;
+      overflow-wrap: anywhere;
+    }
+
+    .data {
+      color: var(--muted);
+      font-size: 11px;
+      margin-top: 3px;
+    }
+
+    .status {
+      display: inline-block;
+      border-radius: 30px;
+      padding: 4px 9px;
+      font-size: 11px;
+      font-weight: 700;
+      background: #261015;
+      color: #ff6875;
+      border: 1px solid #58202a;
+    }
+
+    .status.confirmado,
+    .status.concluido {
+      color: var(--green);
+      background: #06251b;
+      border-color: #10563e;
+    }
+
+    .status.enviado {
+      color: var(--blue);
+      background: #061e2c;
+      border-color: #104b70;
+    }
+
+    .status.em_preparacao {
+      color: #ffc65c;
+      background: #2a200c;
+      border-color: #67501b;
+    }
+
+    .detalhes {
+      margin-top: 12px;
+      padding-top: 10px;
+      border-top: 1px solid #20262c;
+    }
+
+    .itens {
+      padding-left: 18px;
+      margin: 6px 0;
+      color: #d4d9df;
+      font-size: 12px;
+    }
+
+    .itens li { margin: 5px 0; }
 
     .total {
-      font-size: 21px;
+      color: var(--red);
+      font-size: 19px;
+      font-weight: 800;
+      margin: 8px 0 12px;
     }
 
-    input,
-    select,
-    button {
-      min-height: 44px;
+    .status-area {
+      border-top: 1px solid #20262c;
+      padding-top: 11px;
+      margin-top: 10px;
     }
-  }
-</style>
 
+    .status-area label {
+      display: block;
+      font-size: 12px;
+      color: #b9c2ca;
+      margin-bottom: 5px;
+    }
+
+    .status-select {
+      width: 100%;
+      font-size: 12px;
+      padding: 10px;
+    }
+
+    .vazio {
+      padding: 25px 12px;
+      text-align: center;
+      color: var(--muted);
+      border: 1px dashed #303740;
+      border-radius: 10px;
+    }
+
+    @media (max-width: 600px) {
+      header { padding: 13px 14px; }
+
+      h1 { font-size: 22px; }
+
+      header p { font-size: 11px; }
+
+      main {
+        margin: 15px auto;
+        padding: 0 11px 25px;
+      }
+
+      .painel { padding: 13px; }
+
+      h2 { font-size: 17px; }
+
+      .resumos {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 8px;
+        margin: 12px 0;
+      }
+
+      .resumo { padding: 11px; }
+
+      .resumo strong { font-size: 22px; }
+
+      .resumo span { font-size: 11px; }
+
+      .filtros {
+        grid-template-columns: 1fr;
+        gap: 8px;
+      }
+
+      .pedido { padding: 12px 11px 12px 14px; }
+
+      .codigo { font-size: 14px; }
+
+      .total { font-size: 18px; }
+
+      .botao-atualizar { padding: 9px 10px; }
+    }
+  </style>
 </head>
 
 <body>
@@ -277,33 +357,21 @@
         <h1>Tri<span>Preço</span></h1>
         <p>Gerenciamento de pedidos</p>
       </div>
-      <button id="sairBtn" class="botao-secundario" hidden>
-        Sair
-      </button>
+      <button id="sairBtn" class="sair" hidden>Sair</button>
     </div>
   </header>
 
   <main>
     <section id="loginPainel" class="painel">
-      <h2>Entrar como administrador</h2>
-      <p>Use o mesmo e-mail e a mesma senha do administrador da loja.</p>
+      <h2>Entrar na administração</h2>
+      <p class="muted">Use seu e-mail e sua senha de administrador.</p>
 
       <form id="loginForm">
-        <input
-          id="email"
-          type="email"
-          placeholder="Seu e-mail"
-          autocomplete="username"
-          required
-        >
+        <input id="email" class="campo" type="email"
+          placeholder="Seu e-mail" autocomplete="username" required>
 
-        <input
-          id="senha"
-          type="password"
-          placeholder="Sua senha"
-          autocomplete="current-password"
-          required
-        >
+        <input id="senha" class="campo" type="password"
+          placeholder="Sua senha" autocomplete="current-password" required>
 
         <button id="entrarBtn" type="submit" style="width:100%">
           Entrar
@@ -317,14 +385,48 @@
       <div class="painel">
         <div class="linha">
           <div>
-            <h2 style="margin-bottom:6px">Pedidos da loja</h2>
+            <h2>Gerenciar pedidos</h2>
             <p class="muted" style="margin:0">
-              Confira as compras e atualize o andamento de cada pedido.
+              Acompanhe as vendas da sua loja.
             </p>
           </div>
-          <button id="atualizarBtn" class="botao-secundario">
-            Atualizar lista
+          <button id="atualizarBtn" class="botao-atualizar">
+            Atualizar
           </button>
+        </div>
+
+        <div class="resumos">
+          <div class="resumo">
+            <strong id="totalPedidos">0</strong>
+            <span>Total de pedidos</span>
+          </div>
+          <div class="resumo">
+            <strong id="aguardandoPedidos">0</strong>
+            <span>Aguardando</span>
+          </div>
+          <div class="resumo">
+            <strong id="confirmadosPedidos">0</strong>
+            <span>Confirmados</span>
+          </div>
+          <div class="resumo">
+            <strong id="enviadosPedidos">0</strong>
+            <span>Enviados</span>
+          </div>
+        </div>
+
+        <div class="filtros">
+          <input id="buscaPedido" type="search"
+            placeholder="Buscar pelo código ou produto...">
+
+          <select id="filtroStatus" aria-label="Filtrar por status">
+            <option value="">Todos os status</option>
+            <option value="aguardando_confirmacao">Aguardando</option>
+            <option value="confirmado">Confirmado</option>
+            <option value="em_preparacao">Em preparação</option>
+            <option value="enviado">Enviado</option>
+            <option value="concluido">Concluído</option>
+            <option value="cancelado">Cancelado</option>
+          </select>
         </div>
 
         <p id="listaMensagem" class="mensagem" role="status"></p>
@@ -339,25 +441,30 @@
   <script>
     const SUPABASE_URL = "https://dowcydjnopmksxiixefm.supabase.co";
 
+    // Mantenha aqui a mesma chave anon que já estava no seu arquivo.
     const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRvd2N5ZGpub3Bta3N4aWl4ZWZtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTI3ODUwMzQsImV4cCI6MjEwODM2MTAzNH0.03Xo3uww6rIThR5POiyV0G0JHUEK_gRdORQr5Ao_VsE";
 
     const cliente = window.supabase.createClient(
-      SUPABASE_URL,
-      SUPABASE_ANON_KEY
+      SUPABASE_URL, SUPABASE_ANON_KEY
     );
 
-    const loginPainel = document.getElementById("loginPainel");
-    const adminPainel = document.getElementById("adminPainel");
-    const loginForm = document.getElementById("loginForm");
-    const loginMensagem = document.getElementById("loginMensagem");
-    const listaMensagem = document.getElementById("listaMensagem");
-    const listaPedidos = document.getElementById("listaPedidos");
-    const entrarBtn = document.getElementById("entrarBtn");
-    const sairBtn = document.getElementById("sairBtn");
-    const atualizarBtn = document.getElementById("atualizarBtn");
+    const $ = id => document.getElementById(id);
+
+    const loginPainel = $("loginPainel");
+    const adminPainel = $("adminPainel");
+    const loginForm = $("loginForm");
+    const loginMensagem = $("loginMensagem");
+    const listaMensagem = $("listaMensagem");
+    const listaPedidos = $("listaPedidos");
+    const entrarBtn = $("entrarBtn");
+    const sairBtn = $("sairBtn");
+    const atualizarBtn = $("atualizarBtn");
+    const buscaPedido = $("buscaPedido");
+    const filtroStatus = $("filtroStatus");
 
     let adminConfirmado = false;
     let carregando = false;
+    let pedidosGuardados = [];
 
     const statusPedidos = {
       aguardando_confirmacao: "Aguardando confirmação",
@@ -369,29 +476,26 @@
     };
 
     function escapar(valor) {
-      return String(valor ?? "").replace(/[&<>"']/g, caractere => ({
-        "&": "&amp;",
-        "<": "&lt;",
-        ">": "&gt;",
-        '"': "&quot;",
-        "'": "&#39;"
-      })[caractere]);
+      return String(valor ?? "").replace(/[&<>"']/g, c => ({
+        "&": "&amp;", "<": "&lt;", ">": "&gt;",
+        '"': "&quot;", "'": "&#39;"
+      })[c]);
     }
 
     function dinheiro(valor) {
       return (Number(valor) || 0).toLocaleString("pt-BR", {
-        style: "currency",
-        currency: "BRL"
+        style: "currency", currency: "BRL"
       });
     }
 
-    function mostrarMensagem(elemento, mensagem, tipo = "") {
-      elemento.textContent = mensagem;
-      elemento.className = "mensagem " + tipo;
+    function mostrarMensagem(el, mensagem, tipo = "") {
+      el.textContent = mensagem;
+      el.className = "mensagem " + tipo;
     }
 
     function mostrarLogin() {
       adminConfirmado = false;
+      pedidosGuardados = [];
       loginPainel.hidden = false;
       adminPainel.hidden = true;
       sairBtn.hidden = true;
@@ -405,10 +509,10 @@
     }
 
     async function verificarAcesso() {
-      const { data: sessaoData } = await cliente.auth.getSession();
-      const sessao = sessaoData.session;
+      const { data: sessaoData, error: sessaoErro } =
+        await cliente.auth.getSession();
 
-      if (!sessao) {
+      if (sessaoErro || !sessaoData.session) {
         mostrarLogin();
         return false;
       }
@@ -431,19 +535,15 @@
       return true;
     }
 
-    loginForm.addEventListener("submit", async (evento) => {
+    loginForm.addEventListener("submit", async evento => {
       evento.preventDefault();
-
       entrarBtn.disabled = true;
       mostrarMensagem(loginMensagem, "Verificando acesso...");
 
       try {
-        const email = document.getElementById("email").value.trim();
-        const senha = document.getElementById("senha").value;
-
         const { error } = await cliente.auth.signInWithPassword({
-          email,
-          password: senha
+          email: $("email").value.trim(),
+          password: $("senha").value
         });
 
         if (error) {
@@ -455,31 +555,139 @@
           return;
         }
 
-        const autorizado = await verificarAcesso();
-
-        if (autorizado) {
+        if (await verificarAcesso()) {
           mostrarMensagem(loginMensagem, "");
           await carregarPedidos();
         }
       } catch (erro) {
-        mostrarMensagem(
-          loginMensagem,
-          "Erro ao verificar acesso: " + erro.message,
-          "erro"
-        );
+        mostrarMensagem(loginMensagem, "Erro ao entrar: " + erro.message, "erro");
       } finally {
         entrarBtn.disabled = false;
       }
     });
 
     sairBtn.addEventListener("click", async () => {
-      adminConfirmado = false;
       await cliente.auth.signOut();
       mostrarLogin();
       mostrarMensagem(loginMensagem, "Você saiu da administração.");
     });
 
     atualizarBtn.addEventListener("click", carregarPedidos);
+    buscaPedido.addEventListener("input", renderizarPedidos);
+    filtroStatus.addEventListener("change", renderizarPedidos);
+
+    function atualizarResumo(pedidos) {
+      $("totalPedidos").textContent = pedidos.length;
+      $("aguardandoPedidos").textContent = pedidos.filter(
+        p => p.status === "aguardando_confirmacao"
+      ).length;
+      $("confirmadosPedidos").textContent = pedidos.filter(
+        p => p.status === "confirmado"
+      ).length;
+      $("enviadosPedidos").textContent = pedidos.filter(
+        p => p.status === "enviado"
+      ).length;
+    }
+
+    function renderizarPedidos() {
+      const busca = buscaPedido.value.trim().toLocaleLowerCase("pt-BR");
+      const statusFiltro = filtroStatus.value;
+
+      const filtrados = pedidosGuardados.filter(pedido => {
+        const itens = Array.isArray(pedido.itens) ? pedido.itens : [];
+        const codigo = String(pedido.id || "").slice(0, 6);
+        const nomes = itens.map(i => i.nome || "Produto").join(" ");
+        const correspondeBusca =
+          !busca ||
+          codigo.toLocaleLowerCase("pt-BR").includes(busca) ||
+          String(pedido.id).toLocaleLowerCase("pt-BR").includes(busca) ||
+          nomes.toLocaleLowerCase("pt-BR").includes(busca);
+
+        return correspondeBusca &&
+          (!statusFiltro || pedido.status === statusFiltro);
+      });
+
+      if (!filtrados.length) {
+        listaPedidos.innerHTML =
+          '<div class="vazio">Nenhum pedido corresponde à pesquisa.</div>';
+        return;
+      }
+
+      listaPedidos.innerHTML = filtrados.map(pedido => {
+        const itens = Array.isArray(pedido.itens) ? pedido.itens : [];
+        const data = pedido.criado_em
+          ? new Date(pedido.criado_em).toLocaleString("pt-BR", {
+              day: "2-digit", month: "2-digit", year: "numeric",
+              hour: "2-digit", minute: "2-digit"
+            })
+          : "Data não informada";
+
+        const statusAtual = Object.hasOwn(statusPedidos, pedido.status)
+          ? pedido.status
+          : "aguardando_confirmacao";
+
+        const itensHTML = itens.length
+          ? itens.map(item => `
+              <li>
+                ${escapar(item.nome || "Produto")} —
+                qtd. ${escapar(item.quantidade ?? 1)}
+                ${item.subtotal != null ? " — " + dinheiro(item.subtotal) : ""}
+              </li>
+            `).join("")
+          : "<li>Detalhes dos itens não disponíveis.</li>";
+
+        const opcoes = Object.entries(statusPedidos).map(([valor, nome]) => `
+          <option value="${valor}" ${valor === statusAtual ? "selected" : ""}>
+            ${nome}
+          </option>
+        `).join("");
+
+        // Exibe só os primeiros 6 caracteres do UUID.
+        const codigoCurto = String(pedido.id || "").slice(0, 6).toUpperCase();
+
+        return `
+          <article class="pedido">
+            <div class="pedido-topo">
+              <div>
+                <div class="codigo">Pedido #${escapar(codigoCurto)}</div>
+                <div class="data">${escapar(data)}</div>
+              </div>
+
+              <span class="status ${escapar(statusAtual)}">
+                ${escapar(statusPedidos[statusAtual])}
+              </span>
+            </div>
+
+            <div class="detalhes">
+              <h3>Produtos (${itens.length})</h3>
+              <ul class="itens">${itensHTML}</ul>
+
+              <p class="total">${dinheiro(pedido.total)}</p>
+
+              <div class="status-area">
+                <label for="status-${escapar(pedido.id)}">
+                  Atualizar andamento
+                </label>
+
+                <select class="status-select"
+                  id="status-${escapar(pedido.id)}"
+                  data-pedido-id="${escapar(pedido.id)}">
+                  ${opcoes}
+                </select>
+              </div>
+            </div>
+          </article>
+        `;
+      }).join("");
+
+      listaPedidos.querySelectorAll(".status-select").forEach(select => {
+        select.addEventListener("change", async () => {
+          await atualizarStatusPedido(
+            select.dataset.pedidoId, select.value, select
+          );
+        });
+      });
+    }
 
     async function carregarPedidos() {
       if (!adminConfirmado || carregando) return;
@@ -487,11 +695,9 @@
       carregando = true;
       atualizarBtn.disabled = true;
       mostrarMensagem(listaMensagem, "Carregando pedidos...");
-      listaPedidos.innerHTML = "";
 
       try {
-        const autorizado = await verificarAcesso();
-        if (!autorizado) return;
+        if (!(await verificarAcesso())) return;
 
         const { data: pedidos, error } = await cliente
           .from("pedidos")
@@ -500,94 +706,21 @@
 
         if (error) throw error;
 
-        if (!pedidos || pedidos.length === 0) {
-          mostrarMensagem(listaMensagem, "Nenhum pedido encontrado.");
-          return;
-        }
+        pedidosGuardados = pedidos || [];
+        atualizarResumo(pedidosGuardados);
+        renderizarPedidos();
 
         mostrarMensagem(
           listaMensagem,
-          pedidos.length + (pedidos.length === 1
-            ? " pedido encontrado."
-            : " pedidos encontrados."),
+          pedidosGuardados.length === 1
+            ? "1 pedido encontrado."
+            : `${pedidosGuardados.length} pedidos encontrados.`,
           "sucesso"
         );
-
-        listaPedidos.innerHTML = pedidos.map(pedido => {
-          const itens = Array.isArray(pedido.itens) ? pedido.itens : [];
-          const data = pedido.criado_em
-            ? new Date(pedido.criado_em).toLocaleString("pt-BR")
-            : "Data não informada";
-
-          const statusAtual = statusPedidos[pedido.status]
-            ? pedido.status
-            : "aguardando_confirmacao";
-
-          const itensHTML = itens.length
-            ? itens.map(item => `
-                <li>
-                  ${escapar(item.nome || "Produto")}
-                  — quantidade: ${escapar(item.quantidade ?? 1)}
-                  — ${dinheiro(item.subtotal)}
-                </li>
-              `).join("")
-            : "<li>Detalhes dos itens não disponíveis.</li>";
-
-          const opcoes = Object.entries(statusPedidos).map(([valor, nome]) => `
-            <option value="${valor}" ${valor === statusAtual ? "selected" : ""}>
-              ${nome}
-            </option>
-          `).join("");
-
-          return `
-            <article class="pedido">
-              <div class="linha">
-                <h2>Pedido #${escapar(pedido.id)}</h2>
-                <span class="muted">${escapar(data)}</span>
-              </div>
-
-              <p><strong>Status:</strong> ${escapar(
-                statusPedidos[statusAtual]
-              )}</p>
-
-              <h3>Produtos</h3>
-              <ul class="itens">${itensHTML}</ul>
-
-              <p class="total">Total: ${dinheiro(pedido.total)}</p>
-
-              <div class="status-area">
-                <label for="status-${escapar(pedido.id)}">
-                  <strong>Alterar status do pedido</strong>
-                </label>
-
-                <select
-                  class="status-select"
-                  id="status-${escapar(pedido.id)}"
-                  data-pedido-id="${escapar(pedido.id)}"
-                >
-                  ${opcoes}
-                </select>
-
-                <p class="muted">A mudança será salva no banco de dados.</p>
-              </div>
-            </article>
-          `;
-        }).join("");
-
-        listaPedidos.querySelectorAll(".status-select").forEach(select => {
-          select.addEventListener("change", async () => {
-            await atualizarStatusPedido(
-              select.dataset.pedidoId,
-              select.value,
-              select
-            );
-          });
-        });
-
       } catch (erro) {
         mostrarMensagem(
           listaMensagem,
-          "Não foi possível carregar os pedidos. " + erro.message,
+          "Não foi possível carregar os pedidos: " + erro.message,
           "erro"
         );
       } finally {
@@ -611,15 +744,18 @@
       mostrarMensagem(listaMensagem, "Salvando alteração...");
 
       try {
-        const autorizado = await verificarAcesso();
-        if (!autorizado) return;
+        if (!(await verificarAcesso())) return;
 
-        const { error } = await cliente
+        const { data, error } = await cliente
           .from("pedidos")
           .update({ status: novoStatus })
-          .eq("id", id);
+          .eq("id", id)
+          .select("id");
 
         if (error) throw error;
+        if (!data || data.length === 0) {
+          throw new Error("Nenhum pedido foi atualizado. Verifique as permissões.");
+        }
 
         mostrarMensagem(listaMensagem, "Status atualizado!", "sucesso");
         await carregarPedidos();
@@ -641,8 +777,7 @@
     });
 
     (async () => {
-      const autorizado = await verificarAcesso();
-      if (autorizado) await carregarPedidos();
+      if (await verificarAcesso()) await carregarPedidos();
     })();
   </script>
 </body>
