@@ -700,8 +700,7 @@
         if (!(await verificarAcesso())) return;
 
         const { data: pedidos, error } = await cliente
-          .from("pedidos")
-          .select("id, criado_em, itens, total, status")
+          .select("id, criado_em, itens, total, status, nome_cliente, telefone_cliente, observacoes, tipo_retirada, prazo_retirada, codigo")
           .order("criado_em", { ascending: false });
 
         if (error) throw error;
