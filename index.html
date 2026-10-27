@@ -1527,9 +1527,14 @@ if (!session) {
     usuario: session.user.id
   });
 
-  
 if (!error && data === true) {
   adminConfirmado = true;
+}
+
+const linkPedidos = document.getElementById("link-pedidos");
+
+if (linkPedidos) {
+  linkPedidos.hidden = !adminConfirmado;
 }
 
 if (adminConfirmado) {
