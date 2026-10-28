@@ -1345,7 +1345,7 @@ preco.textContent = dinheiro(produto.preco);
 const botao = document.createElement("button");
 botao.className = "btn-vermelho";
 botao.textContent = "ADICIONAR";
-botao.disabled = produto.estoque <= 0;
+botao.disabled = false;
 botao.addEventListener("click", () => adicionarCarrinho(produto));
 
 card.append(imagem, nome, descricao, preco, botao);
@@ -1377,18 +1377,21 @@ function mostrarToast(mensagem) {
 }
 
     function adicionarCarrinho(idOuProduto) {
-  const produto = typeof idOuProduto === "object" && idOuProduto !== null
-    ? idOuProduto
-    : produtos.find(p => String(p.id) === String(idOuProduto));
+  const produto =
+    typeof idOuProduto === "object" && idOuProduto !== null
+      ? idOuProduto
+      : produtos.find(
+          p => String(p.id) === String(idOuProduto)
+        );
 
   if (!produto) {
-    alert("Produto não encontrado na lista.");
+    alert("Produto não encontrado.");
     return;
   }
 
   const noCarrinho = carrinho.find(
-  p => String(p.id) === String(produto.id)
-);
+    p => String(p.id) === String(produto.id)
+  );
 
   if (noCarrinho) {
     noCarrinho.quantidade++;
@@ -1396,7 +1399,7 @@ function mostrarToast(mensagem) {
     carrinho.push({
       id: produto.id,
       nome: produto.nome,
-      preco: produto.preco,
+      preco: Number(produto.preco),
       quantidade: 1
     });
   }
@@ -1404,9 +1407,7 @@ function mostrarToast(mensagem) {
   salvarCarrinho();
   mostrarCarrinho();
   mostrarToast(`${produto.nome} foi adicionado ao carrinho!`);
-}
-
-
+    }
     
     
 function removerCarrinho(id) {
