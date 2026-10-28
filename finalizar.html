@@ -581,9 +581,9 @@ document.querySelectorAll('input[name="tipo-retirada"]')
     const telefone = document.getElementById("telefone-cliente").value.trim();
     const observacoes =
       document.getElementById("observacoes-pedido").value.trim();
-    const tipo = formulario.querySelector(
-      'input[name="tipo-retirada"]:checked'
-    )?.value;
+    const tipo = document.querySelector(
+  'input[name="tipo-retirada"]:checked'
+)?.value;
     
 const cidade = cidadeEntrega.value;
 const bairro = bairroEntrega.value.trim();
