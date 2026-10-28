@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -33,6 +34,10 @@
       background: var(--fundo);
       color: var(--preto);
       line-height: 1.5;
+    }
+
+    body.modal-aberto {
+      overflow: hidden;
     }
 
     .container {
@@ -130,32 +135,6 @@
       margin-top: 12px;
       color: var(--vinho);
       font-weight: bold;
-    }
-
-    .aviso {
-      padding: 20px;
-      margin-bottom: 20px;
-      background: var(--vinho-claro);
-      border: 1px solid #E6D3DA;
-      border-left: 5px solid var(--vinho);
-      border-radius: 13px;
-      line-height: 1.7;
-    }
-
-    .aviso h2 {
-      margin: 0 0 12px;
-      color: var(--vinho);
-      font-size: 17px;
-    }
-
-    .aviso p {
-      margin: 10px 0 0;
-      color: #51454A;
-      font-size: 14px;
-    }
-
-    .aviso strong {
-      color: var(--vinho-escuro);
     }
 
     .campo {
@@ -308,9 +287,144 @@
       text-align: center;
     }
 
+    /* BOTÃO DISCRETO DO AVISO */
+    .botao-aviso {
+      position: fixed;
+      right: 12px;
+      bottom: 12px;
+      z-index: 1000;
+      max-width: calc(100vw - 24px);
+      padding: 10px 13px;
+      border: 1px solid #DCC9D0;
+      border-radius: 10px;
+      background: #FFFFFF;
+      color: var(--vinho);
+      font-family: inherit;
+      font-size: 12px;
+      font-weight: bold;
+      line-height: 1.4;
+      text-align: center;
+      cursor: pointer;
+      box-shadow: 0 3px 12px rgba(25, 23, 25, 0.12);
+    }
+
+    .botao-aviso:hover {
+      background: var(--vinho-claro);
+    }
+
+    /* FUNDO ESCURO DA JANELA */
+    .modal-fundo {
+      position: fixed;
+      inset: 0;
+      z-index: 2000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 18px;
+      background: rgba(25, 23, 25, 0.55);
+    }
+
+    .modal-fundo[hidden] {
+      display: none;
+    }
+
+    /* JANELA DO AVISO */
+    .modal-aviso {
+      width: 100%;
+      max-width: 440px;
+      max-height: 85vh;
+      overflow-y: auto;
+      padding: 22px;
+      border: 1px solid var(--borda);
+      border-radius: 16px;
+      background: #FFFFFF;
+      box-shadow: 0 15px 45px rgba(0, 0, 0, 0.2);
+      animation: aparecer 0.18s ease-out;
+    }
+
+    .modal-cabecalho {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 16px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--borda);
+    }
+
+    .modal-cabecalho h2 {
+      margin: 0;
+      color: var(--vinho);
+      font-size: 19px;
+      line-height: 1.4;
+    }
+
+    .botao-fechar {
+      flex-shrink: 0;
+      width: 34px;
+      height: 34px;
+      padding: 0;
+      border: 0;
+      border-radius: 8px;
+      background: var(--vinho-claro);
+      color: var(--vinho);
+      font-size: 23px;
+      line-height: 1;
+      cursor: pointer;
+    }
+
+    .botao-fechar:hover {
+      background: #EBDCE2;
+    }
+
+    .modal-aviso p {
+      margin: 0 0 15px;
+      color: #51454A;
+      font-size: 14px;
+      line-height: 1.7;
+    }
+
+    .modal-aviso p:last-of-type {
+      margin-bottom: 20px;
+    }
+
+    .modal-aviso strong {
+      color: var(--vinho-escuro);
+    }
+
+    .botao-entendi {
+      width: 100%;
+      min-height: 46px;
+      padding: 12px 16px;
+      border: 0;
+      border-radius: 10px;
+      background: var(--vinho);
+      color: #FFFFFF;
+      font-family: inherit;
+      font-size: 15px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .botao-entendi:hover {
+      background: var(--vinho-escuro);
+    }
+
+    @keyframes aparecer {
+      from {
+        opacity: 0;
+        transform: translateY(8px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
     @media (max-width: 400px) {
       body {
-        padding: 15px 12px 24px;
+        padding: 15px 12px 75px;
       }
 
       .cartao {
@@ -322,10 +436,6 @@
         font-size: 27px;
       }
 
-      .aviso {
-        padding: 16px;
-      }
-
       .opcao {
         padding: 13px;
       }
@@ -333,11 +443,16 @@
       #resumo-carrinho h3 {
         font-size: 17px;
       }
+
+      .modal-aviso {
+        padding: 18px;
+      }
     }
 
     @media (min-width: 768px) {
       body {
         padding-top: 35px;
+        padding-bottom: 75px;
       }
 
       .topo {
@@ -346,6 +461,22 @@
 
       .cartao {
         padding: 25px;
+      }
+
+      .botao-aviso {
+        right: 20px;
+        bottom: 20px;
+        font-size: 13px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        animation-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
       }
     }
   </style>
@@ -374,17 +505,6 @@
     <!-- FORMA DE RECEBIMENTO -->
     <section class="cartao">
       <h2>Como deseja receber?</h2>
-
-      <label class="opcao">
-        <input
-          type="radio"
-          name="tipo-retirada"
-          value="reserva"
-          required
-        >
-        <strong>Reservar por até 7 dias</strong><br>
-        Tenho até uma semana para retirar o produto.
-      </label>
 
       <label class="opcao">
         <input
@@ -470,28 +590,65 @@
       </div>
     </section>
 
-    <!-- AVISO -->
-    <section class="aviso">
-      <h2>Leia antes de finalizar sua compra</h2>
+    <!-- JANELA COM O AVISO DA COMPRA -->
+    <button
+      type="button"
+      class="botao-aviso"
+      id="abrir-aviso"
+      aria-haspopup="dialog"
+      aria-controls="modal-aviso"
+    >
+      Leia antes de finalizar sua compra
+    </button>
 
-      <p>
-        <strong>Reserva por 7 dias:</strong>
-        o produto ficará reservado por até 7 dias após a confirmação.
-        Se não for retirado nesse prazo, a reserva poderá ser cancelada.
-      </p>
+    <div
+      class="modal-fundo"
+      id="modal-aviso"
+      hidden
+    >
+      <section
+        class="modal-aviso"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="titulo-aviso"
+        tabindex="-1"
+      >
+        <div class="modal-cabecalho">
+          <h2 id="titulo-aviso">
+            Leia antes de finalizar sua compra
+          </h2>
 
-      <p>
-        <strong>Retirada hoje:</strong>
-        combine a retirada para o dia do pedido. Se houver imprevisto,
-        entre em contato com a loja.
-      </p>
+          <button
+            type="button"
+            class="botao-fechar"
+            id="fechar-aviso"
+            aria-label="Fechar aviso"
+          >
+            ×
+          </button>
+        </div>
 
-      <p>
-        <strong>Entrega em casa:</strong>
-        a taxa e a disponibilidade serão confirmadas pela loja
-        antes de combinar a entrega.
-      </p>
-    </section>
+        <p>
+          <strong>Retirada hoje:</strong>
+          combine a retirada para o dia do pedido. Se houver
+          algum imprevisto, entre em contato com a loja.
+        </p>
+
+        <p>
+          <strong>Entrega em casa:</strong>
+          a taxa e a disponibilidade serão confirmadas pela loja
+          antes de combinar a entrega.
+        </p>
+
+        <button
+          type="button"
+          class="botao-entendi"
+          id="entendi-aviso"
+        >
+          Entendi, continuar
+        </button>
+      </section>
+    </div>
 
     <!-- FORMULÁRIO DO CLIENTE -->
     <form id="formulario-pedido">
@@ -576,6 +733,45 @@
     const numeroEntrega = document.getElementById("numero-entrega");
     const complementoEntrega =
       document.getElementById("complemento-entrega");
+
+    // ELEMENTOS DA JANELA DE AVISO
+    const abrirAviso = document.getElementById("abrir-aviso");
+    const modalAviso = document.getElementById("modal-aviso");
+    const janelaAviso = modalAviso.querySelector(".modal-aviso");
+    const fecharAviso = document.getElementById("fechar-aviso");
+    const entendiAviso = document.getElementById("entendi-aviso");
+
+    // ABRIR A JANELA
+    function abrirModalAviso() {
+      modalAviso.hidden = false;
+      document.body.classList.add("modal-aberto");
+      fecharAviso.focus();
+    }
+
+    // FECHAR A JANELA
+    function fecharModalAviso() {
+      modalAviso.hidden = true;
+      document.body.classList.remove("modal-aberto");
+      abrirAviso.focus();
+    }
+
+    abrirAviso.addEventListener("click", abrirModalAviso);
+    fecharAviso.addEventListener("click", fecharModalAviso);
+    entendiAviso.addEventListener("click", fecharModalAviso);
+
+    // FECHAR AO TOCAR FORA DA JANELA
+    modalAviso.addEventListener("click", evento => {
+      if (evento.target === modalAviso) {
+        fecharModalAviso();
+      }
+    });
+
+    // FECHAR COM A TECLA ESC
+    document.addEventListener("keydown", evento => {
+      if (evento.key === "Escape" && !modalAviso.hidden) {
+        fecharModalAviso();
+      }
+    });
 
     // FORMATAÇÃO DE PREÇOS
     function dinheiro(valor) {
@@ -741,7 +937,7 @@
       }
 
       // ENVIA APENAS O ID E A QUANTIDADE.
-      // O servidor deve conferir os preços atuais.
+      // O SERVIDOR DEVE CONFERIR OS PREÇOS ATUAIS.
       const itens = carrinho.map(item => ({
         id: Number(item.id),
         quantidade: Number(item.quantidade)
@@ -827,15 +1023,8 @@
           }`
         ).join("\n");
 
-        let formaRecebimento = "";
-
-        if (tipo === "entrega") {
-          formaRecebimento = "Entrega";
-        } else if (tipo === "reserva") {
-          formaRecebimento = "Reserva por até 7 dias";
-        } else {
-          formaRecebimento = "Retirada hoje";
-        }
+        const formaRecebimento =
+          tipo === "entrega" ? "Entrega em casa" : "Retirada hoje";
 
         let texto =
           `Olá! Quero confirmar meu pedido na TriPreço.\n\n` +
