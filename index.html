@@ -1387,8 +1387,8 @@ function mostrarToast(mensagem) {
   }
 
   const noCarrinho = carrinho.find(
-    p => String(p.id) === String(id)
-  );
+  p => String(p.id) === String(produto.id)
+);
 
   if (noCarrinho) {
     noCarrinho.quantidade++;
