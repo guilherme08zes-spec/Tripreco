@@ -499,6 +499,7 @@ body {
 
   const resumo = document.getElementById("resumo-carrinho");
   const formulario = document.getElementById("formulario-pedido");
+  
   const botao = document.getElementById("botao-confirmar");
   const mensagem = document.getElementById("mensagem");
   
@@ -600,6 +601,20 @@ formulario.querySelectorAll('input[name="tipo-retirada"]')
     const tipo = formulario.querySelector(
       'input[name="tipo-retirada"]:checked'
     )?.value;
+    
+const cidade = cidadeEntrega.value;
+const bairro = bairroEntrega.value.trim();
+const rua = ruaEntrega.value.trim();
+const numero = numeroEntrega.value.trim();
+const complemento = complementoEntrega.value.trim();
+
+if (tipo === "entrega") {
+  if (!cidade || !bairro || !rua || !numero) {
+    mensagem.textContent = "Preencha todos os campos obrigatórios do endereço.";
+    return;
+  }
+}
+
 
     if (nome.length < 2 || telefone.replace(/\D/g, "").length < 8 || !tipo) {
       mensagem.textContent = "Confira seu nome, telefone e retirada.";
@@ -633,14 +648,20 @@ formulario.querySelectorAll('input[name="tipo-retirada"]')
           "apikey": SUPABASE_ANON_KEY,
              "Authorization": "Bearer " + SUPABASE_ANON_KEY
         },
-        body: JSON.stringify({
-          nome_cliente: nome,
-          telefone_cliente: telefone,
-          observacoes,
-          tipo_retirada: tipo,
-          itens
-        })
-      });
+        
+body: JSON.stringify({
+  nome_cliente: nome,
+  telefone_cliente: telefone,
+  observacoes,
+  tipo_retirada: tipo,
+  cidade_entrega: tipo === "entrega" ? cidade : "",
+  bairro_entrega: tipo === "entrega" ? bairro : "",
+  rua_entrega: tipo === "entrega" ? rua : "",
+  numero_entrega: tipo === "entrega" ? numero : "",
+  complemento_entrega: tipo === "entrega" ? complemento : "",
+  itens
+})
+
 
       const resultado = await resposta.json();
 
@@ -666,7 +687,20 @@ formulario.querySelectorAll('input[name="tipo-retirada"]')
         `Olá! Quero confirmar meu pedido na TriPreço.\n\n` +
         `Código: ${pedido.codigo}\n` +
         `Nome: ${nome}\n` +
-        `Retirada: ${tipo === "reserva" ? "Reserva por até 7 dias" : "Hoje"}\n\n` +
+        
+`Forma de recebimento: ${
+  tipo === "entrega"
+    ? "Entrega"
+    : tipo === "reserva"
+      ? "Reserva por até 7 dias"
+      : "Retirada hoje"
+}\n` +
+(tipo === "entrega"
+  ? `Endereço: ${rua}, ${numero}\nBairro: ${bairro}\nCidade: ${cidade}\n` +
+    (complemento ? `Complemento: ${complemento}\n` : "") +
+    `Taxa de entrega: a confirmar com a loja\n`
+  : "") +
+
         `Produtos:\n${textoItens}\n\n` +
         `Total: ${dinheiro(pedido.total)}\n` +
         (observacoes ? `Observações: ${observacoes}\n` : "") +
@@ -693,6 +727,7 @@ formulario.querySelectorAll('input[name="tipo-retirada"]')
   });
 
   mostrarResumoPedido();
+  atualizarCamposEntrega();
 </script>
 </body>
 </html>
