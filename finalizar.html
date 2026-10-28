@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -8,710 +7,897 @@
   <title>Finalizar pedido | TriPreço</title>
 
   <style>
+    * {
+      box-sizing: border-box;
+    }
 
-* {
-  box-sizing: border-box;
-}
+    :root {
+      --vinho: #641D32;
+      --vinho-escuro: #481324;
+      --vinho-claro: #F5EDF0;
+      --preto: #191719;
+      --branco: #FFFFFF;
+      --fundo: #F8F7F7;
+      --borda: #E9E3E5;
+      --texto-secundario: #777177;
+    }
 
-:root {
-  --vinho: #641D32;
-  --vinho-escuro: #481324;
-  --vinho-claro: #F5EDF0;
-  --preto: #191719;
-  --branco: #FFFFFF;
-  --fundo: #F8F7F7;
-  --borda: #E9E3E5;
-  --texto-secundario: #777177;
-}
+    html {
+      scroll-behavior: smooth;
+    }
 
-html {
-  scroll-behavior: smooth;
-}
+    body {
+      margin: 0;
+      padding: 20px 16px 30px;
+      font-family: Arial, Helvetica, sans-serif;
+      background: var(--fundo);
+      color: var(--preto);
+      line-height: 1.5;
+    }
 
-body {
-  margin: 0;
-  padding: 20px 16px 30px;
-  font-family: Arial, Helvetica, sans-serif;
-  background: var(--fundo);
-  color: var(--preto);
-  line-height: 1.5;
-}
+    .container {
+      width: 100%;
+      max-width: 680px;
+      margin: 0 auto;
+    }
 
-.container {
-  width: 100%;
-  max-width: 680px;
-  margin: 0 auto;
-}
+    .topo {
+      margin-bottom: 25px;
+    }
 
-/* Cabeçalho */
-.topo {
-  margin-bottom: 25px;
-}
+    .topo a {
+      display: inline-flex;
+      align-items: center;
+      padding: 8px 0;
+      color: var(--vinho);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: bold;
+    }
 
-.topo a {
-  display: inline-flex;
-  align-items: center;
-  color: var(--vinho);
-  text-decoration: none;
-  font-size: 14px;
-  font-weight: bold;
-  padding: 8px 0;
-}
+    .topo a:hover {
+      color: var(--vinho-escuro);
+      text-decoration: underline;
+    }
 
-.topo a:hover {
-  color: var(--vinho-escuro);
-  text-decoration: underline;
-}
+    .topo h1 {
+      margin: 24px 0 8px;
+      color: var(--preto);
+      font-size: clamp(27px, 6vw, 34px);
+      line-height: 1.2;
+      letter-spacing: -0.7px;
+    }
 
-.topo h1 {
-  margin: 24px 0 8px;
-  color: var(--preto);
-  font-size: clamp(27px, 6vw, 34px);
-  line-height: 1.2;
-  letter-spacing: -0.7px;
-}
+    .subtitulo {
+      margin: 0;
+      color: var(--texto-secundario);
+      font-size: 15px;
+      line-height: 1.7;
+    }
 
-.subtitulo {
-  margin: 0;
-  color: var(--texto-secundario);
-  font-size: 15px;
-  line-height: 1.7;
-}
+    .cartao {
+      padding: 22px;
+      margin-bottom: 18px;
+      background: var(--branco);
+      border: 1px solid var(--borda);
+      border-radius: 16px;
+      box-shadow: 0 4px 18px rgba(25, 23, 25, 0.035);
+    }
 
-/* Cartões principais */
-.cartao {
-  background: var(--branco);
-  border: 1px solid var(--borda);
-  border-radius: 16px;
-  padding: 22px;
-  margin-bottom: 18px;
-  box-shadow: 0 4px 18px rgba(25, 23, 25, 0.035);
-}
+    .cartao h2 {
+      margin: 0 0 20px;
+      padding-bottom: 13px;
+      border-bottom: 1px solid var(--borda);
+      color: var(--preto);
+      font-size: 19px;
+      font-weight: 700;
+    }
 
-.cartao h2 {
-  margin: 0 0 20px;
-  padding-bottom: 13px;
-  border-bottom: 1px solid var(--borda);
-  color: var(--preto);
-  font-size: 19px;
-  font-weight: 700;
-}
+    #resumo-carrinho {
+      overflow-wrap: anywhere;
+    }
 
-/* Resumo do pedido */
-#resumo-carrinho {
-  overflow-wrap: anywhere;
-}
+    #resumo-carrinho p {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      margin: 0;
+      padding: 12px 0;
+      border-bottom: 1px solid #F0ECEE;
+      font-size: 14px;
+      line-height: 1.6;
+    }
 
-#resumo-carrinho p {
-  display: flex;
-  justify-content: space-between;
-  gap: 12px;
-  margin: 0;
-  padding: 12px 0;
-  border-bottom: 1px solid #F0ECEE;
-  font-size: 14px;
-  line-height: 1.6;
-}
+    #resumo-carrinho hr {
+      margin: 16px 0;
+      border: 0;
+      border-top: 1px solid var(--borda);
+    }
 
-#resumo-carrinho hr {
-  border: 0;
-  border-top: 1px solid var(--borda);
-  margin: 16px 0;
-}
+    #resumo-carrinho h3 {
+      margin: 0;
+      padding: 15px;
+      background: var(--vinho-claro);
+      border-radius: 10px;
+      color: var(--vinho);
+      font-size: 19px;
+      line-height: 1.5;
+      overflow-wrap: anywhere;
+    }
 
-#resumo-carrinho h3 {
-  margin: 0;
-  padding: 15px;
-  background: var(--vinho-claro);
-  border-radius: 10px;
-  color: var(--vinho);
-  font-size: 19px;
-  line-height: 1.5;
-  overflow-wrap: anywhere;
-}
+    #resumo-carrinho a {
+      display: inline-block;
+      margin-top: 12px;
+      color: var(--vinho);
+      font-weight: bold;
+    }
 
-#resumo-carrinho a {
-  display: inline-block;
-  margin-top: 12px;
-  color: var(--vinho);
-  font-weight: bold;
-}
+    .aviso {
+      padding: 20px;
+      margin-bottom: 20px;
+      background: var(--vinho-claro);
+      border: 1px solid #E6D3DA;
+      border-left: 5px solid var(--vinho);
+      border-radius: 13px;
+      line-height: 1.7;
+    }
 
-/* Aviso de retirada */
-.aviso {
-  padding: 20px;
-  margin-bottom: 20px;
-  background: var(--vinho-claro);
-  border: 1px solid #E6D3DA;
-  border-left: 5px solid var(--vinho);
-  border-radius: 13px;
-  line-height: 1.7;
-}
+    .aviso h2 {
+      margin: 0 0 12px;
+      color: var(--vinho);
+      font-size: 17px;
+    }
 
-.aviso h2 {
-  margin: 0 0 12px;
-  color: var(--vinho);
-  font-size: 17px;
-}
+    .aviso p {
+      margin: 10px 0 0;
+      color: #51454A;
+      font-size: 14px;
+    }
 
-.aviso p {
-  margin: 10px 0 0;
-  color: #51454A;
-  font-size: 14px;
-}
+    .aviso strong {
+      color: var(--vinho-escuro);
+    }
 
-.aviso strong {
-  color: var(--vinho-escuro);
-}
+    .campo {
+      display: block;
+      margin-bottom: 19px;
+    }
 
-/* Campos do formulário */
-.campo {
-  display: block;
-  margin-bottom: 19px;
-}
+    .campo:last-child {
+      margin-bottom: 0;
+    }
 
-.campo:last-child {
-  margin-bottom: 0;
-}
+    .campo span {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--preto);
+      font-size: 14px;
+      font-weight: bold;
+    }
 
-.campo span {
-  display: block;
-  margin-bottom: 8px;
-  color: var(--preto);
-  font-size: 14px;
-  font-weight: bold;
-}
+    .campo input,
+    .campo textarea,
+    .campo select {
+      display: block;
+      width: 100%;
+      padding: 14px;
+      border: 1px solid #DCD5D8;
+      border-radius: 10px;
+      background: #FFFFFF;
+      color: var(--preto);
+      font-family: inherit;
+      font-size: 15px;
+      line-height: 1.5;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
 
-.campo input,
-.campo textarea {
-  display: block;
-  width: 100%;
-  padding: 14px;
-  border: 1px solid #DCD5D8;
-  border-radius: 10px;
-  background: #FFFFFF;
-  color: var(--preto);
-  font-family: inherit;
-  font-size: 15px;
-  line-height: 1.5;
-  outline: none;
-  transition: border-color 0.2s, box-shadow 0.2s;
-}
+    .campo input::placeholder,
+    .campo textarea::placeholder {
+      color: #A39BA0;
+    }
 
-.campo input::placeholder,
-.campo textarea::placeholder {
-  color: #A39BA0;
-}
+    .campo input:focus,
+    .campo textarea:focus,
+    .campo select:focus {
+      border-color: var(--vinho);
+      box-shadow: 0 0 0 3px rgba(100, 29, 50, 0.10);
+    }
 
-.campo input:focus,
-.campo textarea:focus {
-  border-color: var(--vinho);
-  box-shadow: 0 0 0 3px rgba(100, 29, 50, 0.10);
-}
+    .campo textarea {
+      resize: vertical;
+      min-height: 95px;
+    }
 
-.campo textarea {
-  resize: vertical;
-  min-height: 95px;
-}
+    .opcao {
+      display: block;
+      position: relative;
+      padding: 16px;
+      margin: 12px 0;
+      border: 1px solid var(--borda);
+      border-radius: 12px;
+      background: #FFFFFF;
+      color: var(--texto-secundario);
+      font-size: 14px;
+      line-height: 1.7;
+      cursor: pointer;
+      transition: border-color 0.2s, background 0.2s;
+    }
 
-/* Opções de retirada */
-.opcao {
-  display: block;
-  position: relative;
-  padding: 16px;
-  margin: 12px 0;
-  border: 1px solid var(--borda);
-  border-radius: 12px;
-  background: #FFFFFF;
-  color: var(--texto-secundario);
-  font-size: 14px;
-  line-height: 1.7;
-  cursor: pointer;
-  transition: border-color 0.2s, background 0.2s;
-}
+    .opcao:hover {
+      border-color: #C9A8B4;
+      background: #FCF9FA;
+    }
 
-.opcao:hover {
-  border-color: #C9A8B4;
-  background: #FCF9FA;
-}
+    .opcao:has(input:checked) {
+      border-color: var(--vinho);
+      background: var(--vinho-claro);
+    }
 
-.opcao:has(input:checked) {
-  border-color: var(--vinho);
-  background: var(--vinho-claro);
-}
+    .opcao input {
+      width: 17px;
+      height: 17px;
+      margin: 0 8px 0 0;
+      accent-color: var(--vinho);
+      vertical-align: middle;
+    }
 
-.opcao input {
-  width: 17px;
-  height: 17px;
-  margin: 0 8px 0 0;
-  accent-color: var(--vinho);
-  vertical-align: middle;
-}
+    .opcao strong {
+      color: var(--preto);
+      font-size: 15px;
+    }
 
-.opcao strong {
-  color: var(--preto);
-  font-size: 15px;
-}
+    #campos-entrega {
+      margin-top: 24px;
+      padding-top: 20px;
+      border-top: 1px solid var(--borda);
+    }
 
-/* Botão de confirmação */
-.botao {
-  display: block;
-  width: 100%;
-  min-height: 54px;
-  padding: 16px 20px;
-  border: 0;
-  border-radius: 12px;
-  background: var(--vinho);
-  color: #FFFFFF;
-  font-family: inherit;
-  font-size: 16px;
-  font-weight: bold;
-  text-align: center;
-  text-decoration: none;
-  cursor: pointer;
-  box-shadow: 0 5px 12px rgba(100, 29, 50, 0.16);
-  transition: background 0.2s, transform 0.2s;
-}
+    #campos-entrega[hidden] {
+      display: none;
+    }
 
-.botao:hover:not(:disabled) {
-  background: var(--vinho-escuro);
-  transform: translateY(-1px);
-}
+    #campos-entrega h3 {
+      margin: 0 0 18px;
+      font-size: 17px;
+    }
 
-.botao:active:not(:disabled) {
-  transform: translateY(0);
-}
+    .botao {
+      display: block;
+      width: 100%;
+      min-height: 54px;
+      padding: 16px 20px;
+      border: 0;
+      border-radius: 12px;
+      background: var(--vinho);
+      color: #FFFFFF;
+      font-family: inherit;
+      font-size: 16px;
+      font-weight: bold;
+      text-align: center;
+      cursor: pointer;
+      box-shadow: 0 5px 12px rgba(100, 29, 50, 0.16);
+      transition: background 0.2s, transform 0.2s;
+    }
 
-.botao:focus-visible {
-  outline: 3px solid #C9A8B4;
-  outline-offset: 3px;
-}
+    .botao:hover:not(:disabled) {
+      background: var(--vinho-escuro);
+      transform: translateY(-1px);
+    }
 
-.botao:disabled {
-  opacity: 0.65;
-  cursor: wait;
-  box-shadow: none;
-}
+    .botao:disabled {
+      opacity: 0.65;
+      cursor: not-allowed;
+      box-shadow: none;
+    }
 
-/* Mensagens de status */
-#mensagem {
-  margin: 14px 0;
-  color: var(--vinho);
-  font-size: 14px;
-  line-height: 1.7;
-  overflow-wrap: anywhere;
-}
+    #mensagem {
+      margin: 14px 0;
+      color: var(--vinho);
+      font-size: 14px;
+      line-height: 1.7;
+      overflow-wrap: anywhere;
+    }
 
-/* Rodapé */
-.rodape {
-  margin: 28px 0 8px;
-  padding-top: 18px;
-  border-top: 1px solid var(--borda);
-  color: var(--texto-secundario);
-  font-size: 12px;
-  text-align: center;
-}
+    .rodape {
+      margin: 28px 0 8px;
+      padding-top: 18px;
+      border-top: 1px solid var(--borda);
+      color: var(--texto-secundario);
+      font-size: 12px;
+      text-align: center;
+    }
 
-/* Celulares pequenos */
-@media (max-width: 400px) {
-  body {
-    padding: 15px 12px 24px;
-  }
+    @media (max-width: 400px) {
+      body {
+        padding: 15px 12px 24px;
+      }
 
-  .cartao {
-    padding: 17px;
-    border-radius: 13px;
-  }
+      .cartao {
+        padding: 17px;
+        border-radius: 13px;
+      }
 
-  .topo h1 {
-    font-size: 27px;
-  }
+      .topo h1 {
+        font-size: 27px;
+      }
 
-  .aviso {
-    padding: 16px;
-  }
+      .aviso {
+        padding: 16px;
+      }
 
-  .opcao {
-    padding: 13px;
-  }
+      .opcao {
+        padding: 13px;
+      }
 
-  #resumo-carrinho h3 {
-    font-size: 17px;
-  }
-}
+      #resumo-carrinho h3 {
+        font-size: 17px;
+      }
+    }
 
-/* Telas maiores */
-@media (min-width: 768px) {
-  body {
-    padding-top: 35px;
-  }
+    @media (min-width: 768px) {
+      body {
+        padding-top: 35px;
+      }
 
-  .topo {
-    margin-bottom: 30px;
-  }
+      .topo {
+        margin-bottom: 30px;
+      }
 
-  .cartao {
-    padding: 25px;
-  }
-}
-
+      .cartao {
+        padding: 25px;
+      }
+    }
   </style>
 </head>
 
 <body>
-<main class="container">
-  <header class="topo">
-    <a href="index.html">← Voltar à loja</a>
-    <h1>Finalizar pedido</h1>
-    <p class="subtitulo">
-      Confira seu pedido e informe seus dados para combinar
-      a retirada dos produtos na loja física.
-    </p>
-  </header>
+  <main class="container">
 
-  
-<section class="cartao">
-  <h2>Como deseja receber?</h2>
+    <header class="topo">
+      <a href="index.html">← Voltar à loja</a>
 
-  <label class="opcao">
-    <input type="radio" name="tipo-retirada" value="reserva" required>
-    <strong>Reservar por até 7 dias</strong><br>
-    Tenho até uma semana para retirar o produto.
-  </label>
+      <h1>Finalizar pedido</h1>
 
-  <label class="opcao">
-    <input type="radio" name="tipo-retirada" value="hoje" required>
-    <strong>Retirar hoje</strong><br>
-    Vou combinar a retirada para o dia do pedido.
-  </label>
+      <p class="subtitulo">
+        Confira seu pedido e informe seus dados para combinar
+        a retirada dos produtos ou receber em casa.
+      </p>
+    </header>
 
-  <label class="opcao">
-    <input type="radio" name="tipo-retirada" value="entrega" required>
-    <strong>Receber em casa</strong><br>
-    Entregas somente em Porto União (SC) e União da Vitória (PR).
-    A taxa será confirmada pela loja.
-  </label>
-
-  <div id="campos-entrega" hidden>
-    <h2 style="margin-top:24px">Endereço de entrega</h2>
-
-    <label class="campo">
-      <span>Cidade</span>
-      <select id="cidade-entrega" style="width:100%;padding:14px;border:1px solid #DCD5D8;border-radius:10px;font-size:15px">
-        <option value="">Selecione sua cidade</option>
-        <option value="Porto União">Porto União (SC)</option>
-        <option value="União da Vitória">União da Vitória (PR)</option>
-      </select>
-    </label>
-
-    <label class="campo">
-      <span>Bairro</span>
-      <input id="bairro-entrega" maxlength="100" placeholder="Nome do bairro">
-    </label>
-
-    <label class="campo">
-      <span>Rua ou avenida</span>
-      <input id="rua-entrega" maxlength="150" placeholder="Nome da rua">
-    </label>
-
-    <label class="campo">
-      <span>Número</span>
-      <input id="numero-entrega" maxlength="20" placeholder="Número da residência">
-    </label>
-
-    <label class="campo">
-      <span>Complemento (opcional)</span>
-      <input id="complemento-entrega" maxlength="150" placeholder="Casa, apartamento, referência...">
-    </label>
-
-    <p class="subtitulo">
-      O valor e a disponibilidade da entrega serão confirmados pela loja
-      pelo WhatsApp. O total exibido não inclui taxa de entrega.
-    </p>
-  </div>
-</section>
-
-  <section class="aviso">
-    <h2>Leia antes de finalizar sua compra</h2>
-    <p><strong>Reserva por 7 dias:</strong>
-      o produto ficará reservado por até 7 dias após a confirmação.
-      Se não for retirado nesse prazo, a reserva poderá ser cancelada.</p>
-    <p><strong>Retirada hoje:</strong>
-      combine a retirada para o dia do pedido. Se houver imprevisto,
-      entre em contato com a loja.</p>
-  </section>
-
-  <form id="formulario-pedido">
+    <!-- RESUMO DO PEDIDO -->
     <section class="cartao">
-      <h2>Seus dados</h2>
-
-      <label class="campo">
-        <span>Nome completo</span>
-        <input type="text" id="nome-cliente" maxlength="100"
-          autocomplete="name" placeholder="Digite seu nome completo" required>
-      </label>
-
-      <label class="campo">
-        <span>WhatsApp com DDD</span>
-        <input type="tel" id="telefone-cliente" maxlength="20"
-          autocomplete="tel" placeholder="(42) 99999-9999" required>
-      </label>
-
-      <label class="campo">
-        <span>Observações (opcional)</span>
-        <textarea id="observacoes-pedido" rows="3" maxlength="500"
-          placeholder="Alguma informação para a loja?"></textarea>
-      </label>
+      <h2>Resumo do pedido</h2>
+      <div id="resumo-carrinho"></div>
     </section>
 
-    
-    <button class="botao" id="botao-confirmar" type="submit">
-      Confirmar pedido
-    </button>
-    <p id="mensagem" role="status" aria-live="polite"></p>
+    <!-- FORMA DE RECEBIMENTO -->
+    <section class="cartao">
+      <h2>Como deseja receber?</h2>
 
-    <p class="rodape">TriPreço — sua compra, de um jeito simples.</p>
-  </form>
-</main>
+      <label class="opcao">
+        <input
+          type="radio"
+          name="tipo-retirada"
+          value="reserva"
+          required
+        >
+        <strong>Reservar por até 7 dias</strong><br>
+        Tenho até uma semana para retirar o produto.
+      </label>
 
-<script>
-  // Configuração pública do projeto Supabase.
-  const SUPABASE_URL = "https://dowcydjnopmksxiixefm.supabase.co";
-  const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRvd2N5ZGpub3Bta3N4aWl4ZWZtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTI3ODUwMzQsImV4cCI6MjEwODM2MTAzNH0.03Xo3uww6rIThR5POiyV0G0JHUEK_gRdORQr5Ao_VsE";
+      <label class="opcao">
+        <input
+          type="radio"
+          name="tipo-retirada"
+          value="hoje"
+          required
+        >
+        <strong>Retirar hoje</strong><br>
+        Vou combinar a retirada para o dia do pedido.
+      </label>
 
-  const WHATSAPP_LOJA = "5542920004897";
-  const ENDPOINT = SUPABASE_URL + "/functions/v1/smart-endpoint";
+      <label class="opcao">
+        <input
+          type="radio"
+          name="tipo-retirada"
+          value="entrega"
+          required
+        >
+        <strong>Receber em casa</strong><br>
+        Entregas somente em Porto União (SC) e
+        União da Vitória (PR). A taxa será confirmada pela loja.
+      </label>
 
-  const resumo = document.getElementById("resumo-carrinho");
-  const formulario = document.getElementById("formulario-pedido");
-  
-  const botao = document.getElementById("botao-confirmar");
-  const mensagem = document.getElementById("mensagem");
-  
-const camposEntrega = document.getElementById("campos-entrega");
-const cidadeEntrega = document.getElementById("cidade-entrega");
-const bairroEntrega = document.getElementById("bairro-entrega");
-const ruaEntrega = document.getElementById("rua-entrega");
-const numeroEntrega = document.getElementById("numero-entrega");
-const complementoEntrega = document.getElementById("complemento-entrega");
+      <!-- ENDEREÇO DE ENTREGA -->
+      <div id="campos-entrega" hidden>
+        <h3>Endereço de entrega</h3>
 
-function atualizarCamposEntrega() {
-  const tipo = document.querySelector(
-  'input[name="tipo-retirada"]:checked'
-)?.value;
-  
-  const entrega = tipo === "entrega";
-  camposEntrega.hidden = !entrega;
-  cidadeEntrega.required = entrega;
-  bairroEntrega.required = entrega;
-  ruaEntrega.required = entrega;
-  numeroEntrega.required = entrega;
-}
+        <label class="campo">
+          <span>Cidade</span>
+          <select id="cidade-entrega">
+            <option value="">Selecione sua cidade</option>
+            <option value="Porto União">Porto União (SC)</option>
+            <option value="União da Vitória">União da Vitória (PR)</option>
+          </select>
+        </label>
 
-document.querySelectorAll('input[name="tipo-retirada"]')
-  .forEach(radio => {
-    radio.addEventListener("change", atualizarCamposEntrega);
-  });
+        <label class="campo">
+          <span>Bairro</span>
+          <input
+            type="text"
+            id="bairro-entrega"
+            maxlength="100"
+            placeholder="Nome do bairro"
+          >
+        </label>
 
-  const dinheiro = valor => Number(valor).toLocaleString("pt-BR", {
-    style: "currency",
-    currency: "BRL"
-  });
+        <label class="campo">
+          <span>Rua ou avenida</span>
+          <input
+            type="text"
+            id="rua-entrega"
+            maxlength="150"
+            placeholder="Nome da rua"
+          >
+        </label>
 
-  function lerCarrinho() {
-    try {
-      const dados = JSON.parse(
-        localStorage.getItem("tripreco_carrinho") || "[]"
+        <label class="campo">
+          <span>Número</span>
+          <input
+            type="text"
+            id="numero-entrega"
+            maxlength="20"
+            placeholder="Número da residência"
+          >
+        </label>
+
+        <label class="campo">
+          <span>Complemento (opcional)</span>
+          <input
+            type="text"
+            id="complemento-entrega"
+            maxlength="150"
+            placeholder="Casa, apartamento, referência..."
+          >
+        </label>
+
+        <p class="subtitulo">
+          O valor e a disponibilidade da entrega serão confirmados
+          pela loja pelo WhatsApp. O total exibido não inclui
+          a taxa de entrega.
+        </p>
+      </div>
+    </section>
+
+    <!-- AVISO -->
+    <section class="aviso">
+      <h2>Leia antes de finalizar sua compra</h2>
+
+      <p>
+        <strong>Reserva por 7 dias:</strong>
+        o produto ficará reservado por até 7 dias após a confirmação.
+        Se não for retirado nesse prazo, a reserva poderá ser cancelada.
+      </p>
+
+      <p>
+        <strong>Retirada hoje:</strong>
+        combine a retirada para o dia do pedido. Se houver imprevisto,
+        entre em contato com a loja.
+      </p>
+
+      <p>
+        <strong>Entrega em casa:</strong>
+        a taxa e a disponibilidade serão confirmadas pela loja
+        antes de combinar a entrega.
+      </p>
+    </section>
+
+    <!-- FORMULÁRIO DO CLIENTE -->
+    <form id="formulario-pedido">
+      <section class="cartao">
+        <h2>Seus dados</h2>
+
+        <label class="campo">
+          <span>Nome completo</span>
+          <input
+            type="text"
+            id="nome-cliente"
+            maxlength="100"
+            autocomplete="name"
+            placeholder="Digite seu nome completo"
+            required
+          >
+        </label>
+
+        <label class="campo">
+          <span>WhatsApp com DDD</span>
+          <input
+            type="tel"
+            id="telefone-cliente"
+            maxlength="20"
+            autocomplete="tel"
+            placeholder="(42) 99999-9999"
+            required
+          >
+        </label>
+
+        <label class="campo">
+          <span>Observações (opcional)</span>
+          <textarea
+            id="observacoes-pedido"
+            rows="3"
+            maxlength="500"
+            placeholder="Alguma informação para a loja?"
+          ></textarea>
+        </label>
+      </section>
+
+      <button
+        class="botao"
+        id="botao-confirmar"
+        type="submit"
+      >
+        Confirmar pedido
+      </button>
+
+      <p id="mensagem" role="status" aria-live="polite"></p>
+
+      <p class="rodape">
+        TriPreço — sua compra, de um jeito simples.
+      </p>
+    </form>
+
+  </main>
+
+  <script>
+    // CONFIGURAÇÕES
+    const SUPABASE_URL =
+      "https://dowcydjnopmksxiixefm.supabase.co";
+
+    const SUPABASE_ANON_KEY =
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhbGciOiJIUzI1NiIsInJlZiI6ImRvd2N5ZGpub3Bta3N4aWl4ZWZtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTI3ODUwMzQsImV4cCI6MjEwODM2MTAzNH0.03Xo3uww6rIThR5POiyV0G0JHUEK_gRdORQr5Ao_VsE";
+
+    const WHATSAPP_LOJA = "5542920004897";
+
+    const ENDPOINT =
+      SUPABASE_URL + "/functions/v1/smart-endpoint";
+
+    // ELEMENTOS DA PÁGINA
+    const resumo = document.getElementById("resumo-carrinho");
+    const formulario = document.getElementById("formulario-pedido");
+    const botao = document.getElementById("botao-confirmar");
+    const mensagem = document.getElementById("mensagem");
+
+    const camposEntrega = document.getElementById("campos-entrega");
+    const cidadeEntrega = document.getElementById("cidade-entrega");
+    const bairroEntrega = document.getElementById("bairro-entrega");
+    const ruaEntrega = document.getElementById("rua-entrega");
+    const numeroEntrega = document.getElementById("numero-entrega");
+    const complementoEntrega =
+      document.getElementById("complemento-entrega");
+
+    // FORMATAÇÃO DE PREÇOS
+    function dinheiro(valor) {
+      return Number(valor).toLocaleString("pt-BR", {
+        style: "currency",
+        currency: "BRL"
+      });
+    }
+
+    // LÊ O CARRINHO SALVO NO NAVEGADOR
+    function lerCarrinho() {
+      try {
+        const dados = JSON.parse(
+          localStorage.getItem("tripreco_carrinho") || "[]"
+        );
+
+        return Array.isArray(dados) ? dados : [];
+      } catch (erro) {
+        return [];
+      }
+    }
+
+    // MOSTRA OU ESCONDE O ENDEREÇO
+    function atualizarCamposEntrega() {
+      const selecionado = document.querySelector(
+        'input[name="tipo-retirada"]:checked'
       );
-      return Array.isArray(dados) ? dados : [];
-    } catch {
-      return [];
-    }
-  }
 
-  function mostrarResumoPedido() {
-    const carrinho = lerCarrinho();
-    resumo.replaceChildren();
+      const tipo = selecionado ? selecionado.value : "";
+      const entrega = tipo === "entrega";
 
-    if (!carrinho.length) {
-      resumo.textContent = "Seu carrinho está vazio.";
-      botao.disabled = true;
+      camposEntrega.hidden = !entrega;
 
-      const voltar = document.createElement("a");
-      voltar.href = "index.html";
-      voltar.textContent = " Voltar à loja";
-      resumo.appendChild(voltar);
-      return;
+      cidadeEntrega.required = entrega;
+      bairroEntrega.required = entrega;
+      ruaEntrega.required = entrega;
+      numeroEntrega.required = entrega;
     }
 
-    let total = 0;
-
-    carrinho.forEach(item => {
-      const quantidade = Number(item.quantidade);
-      const preco = Number(item.preco);
-
-      if (!Number.isFinite(quantidade) || quantidade < 1 ||
-          !Number.isFinite(preco) || preco < 0) return;
-
-      const subtotal = preco * quantidade;
-      total += subtotal;
-
-      const linha = document.createElement("p");
-      linha.textContent =
-        `${item.nome} × ${quantidade} — ${dinheiro(subtotal)}`;
-      resumo.appendChild(linha);
-    });
-
-    const separador = document.createElement("hr");
-    const totalPedido = document.createElement("h3");
-    totalPedido.textContent = "Total estimado: " + dinheiro(total);
-    resumo.append(separador, totalPedido);
-  }
-
-  formulario.addEventListener("submit", async evento => {
-    evento.preventDefault();
-
-    const carrinho = lerCarrinho();
-    if (!carrinho.length) {
-      mensagem.textContent = "Seu carrinho está vazio.";
-      return;
-    }
-
-    const nome = document.getElementById("nome-cliente").value.trim();
-    const telefone = document.getElementById("telefone-cliente").value.trim();
-    const observacoes =
-      document.getElementById("observacoes-pedido").value.trim();
-    const tipo = document.querySelector(
-  'input[name="tipo-retirada"]:checked'
-)?.value;
-    
-const cidade = cidadeEntrega.value;
-const bairro = bairroEntrega.value.trim();
-const rua = ruaEntrega.value.trim();
-const numero = numeroEntrega.value.trim();
-const complemento = complementoEntrega.value.trim();
-
-if (tipo === "entrega") {
-  if (!cidade || !bairro || !rua || !numero) {
-    mensagem.textContent = "Preencha todos os campos obrigatórios do endereço.";
-    return;
-  }
-}
-
-
-    if (nome.length < 2 || telefone.replace(/\D/g, "").length < 8 || !tipo) {
-      mensagem.textContent = "Confira seu nome, telefone e retirada.";
-      return;
-    }
-
-    // O servidor consulta os preços atuais e calcula o total oficial.
-    const itens = carrinho.map(item => ({
-      id: Number(item.id),
-      quantidade: Number(item.quantidade)
-    }));
-
-    if (itens.some(item =>
-      !Number.isSafeInteger(item.id) || item.id <= 0 ||
-      !Number.isSafeInteger(item.quantidade) ||
-      item.quantidade < 1 || item.quantidade > 100
-    )) {
-      mensagem.textContent =
-        "Não foi possível validar os produtos do carrinho. Volte à loja e tente novamente.";
-      return;
-    }
-
-    botao.disabled = true;
-    botao.textContent = "Registrando pedido...";
-    mensagem.textContent = "Aguarde enquanto registramos seu pedido.";
-
-    try {
-      const resposta = await fetch(ENDPOINT, {
-        method: "POST",
-        headers: {
-          "apikey": SUPABASE_ANON_KEY,
-             "Authorization": "Bearer " + SUPABASE_ANON_KEY
-        },
-        
-body: JSON.stringify({
-  nome_cliente: nome,
-  telefone_cliente: telefone,
-  observacoes,
-  tipo_retirada: tipo,
-  cidade_entrega: tipo === "entrega" ? cidade : "",
-  bairro_entrega: tipo === "entrega" ? bairro : "",
-  rua_entrega: tipo === "entrega" ? rua : "",
-  numero_entrega: tipo === "entrega" ? numero : "",
-  complemento_entrega: tipo === "entrega" ? complemento : "",
-  itens
-})
+    document
+      .querySelectorAll('input[name="tipo-retirada"]')
+      .forEach(radio => {
+        radio.addEventListener("change", atualizarCamposEntrega);
       });
 
+    // MOSTRA O RESUMO DO PEDIDO
+    function mostrarResumoPedido() {
+      const carrinho = lerCarrinho();
 
-      const resultado = await resposta.json();
+      resumo.replaceChildren();
 
-      if (!resposta.ok || resultado.sucesso !== true || !resultado.pedido) {
-        throw new Error(
-          resultado.erro || "Não foi possível registrar o pedido."
-        );
+      if (!carrinho.length) {
+        resumo.textContent = "Seu carrinho está vazio.";
+
+        const voltar = document.createElement("a");
+        voltar.href = "index.html";
+        voltar.textContent = "Voltar à loja";
+
+        resumo.appendChild(voltar);
+        botao.disabled = true;
+
+        return;
       }
 
-      const pedido = resultado.pedido;
-      const linhas = pedido.itens || carrinho.map(item => ({
-        nome: item.nome,
-        quantidade: item.quantidade,
-        preco: item.preco,
-        subtotal: Number(item.preco) * Number(item.quantidade)
+      let total = 0;
+      let quantidadeItensValidos = 0;
+
+      carrinho.forEach(item => {
+        const quantidade = Number(item.quantidade);
+        const preco = Number(item.preco);
+
+        if (
+          !Number.isFinite(quantidade) ||
+          quantidade < 1 ||
+          !Number.isFinite(preco) ||
+          preco < 0
+        ) {
+          return;
+        }
+
+        const subtotal = preco * quantidade;
+        total += subtotal;
+        quantidadeItensValidos++;
+
+        const linha = document.createElement("p");
+
+        linha.textContent =
+          `${item.nome} × ${quantidade} — ${dinheiro(subtotal)}`;
+
+        resumo.appendChild(linha);
+      });
+
+      if (quantidadeItensValidos === 0) {
+        resumo.textContent =
+          "Não foi possível ler os produtos do carrinho.";
+
+        botao.disabled = true;
+        return;
+      }
+
+      const separador = document.createElement("hr");
+      const totalPedido = document.createElement("h3");
+
+      totalPedido.textContent =
+        "Total estimado: " + dinheiro(total);
+
+      resumo.append(separador, totalPedido);
+      botao.disabled = false;
+    }
+
+    // ENVIA O PEDIDO
+    formulario.addEventListener("submit", async evento => {
+      evento.preventDefault();
+
+      mensagem.textContent = "";
+
+      const carrinho = lerCarrinho();
+
+      if (!carrinho.length) {
+        mensagem.textContent = "Seu carrinho está vazio.";
+        return;
+      }
+
+      const nome =
+        document.getElementById("nome-cliente").value.trim();
+
+      const telefone =
+        document.getElementById("telefone-cliente").value.trim();
+
+      const observacoes =
+        document.getElementById("observacoes-pedido").value.trim();
+
+      const selecionado = document.querySelector(
+        'input[name="tipo-retirada"]:checked'
+      );
+
+      const tipo = selecionado ? selecionado.value : "";
+
+      const cidade = cidadeEntrega.value;
+      const bairro = bairroEntrega.value.trim();
+      const rua = ruaEntrega.value.trim();
+      const numero = numeroEntrega.value.trim();
+      const complemento = complementoEntrega.value.trim();
+
+      if (
+        nome.length < 2 ||
+        telefone.replace(/\D/g, "").length < 8 ||
+        !tipo
+      ) {
+        mensagem.textContent =
+          "Confira seu nome, telefone e forma de recebimento.";
+
+        return;
+      }
+
+      if (tipo === "entrega") {
+        if (!cidade || !bairro || !rua || !numero) {
+          mensagem.textContent =
+            "Preencha todos os campos obrigatórios do endereço.";
+
+          return;
+        }
+      }
+
+      // ENVIA APENAS O ID E A QUANTIDADE.
+      // O servidor deve conferir os preços atuais.
+      const itens = carrinho.map(item => ({
+        id: Number(item.id),
+        quantidade: Number(item.quantidade)
       }));
 
-      const textoItens = linhas.map(item =>
-        `• ${item.nome} × ${item.quantidade} — ${dinheiro(item.subtotal)}`
-      ).join("\n");
+      if (
+        itens.some(item =>
+          !Number.isSafeInteger(item.id) ||
+          item.id <= 0 ||
+          !Number.isSafeInteger(item.quantidade) ||
+          item.quantidade < 1 ||
+          item.quantidade > 100
+        )
+      ) {
+        mensagem.textContent =
+          "Não foi possível validar os produtos. Volte à loja e tente novamente.";
 
-      const texto =
-        `Olá! Quero confirmar meu pedido na TriPreço.\n\n` +
-        `Código: ${pedido.codigo}\n` +
-        `Nome: ${nome}\n` +
-        
-`Forma de recebimento: ${
-  tipo === "entrega"
-    ? "Entrega"
-    : tipo === "reserva"
-      ? "Reserva por até 7 dias"
-      : "Retirada hoje"
-}\n` +
-(tipo === "entrega"
-  ? `Endereço: ${rua}, ${numero}\nBairro: ${bairro}\nCidade: ${cidade}\n` +
-    (complemento ? `Complemento: ${complemento}\n` : "") +
-    `Taxa de entrega: a confirmar com a loja\n`
-  : "") +
+        return;
+      }
 
-        `Produtos:\n${textoItens}\n\n` +
-        `Total: ${dinheiro(pedido.total)}\n` +
-        (observacoes ? `Observações: ${observacoes}\n` : "") +
-        `\nAguardo a confirmação da loja.`;
+      botao.disabled = true;
+      botao.textContent = "Registrando pedido...";
 
       mensagem.textContent =
-        "Pedido registrado! Abrindo o WhatsApp para você combinar a retirada...";
+        "Aguarde enquanto registramos seu pedido.";
 
-      // Guarda o código para evitar reenviar por engano ao voltar à página.
-      localStorage.setItem("tripreco_ultimo_pedido", pedido.codigo);
+      try {
+        const resposta = await fetch(ENDPOINT, {
+          method: "POST",
 
-      const urlWhatsApp =
-        "https://wa.me/" + WHATSAPP_LOJA + "?text=" +
-        encodeURIComponent(texto);
+          headers: {
+            "Content-Type": "application/json",
+            "apikey": SUPABASE_ANON_KEY,
+            "Authorization": "Bearer " + SUPABASE_ANON_KEY
+          },
 
-      window.location.href = urlWhatsApp;
-    } catch (erro) {
-      mensagem.textContent =
-        (erro.message || "Ocorreu um erro.") +
-        " Confira a conexão e tente novamente. Se o pedido já tiver sido registrado, verifique com a loja antes de reenviar.";
-      botao.disabled = false;
-      botao.textContent = "Tentar novamente";
-    }
-  });
+          body: JSON.stringify({
+            nome_cliente: nome,
+            telefone_cliente: telefone,
+            observacoes: observacoes,
+            tipo_retirada: tipo,
 
-  mostrarResumoPedido();
-  atualizarCamposEntrega();
-</script>
+            cidade_entrega: tipo === "entrega" ? cidade : "",
+            bairro_entrega: tipo === "entrega" ? bairro : "",
+            rua_entrega: tipo === "entrega" ? rua : "",
+            numero_entrega: tipo === "entrega" ? numero : "",
+            complemento_entrega:
+              tipo === "entrega" ? complemento : "",
+
+            itens: itens
+          })
+        });
+
+        const resultado = await resposta.json();
+
+        if (
+          !resposta.ok ||
+          resultado.sucesso !== true ||
+          !resultado.pedido
+        ) {
+          throw new Error(
+            resultado.erro ||
+            "Não foi possível registrar o pedido."
+          );
+        }
+
+        const pedido = resultado.pedido;
+
+        const linhas = pedido.itens || carrinho.map(item => ({
+          nome: item.nome,
+          quantidade: item.quantidade,
+          preco: item.preco,
+          subtotal:
+            Number(item.preco) * Number(item.quantidade)
+        }));
+
+        const textoItens = linhas.map(item =>
+          `• ${item.nome} × ${item.quantidade} — ${
+            dinheiro(
+              item.subtotal ??
+              Number(item.preco) * Number(item.quantidade)
+            )
+          }`
+        ).join("\n");
+
+        let formaRecebimento = "";
+
+        if (tipo === "entrega") {
+          formaRecebimento = "Entrega";
+        } else if (tipo === "reserva") {
+          formaRecebimento = "Reserva por até 7 dias";
+        } else {
+          formaRecebimento = "Retirada hoje";
+        }
+
+        let texto =
+          `Olá! Quero confirmar meu pedido na TriPreço.\n\n` +
+          `Código: ${pedido.codigo}\n` +
+          `Nome: ${nome}\n` +
+          `WhatsApp: ${telefone}\n` +
+          `Forma de recebimento: ${formaRecebimento}\n`;
+
+        if (tipo === "entrega") {
+          texto +=
+            `Endereço: ${rua}, ${numero}\n` +
+            `Bairro: ${bairro}\n` +
+            `Cidade: ${cidade}\n`;
+
+          if (complemento) {
+            texto += `Complemento: ${complemento}\n`;
+          }
+
+          texto +=
+            "Taxa de entrega: a confirmar com a loja\n";
+        }
+
+        texto +=
+          `\nProdutos:\n${textoItens}\n\n` +
+          `Total dos produtos: ${dinheiro(pedido.total)}\n`;
+
+        if (observacoes) {
+          texto += `Observações: ${observacoes}\n`;
+        }
+
+        texto += "\nAguardo a confirmação da loja.";
+
+        mensagem.textContent =
+          "Pedido registrado! Abrindo o WhatsApp...";
+
+        localStorage.setItem(
+          "tripreco_ultimo_pedido",
+          String(pedido.codigo)
+        );
+
+        const urlWhatsApp =
+          "https://wa.me/" +
+          WHATSAPP_LOJA +
+          "?text=" +
+          encodeURIComponent(texto);
+
+        window.location.href = urlWhatsApp;
+
+      } catch (erro) {
+        mensagem.textContent =
+          (erro.message || "Ocorreu um erro.") +
+          " Confira sua conexão. Se o pedido já tiver sido registrado, " +
+          "verifique com a loja antes de tentar novamente.";
+
+        botao.disabled = false;
+        botao.textContent = "Tentar novamente";
+      }
+    });
+
+    // INICIALIZA A PÁGINA
+    mostrarResumoPedido();
+    atualizarCamposEntrega();
+  </script>
 </body>
 </html>
