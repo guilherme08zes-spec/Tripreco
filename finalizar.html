@@ -496,24 +496,22 @@ const numeroEntrega = document.getElementById("numero-entrega");
 const complementoEntrega = document.getElementById("complemento-entrega");
 
 function atualizarCamposEntrega() {
-  const tipo = formulario.querySelector(
-    'input[name="tipo-retirada"]:checked'
-  )?.value;
-
+  const tipo = document.querySelector(
+  'input[name="tipo-retirada"]:checked'
+)?.value;
+  
   const entrega = tipo === "entrega";
   camposEntrega.hidden = !entrega;
-
   cidadeEntrega.required = entrega;
   bairroEntrega.required = entrega;
   ruaEntrega.required = entrega;
   numeroEntrega.required = entrega;
 }
 
-formulario.querySelectorAll('input[name="tipo-retirada"]')
+document.querySelectorAll('input[name="tipo-retirada"]')
   .forEach(radio => {
     radio.addEventListener("change", atualizarCamposEntrega);
   });
-
 
   const dinheiro = valor => Number(valor).toLocaleString("pt-BR", {
     style: "currency",
