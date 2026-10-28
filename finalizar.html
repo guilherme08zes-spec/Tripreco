@@ -369,10 +369,67 @@ body {
     </p>
   </header>
 
-  <section class="cartao">
-    <h2>Seu pedido</h2>
-    <div id="resumo-carrinho">Carregando seu pedido...</div>
-  </section>
+  
+<section class="cartao">
+  <h2>Como deseja receber?</h2>
+
+  <label class="opcao">
+    <input type="radio" name="tipo-retirada" value="reserva" required>
+    <strong>Reservar por até 7 dias</strong><br>
+    Tenho até uma semana para retirar o produto.
+  </label>
+
+  <label class="opcao">
+    <input type="radio" name="tipo-retirada" value="hoje" required>
+    <strong>Retirar hoje</strong><br>
+    Vou combinar a retirada para o dia do pedido.
+  </label>
+
+  <label class="opcao">
+    <input type="radio" name="tipo-retirada" value="entrega" required>
+    <strong>Receber em casa</strong><br>
+    Entregas somente em Porto União (SC) e União da Vitória (PR).
+    A taxa será confirmada pela loja.
+  </label>
+
+  <div id="campos-entrega" hidden>
+    <h2 style="margin-top:24px">Endereço de entrega</h2>
+
+    <label class="campo">
+      <span>Cidade</span>
+      <select id="cidade-entrega" style="width:100%;padding:14px;border:1px solid #DCD5D8;border-radius:10px;font-size:15px">
+        <option value="">Selecione sua cidade</option>
+        <option value="Porto União">Porto União (SC)</option>
+        <option value="União da Vitória">União da Vitória (PR)</option>
+      </select>
+    </label>
+
+    <label class="campo">
+      <span>Bairro</span>
+      <input id="bairro-entrega" maxlength="100" placeholder="Nome do bairro">
+    </label>
+
+    <label class="campo">
+      <span>Rua ou avenida</span>
+      <input id="rua-entrega" maxlength="150" placeholder="Nome da rua">
+    </label>
+
+    <label class="campo">
+      <span>Número</span>
+      <input id="numero-entrega" maxlength="20" placeholder="Número da residência">
+    </label>
+
+    <label class="campo">
+      <span>Complemento (opcional)</span>
+      <input id="complemento-entrega" maxlength="150" placeholder="Casa, apartamento, referência...">
+    </label>
+
+    <p class="subtitulo">
+      O valor e a disponibilidade da entrega serão confirmados pela loja
+      pelo WhatsApp. O total exibido não inclui taxa de entrega.
+    </p>
+  </div>
+</section>
 
   <section class="aviso">
     <h2>Leia antes de finalizar sua compra</h2>
