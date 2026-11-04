@@ -1652,10 +1652,10 @@ async function cadastrarProduto() {
     return;
   }
 
-  if (arquivo && arquivo.size > 5 * 1024 * 1024) {
-    resultado.textContent = "A imagem deve ter no máximo 5 MB.";
-    return;
-  }
+if (arquivo && arquivo.size > 20 * 1024 * 1024) {
+  resultado.textContent = "A imagem deve ter no máximo 20 MB.";
+  return;
+}
 
   const botao = document.getElementById("botao-cadastrar");
   botao.disabled = true;
