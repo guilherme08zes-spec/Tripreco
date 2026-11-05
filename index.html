@@ -108,6 +108,7 @@ header {
   line-height: 1.25;
 }
 
+
 /* NAVEGAÇÃO */
 
 nav {
@@ -115,27 +116,36 @@ nav {
   top: 0;
   z-index: 100;
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   align-items: center;
-  justify-content: center;
-  gap: 5px;
-  padding: 8px;
+  justify-content: flex-start;
+  gap: 4px;
+  padding: 9px 8px;
+  overflow-x: auto;
   background: var(--branco);
   border-bottom: 1px solid var(--borda);
   box-shadow: 0 3px 10px rgba(25, 23, 25, 0.05);
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+nav::-webkit-scrollbar {
+  display: none;
 }
 
 nav a {
   display: inline-flex;
+  flex: 0 0 auto;
   align-items: center;
   justify-content: center;
-  min-height: 36px;
-  padding: 8px 11px;
+  min-height: 38px;
+  padding: 8px 10px;
   border-radius: var(--raio-pequeno);
   color: var(--preto);
   text-decoration: none;
   font-size: 12px;
   font-weight: 750;
+  white-space: nowrap;
   transition: background 0.2s, color 0.2s;
 }
 
@@ -144,6 +154,7 @@ nav a:focus-visible {
   background: var(--vinho);
   color: var(--branco);
 }
+
 
 /* BANNER PRINCIPAL */
 
