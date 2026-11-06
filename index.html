@@ -1307,7 +1307,12 @@ async function carregarProdutos() {
     );
   }
 }
+let categoriaSelecionada = "Todas";
 
+function filtrarCategoria(categoria) {
+  categoriaSelecionada = categoria;
+  mostrarProdutos();
+}
 
     function mostrarProdutos() {
       const lista = document.getElementById("lista-produtos");
@@ -1324,7 +1329,18 @@ async function carregarProdutos() {
     .replace(/[\u0300-\u036f]/g, "")
     .toLowerCase();
 
-  return texto.includes(busca);
+  const categoria = (p.categoria || "")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase();
+
+  const categoriaFiltro = categoriaSelecionada
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase();
+
+  return texto.includes(busca) &&
+    (categoriaSelecionada === "Todas" || categoria === categoriaFiltro);
 });
 
       if (encontrados.length === 0) {
