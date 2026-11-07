@@ -1387,23 +1387,16 @@ body.carrinho-aberto {
 if (!Array.isArray(carrinho)) carrinho = [];
 
 function atualizarContadorCarrinho() {
+  const quantidade = carrinho.reduce(
+    (soma, item) => soma + (Number(item.quantidade) || 0), 0
+  );
+
   const contador = document.getElementById("quantidade-carrinho");
-  if (contador) {
-    contador.textContent = carrinho.reduce(
-      (soma, item) => soma + (Number(item.quantidade) || 0), 0
-    );
-  }
+  const contadorFlutuante = document.getElementById("quantidade-carrinho-flutuante");
+
+  if (contador) contador.textContent = quantidade;
+  if (contadorFlutuante) contadorFlutuante.textContent = quantidade;
 }
-   atualizarContadorCarrinho();
-
-    
-    
-    let sessaoAtual = null;
-    let adminConfirmado = false;
-
-    function dinheiro(valor) {
-      return Number(valor).toLocaleString("pt-BR", {style:"currency", currency:"BRL"});
-    }
 
     function mostrarAvisoCatalogo(texto) {
       document.getElementById("estado-catalogo").textContent = texto;
