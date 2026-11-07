@@ -479,6 +479,66 @@
         transition-duration: 0.01ms !important;
       }
     }
+
+
+/* PRODUTOS NO RESUMO DO PEDIDO */
+.item-resumo {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  padding: 13px 0;
+  border-bottom: 1px solid #F0ECEE;
+}
+
+.item-resumo img {
+  width: 68px;
+  height: 68px;
+  flex-shrink: 0;
+  object-fit: contain;
+  border-radius: 10px;
+  background: #F8F7F7;
+}
+
+.item-resumo-sem-imagem {
+  width: 68px;
+  height: 68px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  background: var(--vinho-claro);
+  font-size: 25px;
+}
+
+.item-resumo-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.item-resumo-info strong {
+  display: block;
+  color: var(--preto);
+  font-size: 14px;
+  overflow-wrap: anywhere;
+}
+
+.item-resumo-info span {
+  display: block;
+  margin-top: 5px;
+  color: var(--texto-secundario);
+  font-size: 12px;
+}
+
+.item-resumo-preco {
+  color: var(--vinho);
+  font-size: 14px;
+  font-weight: bold;
+  text-align: right;
+}
+
+
+    
   </style>
 </head>
 
