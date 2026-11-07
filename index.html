@@ -1626,6 +1626,27 @@ card.append(imagem, nome, descricao, preco, botao);
 lista.appendChild(card);
       });
     }
+    <!-- DETALHES DO PRODUTO -->
+<section id="detalhes-produto" class="detalhes-produto" hidden>
+  <button type="button" id="voltar-produtos">
+    ← Voltar aos produtos
+  </button>
+
+  <img id="detalhe-imagem" alt="">
+
+  <h2 id="detalhe-nome"></h2>
+
+  <p id="detalhe-descricao"></p>
+
+  <div id="detalhe-preco" class="preco"></div>
+
+  <button
+    type="button"
+    id="detalhe-adicionar"
+    class="btn-vermelho">
+    ADICIONAR AO CARRINHO
+  </button>
+</section>
 
 
     let temporizadorToast;
