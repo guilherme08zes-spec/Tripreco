@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -102,17 +101,6 @@
       overflow-wrap: anywhere;
     }
 
-    #resumo-carrinho p {
-      display: flex;
-      justify-content: space-between;
-      gap: 12px;
-      margin: 0;
-      padding: 12px 0;
-      border-bottom: 1px solid #F0ECEE;
-      font-size: 14px;
-      line-height: 1.6;
-    }
-
     #resumo-carrinho hr {
       margin: 16px 0;
       border: 0;
@@ -135,6 +123,63 @@
       margin-top: 12px;
       color: var(--vinho);
       font-weight: bold;
+    }
+
+    /* PRODUTOS NO RESUMO DO PEDIDO */
+
+    .item-resumo {
+      display: flex;
+      align-items: center;
+      gap: 13px;
+      padding: 13px 0;
+      border-bottom: 1px solid #F0ECEE;
+    }
+
+    .item-resumo img {
+      width: 68px;
+      height: 68px;
+      flex-shrink: 0;
+      object-fit: contain;
+      border-radius: 10px;
+      background: #F8F7F7;
+    }
+
+    .item-resumo-sem-imagem {
+      width: 68px;
+      height: 68px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 10px;
+      background: var(--vinho-claro);
+      font-size: 25px;
+    }
+
+    .item-resumo-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .item-resumo-info strong {
+      display: block;
+      color: var(--preto);
+      font-size: 14px;
+      overflow-wrap: anywhere;
+    }
+
+    .item-resumo-info span {
+      display: block;
+      margin-top: 5px;
+      color: var(--texto-secundario);
+      font-size: 12px;
+    }
+
+    .item-resumo-preco {
+      color: var(--vinho);
+      font-size: 14px;
+      font-weight: bold;
+      text-align: right;
     }
 
     .campo {
@@ -287,7 +332,8 @@
       text-align: center;
     }
 
-    /* BOTÃO DISCRETO DO AVISO */
+    /* BOTÃO DO AVISO */
+
     .botao-aviso {
       position: fixed;
       right: 12px;
@@ -312,7 +358,8 @@
       background: var(--vinho-claro);
     }
 
-    /* FUNDO ESCURO DA JANELA */
+    /* FUNDO DO MODAL */
+
     .modal-fundo {
       position: fixed;
       inset: 0;
@@ -329,6 +376,7 @@
     }
 
     /* JANELA DO AVISO */
+
     .modal-aviso {
       width: 100%;
       max-width: 440px;
@@ -447,6 +495,20 @@
       .modal-aviso {
         padding: 18px;
       }
+
+      .item-resumo {
+        gap: 9px;
+      }
+
+      .item-resumo img,
+      .item-resumo-sem-imagem {
+        width: 58px;
+        height: 58px;
+      }
+
+      .item-resumo-preco {
+        font-size: 12px;
+      }
     }
 
     @media (min-width: 768px) {
@@ -479,66 +541,6 @@
         transition-duration: 0.01ms !important;
       }
     }
-
-
-/* PRODUTOS NO RESUMO DO PEDIDO */
-.item-resumo {
-  display: flex;
-  align-items: center;
-  gap: 13px;
-  padding: 13px 0;
-  border-bottom: 1px solid #F0ECEE;
-}
-
-.item-resumo img {
-  width: 68px;
-  height: 68px;
-  flex-shrink: 0;
-  object-fit: contain;
-  border-radius: 10px;
-  background: #F8F7F7;
-}
-
-.item-resumo-sem-imagem {
-  width: 68px;
-  height: 68px;
-  flex-shrink: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 10px;
-  background: var(--vinho-claro);
-  font-size: 25px;
-}
-
-.item-resumo-info {
-  flex: 1;
-  min-width: 0;
-}
-
-.item-resumo-info strong {
-  display: block;
-  color: var(--preto);
-  font-size: 14px;
-  overflow-wrap: anywhere;
-}
-
-.item-resumo-info span {
-  display: block;
-  margin-top: 5px;
-  color: var(--texto-secundario);
-  font-size: 12px;
-}
-
-.item-resumo-preco {
-  color: var(--vinho);
-  font-size: 14px;
-  font-weight: bold;
-  text-align: right;
-}
-
-
-    
   </style>
 </head>
 
@@ -557,12 +559,14 @@
     </header>
 
     <!-- RESUMO DO PEDIDO -->
+
     <section class="cartao">
       <h2>Resumo do pedido</h2>
       <div id="resumo-carrinho"></div>
     </section>
 
     <!-- FORMA DE RECEBIMENTO -->
+
     <section class="cartao">
       <h2>Como deseja receber?</h2>
 
@@ -590,6 +594,7 @@
       </label>
 
       <!-- ENDEREÇO DE ENTREGA -->
+
       <div id="campos-entrega" hidden>
         <h3>Endereço de entrega</h3>
 
@@ -650,7 +655,8 @@
       </div>
     </section>
 
-    <!-- JANELA COM O AVISO DA COMPRA -->
+    <!-- AVISO DA COMPRA -->
+
     <button
       type="button"
       class="botao-aviso"
@@ -711,6 +717,7 @@
     </div>
 
     <!-- FORMULÁRIO DO CLIENTE -->
+
     <form id="formulario-pedido">
       <section class="cartao">
         <h2>Seus dados</h2>
@@ -769,6 +776,7 @@
 
   <script>
     // CONFIGURAÇÕES
+
     const SUPABASE_URL =
       "https://dowcydjnopmksxiixefm.supabase.co";
 
@@ -781,6 +789,7 @@
       SUPABASE_URL + "/functions/v1/smart-endpoint";
 
     // ELEMENTOS DA PÁGINA
+
     const resumo = document.getElementById("resumo-carrinho");
     const formulario = document.getElementById("formulario-pedido");
     const botao = document.getElementById("botao-confirmar");
@@ -794,14 +803,15 @@
     const complementoEntrega =
       document.getElementById("complemento-entrega");
 
-    // ELEMENTOS DA JANELA DE AVISO
+    // ELEMENTOS DO AVISO
+
     const abrirAviso = document.getElementById("abrir-aviso");
     const modalAviso = document.getElementById("modal-aviso");
-    const janelaAviso = modalAviso.querySelector(".modal-aviso");
     const fecharAviso = document.getElementById("fechar-aviso");
     const entendiAviso = document.getElementById("entendi-aviso");
 
     // ABRIR A JANELA
+
     function abrirModalAviso() {
       modalAviso.hidden = false;
       document.body.classList.add("modal-aberto");
@@ -809,6 +819,7 @@
     }
 
     // FECHAR A JANELA
+
     function fecharModalAviso() {
       modalAviso.hidden = true;
       document.body.classList.remove("modal-aberto");
@@ -819,14 +830,16 @@
     fecharAviso.addEventListener("click", fecharModalAviso);
     entendiAviso.addEventListener("click", fecharModalAviso);
 
-    // FECHAR AO TOCAR FORA DA JANELA
+    // FECHAR AO TOCAR FORA
+
     modalAviso.addEventListener("click", evento => {
       if (evento.target === modalAviso) {
         fecharModalAviso();
       }
     });
 
-    // FECHAR COM A TECLA ESC
+    // FECHAR COM ESC
+
     document.addEventListener("keydown", evento => {
       if (evento.key === "Escape" && !modalAviso.hidden) {
         fecharModalAviso();
@@ -834,6 +847,7 @@
     });
 
     // FORMATAÇÃO DE PREÇOS
+
     function dinheiro(valor) {
       return Number(valor).toLocaleString("pt-BR", {
         style: "currency",
@@ -841,7 +855,8 @@
       });
     }
 
-    // LÊ O CARRINHO SALVO NO NAVEGADOR
+    // LÊ O CARRINHO
+
     function lerCarrinho() {
       try {
         const dados = JSON.parse(
@@ -855,6 +870,7 @@
     }
 
     // MOSTRA OU ESCONDE O ENDEREÇO
+
     function atualizarCamposEntrega() {
       const selecionado = document.querySelector(
         'input[name="tipo-retirada"]:checked'
@@ -877,7 +893,8 @@
         radio.addEventListener("change", atualizarCamposEntrega);
       });
 
-    // MOSTRA O RESUMO DO PEDIDO
+    // MOSTRA O RESUMO DO PEDIDO COM AS FOTOS
+
     function mostrarResumoPedido() {
       const carrinho = lerCarrinho();
 
@@ -892,7 +909,6 @@
 
         resumo.appendChild(voltar);
         botao.disabled = true;
-
         return;
       }
 
@@ -913,14 +929,62 @@
         }
 
         const subtotal = preco * quantidade;
+
         total += subtotal;
         quantidadeItensValidos++;
 
-        const linha = document.createElement("p");
+        // CARTÃO DO PRODUTO
 
-        linha.textContent =
-          `${item.nome} × ${quantidade} — ${dinheiro(subtotal)}`;
+        const linha = document.createElement("div");
+        linha.className = "item-resumo";
 
+        // FOTO DO PRODUTO
+
+        if (item.imagem_url) {
+          const imagem = document.createElement("img");
+
+          imagem.src = item.imagem_url;
+          imagem.alt = item.nome || "Produto";
+          imagem.loading = "lazy";
+          imagem.decoding = "async";
+
+          imagem.onerror = () => {
+            const fallback = document.createElement("div");
+            fallback.className = "item-resumo-sem-imagem";
+            fallback.textContent = "📦";
+            imagem.replaceWith(fallback);
+          };
+
+          linha.appendChild(imagem);
+        } else {
+          const semImagem = document.createElement("div");
+          semImagem.className = "item-resumo-sem-imagem";
+          semImagem.textContent = "📦";
+
+          linha.appendChild(semImagem);
+        }
+
+        // INFORMAÇÕES DO PRODUTO
+
+        const informacoes = document.createElement("div");
+        informacoes.className = "item-resumo-info";
+
+        const nome = document.createElement("strong");
+        nome.textContent = item.nome || "Produto";
+
+        const detalhes = document.createElement("span");
+        detalhes.textContent =
+          `${quantidade} × ${dinheiro(preco)}`;
+
+        informacoes.append(nome, detalhes);
+
+        // SUBTOTAL
+
+        const valor = document.createElement("div");
+        valor.className = "item-resumo-preco";
+        valor.textContent = dinheiro(subtotal);
+
+        linha.append(informacoes, valor);
         resumo.appendChild(linha);
       });
 
@@ -931,6 +995,8 @@
         botao.disabled = true;
         return;
       }
+
+      // TOTAL DO PEDIDO
 
       const separador = document.createElement("hr");
       const totalPedido = document.createElement("h3");
@@ -943,6 +1009,7 @@
     }
 
     // ENVIA O PEDIDO
+
     formulario.addEventListener("submit", async evento => {
       evento.preventDefault();
 
@@ -995,8 +1062,8 @@
         }
       }
 
-      // ENVIA APENAS O ID E A QUANTIDADE.
-      // O SERVIDOR DEVE CONFERIR OS PREÇOS ATUAIS.
+      // ENVIA APENAS ID E QUANTIDADE
+
       const itens = carrinho.map(item => ({
         id: Number(item.id),
         quantidade: Number(item.quantidade)
@@ -1144,6 +1211,7 @@
     });
 
     // INICIALIZA A PÁGINA
+
     mostrarResumoPedido();
     atualizarCamposEntrega();
   </script>
