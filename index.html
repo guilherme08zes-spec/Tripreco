@@ -1750,13 +1750,17 @@ function filtrarCategoria(categoria) {
         imagem.className = "imagem-produto";
         if (produto.imagem_url) {
           const img = document.createElement("img");
-          img.src = produto.imagem_url;
-          img.alt = produto.nome;
-          img.loading = "lazy";
-          img.onerror = () => { imagem.textContent = "📦"; };
-          imagem.appendChild(img);
-        } else {
-          imagem.textContent = "📦";
+
+img.src = produto.imagem_url;
+img.alt = produto.nome;
+
+img.loading = "lazy";
+img.decoding = "async";
+img.fetchPriority = "low";
+
+img.onerror = () => {
+  imagem.textContent = "📦";
+};
           imagem.setAttribute("aria-hidden", "true");
         }
 
