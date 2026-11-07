@@ -1704,90 +1704,122 @@ function filtrarCategoria(categoria) {
   mostrarProdutos();
 }
 
-    function mostrarProdutos() {
-      const lista = document.getElementById("lista-produtos");
-      const busca = document.getElementById("pesquisa").value
-  .normalize("NFD")
-  .replace(/[\u0300-\u036f]/g, "")
-  .trim()
-  .toLowerCase();
-      lista.replaceChildren();
+   function mostrarProdutos() {
+  const lista = document.getElementById("lista-produtos");
 
-      const encontrados = produtos.filter(p => {
-  const texto = `${p.nome || ""} ${p.descricao || ""}`
+  const busca = document.getElementById("pesquisa").value
     .normalize("NFD")
     .replace(/[\u0300-\u036f]/g, "")
+    .trim()
     .toLowerCase();
 
-  const categoria = (p.categoria || "")
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .toLowerCase();
+  lista.replaceChildren();
 
-  const categoriaFiltro = categoriaSelecionada
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .toLowerCase();
+  const encontrados = produtos.filter(p => {
+    const texto = `${p.nome || ""} ${p.descricao || ""}`
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .toLowerCase();
 
-  return texto.includes(busca) &&
-    (categoriaSelecionada === "Todas" || categoria === categoriaFiltro);
-});
+    const categoria = (p.categoria || "")
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .toLowerCase();
 
-      if (encontrados.length === 0) {
-        if (produtos.length > 0) {
-          const msg = document.createElement("p");
-          msg.textContent = "Nenhum produto encontrado.";
-          lista.appendChild(msg);
-        }
-        return;
-      }
+    const categoriaFiltro = categoriaSelecionada
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .toLowerCase();
 
-      encontrados.forEach(produto => {
-        const card = document.createElement("article");
-        card.className = "produto";
+    return texto.includes(busca) &&
+      (categoriaSelecionada === "Todas" ||
+       categoria === categoriaFiltro);
+  });
 
-        const imagem = document.createElement("div");
-        imagem.className = "imagem-produto";
-        if (produto.imagem_url) {
-          const img = document.createElement("img");
+  if (encontrados.length === 0) {
+    if (produtos.length > 0) {
+      const msg = document.createElement("p");
+      msg.textContent = "Nenhum produto encontrado.";
+      lista.appendChild(msg);
+    }
+    return;
+  }
 
-img.src = produto.imagem_url;
-img.alt = produto.nome;
+  encontrados.forEach(produto => {
+    const card = document.createElement("article");
+    card.className = "produto";
 
-img.loading = "lazy";
-img.decoding = "async";
-img.fetchPriority = "low";
+    // IMAGEM DO PRODUTO
+    const imagem = document.createElement("div");
+    imagem.className = "imagem-produto";
 
-img.onerror = () => {
-  imagem.textContent = "📦";
-};
-          imagem.setAttribute("aria-hidden", "true");
-        }
+    if (produto.imagem_url) {
+      const img = document.createElement("img");
 
-        const nome = document.createElement("h3");
-        nome.textContent = produto.nome;
-        imagem.style.cursor = "pointer";
-nome.style.cursor = "pointer";
+      img.src = produto.imagem_url;
+      img.alt = produto.nome || "Produto";
+      img.loading = "lazy";
+      img.decoding = "async";
 
-imagem.addEventListener("click", () => abrirDetalhesProduto(produto));
-nome.addEventListener("click", () => abrirDetalhesProduto(produto));
-        const descricao = document.createElement("p");
-        descricao.textContent = produto.descricao;
-        const preco = document.createElement("div");
-preco.className = "preco";
-preco.textContent = dinheiro(produto.preco);
+      img.onerror = () => {
+        imagem.replaceChildren();
+        imagem.textContent = "📦";
+      };
 
-const botao = document.createElement("button");
-botao.className = "btn-vermelho";
-botao.textContent = "ADICIONAR";
-botao.disabled = false;
-botao.addEventListener("click", () => adicionarCarrinho(produto));
+      imagem.appendChild(img);
+    } else {
+      imagem.textContent = "📦";
+      imagem.setAttribute("aria-hidden", "true");
+    }
 
-card.append(imagem, nome, descricao, preco, botao);
-lista.appendChild(card);
-      });
-    } 
-    
+    // NOME
+    const nome = document.createElement("h3");
+    nome.textContent = produto.nome;
+
+    // ABRIR DETALHES
+    imagem.style.cursor = "pointer";
+    nome.style.cursor = "pointer";
+
+    imagem.addEventListener("click", () => {
+      abrirDetalhesProduto(produto);
+    });
+
+    nome.addEventListener("click", () => {
+      abrirDetalhesProduto(produto);
+    });
+
+    // DESCRIÇÃO
+    const descricao = document.createElement("p");
+    descricao.textContent = produto.descricao || "";
+
+    // PREÇO
+    const preco = document.createElement("div");
+    preco.className = "preco";
+    preco.textContent = dinheiro(produto.preco);
+
+    // BOTÃO ADICIONAR
+    const botao = document.createElement("button");
+    botao.className = "btn-vermelho";
+    botao.textContent = "ADICIONAR";
+    botao.disabled = false;
+
+    botao.addEventListener("click", () => {
+      adicionarCarrinho(produto);
+    });
+
+    // MONTAR CARTÃO
+    card.append(
+      imagem,
+      nome,
+      descricao,
+      preco,
+      botao
+    );
+
+    lista.appendChild(card);
+  });
+   }
+          
 
 
 function abrirDetalhesProduto(produto) {
