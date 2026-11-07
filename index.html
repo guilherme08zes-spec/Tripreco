@@ -1651,6 +1651,57 @@ lista.appendChild(card);
       });
     } 
     
+
+
+function abrirDetalhesProduto(produto) {
+  const detalhes = document.getElementById("detalhes-produto");
+  const imagem = document.getElementById("detalhe-imagem");
+
+  document.getElementById("produtos").hidden = true;
+  document.querySelector(".pesquisa-link").hidden = true;
+  document.getElementById("categorias").hidden = true;
+  document.getElementById("estado-catalogo").hidden = true;
+  document.getElementById("lista-produtos").hidden = true;
+
+  document.getElementById("detalhe-nome").textContent = produto.nome;
+  document.getElementById("detalhe-descricao").textContent =
+    produto.descricao || "Sem descrição disponível.";
+
+  document.getElementById("detalhe-preco").textContent =
+    dinheiro(produto.preco);
+
+  if (produto.imagem_url) {
+    imagem.src = produto.imagem_url;
+    imagem.alt = produto.nome;
+    imagem.hidden = false;
+  } else {
+    imagem.removeAttribute("src");
+    imagem.hidden = true;
+  }
+
+  document.getElementById("detalhe-adicionar").onclick = () => {
+    adicionarCarrinho(produto);
+  };
+
+  detalhes.hidden = false;
+}
+
+function fecharDetalhesProduto() {
+  document.getElementById("detalhes-produto").hidden = true;
+  document.getElementById("produtos").hidden = false;
+  document.querySelector(".pesquisa-link").hidden = false;
+  document.getElementById("categorias").hidden = false;
+  document.getElementById("estado-catalogo").hidden = false;
+  document.getElementById("lista-produtos").hidden = false;
+}
+
+document.getElementById("voltar-produtos").onclick =
+  fecharDetalhesProduto;
+
+
+
+    
+    
     let temporizadorToast;
 
 function mostrarToast(mensagem) {
