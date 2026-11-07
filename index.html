@@ -1912,11 +1912,13 @@ function mostrarToast(mensagem) {
 
   if (noCarrinho) {
     noCarrinho.quantidade++;
+    noCarrinho.imagem_url = produto.imagem_url || noCarrinho.imagem_url || "";
   } else {
     carrinho.push({
       id: produto.id,
       nome: produto.nome,
       preco: Number(produto.preco),
+      imagem_url: produto.imagem_url || "",
       quantidade: 1
     });
   }
