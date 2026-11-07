@@ -1126,7 +1126,132 @@ body.carrinho-aberto {
   display: none !important;
 }
 
+/* =================================
+   DETALHES DO PRODUTO — TRIPREÇO
+================================= */
 
+#detalhes-produto {
+  max-width: 1050px;
+  margin: 25px auto 50px;
+  padding: 25px;
+  background: #FFFFFF;
+  border: 1px solid #eee5e8;
+  border-radius: 18px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
+
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px 30px;
+  align-items: start;
+}
+
+/* Botão voltar */
+#voltar-produtos {
+  grid-column: 1 / -1;
+  justify-self: start;
+  border: none;
+  background: #F5EDF0;
+  color: #641D32;
+  padding: 11px 17px;
+  border-radius: 9px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+/* Foto */
+#detalhe-imagem {
+  grid-column: 1;
+  grid-row: 2 / 6;
+  width: 100%;
+  height: 380px;
+  object-fit: contain;
+  background: #F8F7F7;
+  border-radius: 14px;
+  padding: 12px;
+}
+
+/* Nome */
+#detalhe-nome {
+  grid-column: 2;
+  margin: 5px 0;
+  color: #191719;
+  font-size: 27px;
+  line-height: 1.3;
+  font-weight: 800;
+}
+
+/* Descrição */
+#detalhe-descricao {
+  grid-column: 2;
+  color: #666;
+  font-size: 15px;
+  line-height: 1.7;
+  margin: 0;
+}
+
+/* Preço */
+#detalhe-preco {
+  grid-column: 2;
+  color: #641D32;
+  font-size: 30px;
+  font-weight: 900;
+  margin-top: 12px;
+}
+
+/* Comprar */
+#detalhe-adicionar {
+  grid-column: 2;
+  width: 100%;
+  min-height: 52px;
+  border: none;
+  border-radius: 11px;
+  background: #641D32;
+  color: white;
+  font-size: 15px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+#detalhe-adicionar:active {
+  transform: scale(0.98);
+}
+
+/* Celular */
+@media (max-width: 650px) {
+  #detalhes-produto {
+    margin: 12px;
+    padding: 16px;
+    grid-template-columns: 1fr;
+    gap: 15px;
+    border-radius: 14px;
+  }
+
+  #voltar-produtos,
+  #detalhe-imagem,
+  #detalhe-nome,
+  #detalhe-descricao,
+  #detalhe-preco,
+  #detalhe-adicionar {
+    grid-column: 1;
+  }
+
+  #detalhe-imagem {
+    grid-row: auto;
+    height: 300px;
+  }
+
+  #detalhe-nome {
+    font-size: 23px;
+  }
+
+  #detalhe-preco {
+    font-size: 28px;
+  }
+}
+
+    
 </style>
 </head>
 <body>
