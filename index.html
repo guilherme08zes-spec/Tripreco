@@ -1634,6 +1634,11 @@ function filtrarCategoria(categoria) {
 
         const nome = document.createElement("h3");
         nome.textContent = produto.nome;
+        imagem.style.cursor = "pointer";
+nome.style.cursor = "pointer";
+
+imagem.addEventListener("click", () => abrirDetalhesProduto(produto));
+nome.addEventListener("click", () => abrirDetalhesProduto(produto));
         const descricao = document.createElement("p");
         descricao.textContent = produto.descricao;
         const preco = document.createElement("div");
