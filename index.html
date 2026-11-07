@@ -950,6 +950,86 @@ footer a {
   }
 }
 
+/* PAINEL LATERAL DO CARRINHO */
+
+.carrinho-fundo {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: rgba(0, 0, 0, 0.45);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.25s, visibility 0.25s;
+}
+
+.carrinho-fundo.aberto {
+  opacity: 1;
+  visibility: visible;
+}
+
+.carrinho-painel {
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: 1001;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 420px;
+  height: 100%;
+  height: 100dvh;
+  padding: 20px;
+  background: var(--branco);
+  box-shadow: -5px 0 25px rgba(0,0,0,0.15);
+  transform: translateX(100%);
+  transition: transform 0.3s ease;
+}
+
+.carrinho-painel.aberto {
+  transform: translateX(0);
+}
+
+.carrinho-topo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 15px;
+  border-bottom: 1px solid var(--borda);
+}
+
+.carrinho-topo h2 {
+  margin: 0;
+  color: var(--vinho);
+}
+
+.carrinho-fechar {
+  width: 40px;
+  min-width: 40px;
+  padding: 5px;
+  font-size: 20px;
+}
+
+.carrinho-conteudo {
+  flex: 1;
+  overflow-y: auto;
+  padding: 12px 0;
+}
+
+.carrinho-rodape {
+  padding-top: 14px;
+  border-top: 1px solid var(--borda);
+}
+
+.carrinho-rodape button {
+  width: 100%;
+  min-height: 48px;
+  margin-top: 12px;
+}
+
+body.carrinho-aberto {
+  overflow: hidden;
+}
+
 
 
 </style>
@@ -961,7 +1041,7 @@ footer a {
 
 <nav>
   <a href="#produtos">Produtos</a>
-  <a href="#carrinho">Carrinho (<span id="quantidade-carrinho">0</span>)</a>
+  <a href="#carrinho" id="abrir-carrinho">Carrinho(<span id="quantidade-carrinho">0</span>)</a>
   <a href="#admin">Administração</a>
   <a href="pedidos.html" id="link-pedidos" hidden> Pedidos</a>
 </nav>
@@ -1001,13 +1081,40 @@ footer a {
     <p id="estado-catalogo" class="mensagem">Carregando produtos...</p>
     <div class="produtos" id="lista-produtos"></div>
 
-    <section class="carrinho" id="carrinho">
-      <h2>Meu carrinho</h2>
-      <div id="itens-carrinho">Seu carrinho está vazio.</div>
-      <h3>Total: <span id="total">R$ 0,00</span></h3>
-      <button class="btn-vermelho" onclick="finalizarCompra()">FINALIZAR COMPRA</button>
-      <p class="mensagem" id="mensagem-compra" role="status"></p>
-    </section>
+    <!-- FUNDO ESCURO DO CARRINHO -->
+<div class="carrinho-fundo" id="carrinho-fundo" aria-hidden="true"></div>
+
+<!-- PAINEL LATERAL -->
+<section class="carrinho-painel" id="carrinho"
+         role="dialog" aria-modal="true"
+         aria-labelledby="titulo-carrinho">
+
+  <div class="carrinho-topo">
+    <h2 id="titulo-carrinho">Meu carrinho</h2>
+
+    <button type="button"
+            class="carrinho-fechar"
+            id="fechar-carrinho"
+            aria-label="Fechar carrinho">
+      ×
+    </button>
+  </div>
+
+  <div class="carrinho-conteudo" id="itens-carrinho">
+    <p>Seu carrinho está vazio.</p>
+  </div>
+
+  <div class="carrinho-rodape">
+    <h3>Total: <span id="total">R$ 0,00</span></h3>
+
+    <button class="btn-vermelho" onclick="finalizarCompra()">
+      FINALIZAR COMPRA
+    </button>
+
+    <p id="mensagem-compra"></p>
+  </div>
+
+</section>
 
     
 <section class="painel" id="admin">
@@ -1240,6 +1347,36 @@ function atualizarContadorCarrinho() {
     function mostrarAvisoCatalogo(texto) {
       document.getElementById("estado-catalogo").textContent = texto;
     }
+    function abrirCarrinho() {
+  document.getElementById("carrinho").classList.add("aberto");
+  document.getElementById("carrinho-fundo").classList.add("aberto");
+  document.body.classList.add("carrinho-aberto");
+
+  document.getElementById("carrinho-fundo").setAttribute("aria-hidden", "false");
+}
+
+function fecharCarrinho() {
+  document.getElementById("carrinho").classList.remove("aberto");
+  document.getElementById("carrinho-fundo").classList.remove("aberto");
+  document.body.classList.remove("carrinho-aberto");
+
+  document.getElementById("carrinho-fundo").setAttribute("aria-hidden", "true");
+}
+
+document.getElementById("abrir-carrinho")?.addEventListener("click", function(event) {
+  event.preventDefault();
+  abrirCarrinho();
+});
+
+document.getElementById("fechar-carrinho").addEventListener("click", fecharCarrinho);
+
+document.getElementById("carrinho-fundo").addEventListener("click", fecharCarrinho);
+
+document.addEventListener("keydown", function(event) {
+  if (event.key === "Escape") {
+    fecharCarrinho();
+  }
+});
 
     
 async function carregarProdutos() {
