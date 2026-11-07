@@ -1383,14 +1383,14 @@ body.carrinho-aberto {
     let supabaseClient = null;
     let produtos = [];
     let carrinho = JSON.parse(localStorage.getItem("tripreco_carrinho") || "[]");
+
+if (!Array.isArray(carrinho)) carrinho = [];
     function dinheiro(valor) {
   return Number(valor || 0).toLocaleString("pt-BR", {
     style: "currency",
     currency: "BRL"
   });
     }
-
-if (!Array.isArray(carrinho)) carrinho = [];
 
 function atualizarContadorCarrinho() {
   const quantidade = carrinho.reduce(
