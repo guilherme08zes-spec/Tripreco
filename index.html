@@ -1038,7 +1038,44 @@ body.carrinho-aberto {
 #carrinho .carrinho-rodape button {
   margin: 12px 0 0;
 }
+/* BOTÃO FLUTUANTE DO CARRINHO */
+.carrinho-flutuante {
+  position: fixed;
+  right: 16px;
+  bottom: 18px;
+  z-index: 900;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  min-height: 54px;
+  padding: 0 16px;
+  border: 1px solid var(--vinho-escuro);
+  border-radius: 999px;
+  background: var(--vinho);
+  color: var(--branco);
+  box-shadow: 0 5px 18px rgba(72,19,36,.28);
+  font-size: 13px;
+  font-weight: 850;
+}
 
+.carrinho-flutuante-icone {
+  font-size: 19px;
+}
+
+.carrinho-flutuante-contador {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 24px;
+  height: 24px;
+  padding: 0 6px;
+  border-radius: 999px;
+  background: var(--branco);
+  color: var(--vinho);
+  font-size: 12px;
+  font-weight: 900;
+}
 
 
 </style>
